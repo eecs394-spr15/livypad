@@ -1,0 +1,41 @@
+<div ng-controller="DrawerController">
+
+  <super-navbar>
+    <super-navbar-title>
+      Drawer
+    </super-navbar-title>
+  </super-navbar>
+
+  <div class="list">
+
+    <super-navigate location="Good4Trade#myaccount" class="item item-icon-left item-icon-right" ng-click="supersonic.ui.drawers.close()">
+      <i class="icon icon-accessory super-person-stalker"></i>
+      My Account
+      <i class="icon icon-accessory super-chevron-right"></i>
+    </super-navigate>
+
+    
+    <super-modal-show location="Good4Trade#init" class="item item-icon-left item-icon-right" ng-click="supersonic.ui.initialView.show(); Parse.User.logOut()">
+      <i class="icon icon-accessory super-log-out"></i>
+      Log Out
+      <i class="icon icon-accessory super-chevron-right"></i>
+    </super-modal-show>
+
+
+<!--
+    <super-navigate view-id="" class="item item-icon-left item-icon-right" ng-click="supersonic.ui.drawers.close()">
+      <i class="icon icon-accessory super-alert"></i>
+      Notification
+      <i class="icon icon-accessory super-chevron-right"></i>
+    </super-navigate>
+
+
+
+    <super-navigate id="settings" location="Good4Trade#settings" class="item item-icon-left item-icon-right" ng-click="supersonic.ui.drawers.close()">
+      <i class="icon icon-accessory super-gear-a"></i>
+      Settings
+      <i class="icon icon-accessory super-chevron-right"></i>
+    </super-navigate>
+-->
+    
+  </div>
