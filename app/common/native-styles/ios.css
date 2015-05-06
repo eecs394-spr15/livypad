@@ -22,6 +22,7 @@ navigation-bar button, navigation-bar back-bar-button {
 tab-bar {
   background-color: #ffffff;
   border-top: 1px #d8d8d8 solid;
+  color:#E62B2B;
 }
 
 tab-bar tab-bar-item {
@@ -37,10 +38,6 @@ tab-bar tab-bar-item:selected {
 
 tab-bar-item#settings {
   background-image: url(icons/cog.svg);
-}
-
-tab-bar-item#settings:selected {
-  background-color: #E62B2B;
 }
 
 tab-bar-item#index {
