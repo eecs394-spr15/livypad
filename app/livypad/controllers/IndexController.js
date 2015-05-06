@@ -1,5 +1,5 @@
-livypad.controller("IndexController", function($scope,supersonic){
-	
+g4tapp.controller("IndexController", function($scope,supersonic){
+
 });
 
 
