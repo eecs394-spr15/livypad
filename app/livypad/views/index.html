@@ -1,2 +1,18 @@
 
 
+<div ng-controller="IndexController">
+  <super-navbar>
+    <super-navbar-title>
+      livypad
+    </super-navbar-title>
+    
+    <super-navbar-button class="item-icon-left" side="left" onClick="supersonic.ui.drawers.open('left')">
+     ooo
+    </super-navbar-button>
+  </super-navbar>
+
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner">
+
+</div>
+</div>

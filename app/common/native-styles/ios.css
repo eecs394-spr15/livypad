@@ -4,7 +4,7 @@
  ***********************************************************/
 
 navigation-bar {
-  background-color: #00B5FF;
+  background-color: #FF3030;
   color: #ffffff;
 }
 
@@ -31,11 +31,16 @@ tab-bar tab-bar-item {
 }
 
 tab-bar tab-bar-item:selected {
-  color: #1596f7;
+  color: #E62B2B;
+  background-color: #E62B2B;
 }
 
 tab-bar-item#settings {
   background-image: url(icons/cog.svg);
+}
+
+tab-bar-item#settings:selected {
+  background-color: #E62B2B;
 }
 
 tab-bar-item#index {
