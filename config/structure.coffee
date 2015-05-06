@@ -12,12 +12,12 @@ module.exports =
     {
       title: "Calendar"
       id: "settings"
-      location: "example#settings"
+      location: "livypad#calendar"
     }
     {
       title: "List"
       id: "internet"
-      location: "http://google.com" # URLs are supported!
+      location: "livypad#list" # URLs are supported!
     }
   ]
 
