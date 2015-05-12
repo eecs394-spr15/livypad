@@ -1,141 +1,144 @@
-
 <div ng-controller="IndexController">
   <super-navbar>
     <super-navbar-title>
       Calendar
     </super-navbar-title>
-	<super-navbar-button class="item-icon-left" side="left" onClick="supersonic.ui.drawers.open('left')">
+    <super-navbar-button class="item-icon-left" side="left" onClick="supersonic.ui.drawers.open('left')">
      ooo
     </super-navbar-button>
- 
+    <super-navbar-button class="item-icon-right" side="right" location="livypad#add">
+      Add an event
+     </super-navbar-button>
   </super-navbar>
 </div>
 
-
-
 <html>
-<head>
-</head>
-<body>
-<center>
-<script language="javascript" type="text/javascript">
-var day_of_week = new Array('Sun','Mon','Tue','Wed','Thu','Fri','Sat');
-var month_of_year = new Array('January','February','March','April','May','June','July','August','September','October','November','December');
+  <head>
+    <script type="text/javascript">
+      // Your Client ID can be retrieved from your project in the Google
+      // Developer Console, https://console.developers.google.com
+      var CLIENT_ID = '1095443679190-ma099501sii38seo2v6jcoten1h5g77e.apps.googleusercontent.com';
 
-//  DECLARE AND INITIALIZE VARIABLES
-var Calendar = new Date();
+      // This quickstart only requires read-only scope, check
+      // https://developers.google.com/google-apps/calendar/auth if you want to
+      // request write scope.
+      var SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
-var year = Calendar.getFullYear();     // Returns year
-var month = Calendar.getMonth();    // Returns month (0-11)
-var today = Calendar.getDate();    // Returns day (1-31)
-var weekday = Calendar.getDay();    // Returns day (1-31)
+      /**
+       * Check if current user has authorized this application.
+       */
+      function checkAuth() {
+        gapi.auth.authorize(
+          {
+            'client_id': CLIENT_ID,
+            'scope': SCOPES,
+            'immediate': true
+          }, handleAuthResult);
+      }
 
-var DAYS_OF_WEEK = 7;    // "constant" for number of days in a week
-var DAYS_OF_MONTH = 31;    // "constant" for number of days in a month
-var cal;    // Used for printing
+      /**
+       * Handle response from authorization server.
+       *
+       * @param {Object} authResult Authorization result.
+       */
+      function handleAuthResult(authResult) {
+        var authorizeDiv = document.getElementById('authorize-div');
+        if (authResult && !authResult.error) {
+          // Hide auth UI, then load Calendar client library.
+          authorizeDiv.style.display = 'none';
+          loadCalendarApi();
+        } else {
+          // Show auth UI, allowing the user to initiate authorization by
+          // clicking authorize button.
+          authorizeDiv.style.display = 'inline';
+        }
+      }
 
-Calendar.setDate(1);    // Start the calendar day at '1'
-Calendar.setMonth(month);    // Start the calendar month at now
+      /**
+       * Initiate auth flow in response to user clicking authorize button.
+       *
+       * @param {Event} event Button click event.
+       */
+      function handleAuthClick(event) {
+        gapi.auth.authorize(
+          {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
+          handleAuthResult);
+        return false;
+      }
 
+      /**
+       * Load Google Calendar client library. List upcoming events
+       * once client library is loaded.
+       */
+      function loadCalendarApi() {
+        gapi.client.load('calendar', 'v3', listUpcomingEvents);
+      }
 
-/* VARIABLES FOR FORMATTING
-NOTE: You can format the 'BORDER', 'BGCOLOR', 'CELLPADDING', 'BORDERCOLOR'
-      tags to customize your caledanr's look. */
+      /**
+       * Print the summary and start datetime/date of the next ten events in
+       * the authorized user's calendar. If no events are found an
+       * appropriate message is printed.
+       */
+      function listUpcomingEvents() {
+        var request = gapi.client.calendar.events.list({
+          'calendarId': 'primary',
+          'timeMin': (new Date()).toISOString(),
+          'showDeleted': false,
+          'singleEvents': true,
+          'maxResults': 10,
+          'orderBy': 'startTime'
+        });
 
-var TR_start = '<TR>';
-var TR_end = '</TR>';
-var highlight_start = '<TD WIDTH="30"><TABLE CELLSPACING=0 BORDER=1 BGCOLOR=DEDEFF BORDERCOLOR=CCCCCC><TR><TD WIDTH=20><B><CENTER>';
-var highlight_end   = '</CENTER></TD></TR></TABLE></B>';
-var TD_start = '<TD WIDTH="30"><CENTER>';
-var TD_end = '</CENTER></TD>';
+        request.execute(function(resp) {
+          var events = resp.items;
+          appendPre('Upcoming events:');
 
-/* BEGIN CODE FOR CALENDAR
-NOTE: You can format the 'BORDER', 'BGCOLOR', 'CELLPADDING', 'BORDERCOLOR'
-tags to customize your calendar's look.*/
+          if (events.length > 0) {
+            for (i = 0; i < events.length; i++) {
+              var event = events[i];
+              var when = event.start.dateTime;
+              if (!when) {
+                when = event.start.date;
+              }
+              appendPre(event.summary + ' (' + when + ')')
+            }
+          } else {
+            appendPre('No upcoming events found.');
+          }
 
-cal =  '<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=0 BORDERCOLOR=BBBBBB><TR><TD>';
-cal += '<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2>' + TR_start;
-cal += '<TD COLSPAN="' + DAYS_OF_WEEK + '" BGCOLOR="#EFEFEF"><CENTER><B>';
-cal += month_of_year[month]  + '   ' + year + '</B>' + TD_end + TR_end;
-cal += TR_start;
+        });
+      }
 
-//   DO NOT EDIT BELOW THIS POINT  //
+      /**
+       * Append a pre element to the body containing the given message
+       * as its text node.
+       *
+       * @param {string} message Text to be placed in pre element.
+       */
+      function appendPre(message) {
+        var pre = document.getElementById('output');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+      }
+    </script>
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
+  </head>
+  <body>
+  <script>
+  var emailAddr = "yanghu2019%40gmail.com";
+  </script>
+     <iframe src="https://www.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ff0000&amp;src=yanghu2019%40gmail.com&amp;color=%232952A3&amp;src=%23contacts%40group.v.calendar.google.com&amp;color=%231B887A&amp;src=en.usa%23holiday%40group.v.calendar.google.com&amp;color=%232F6309&amp;ctz=America%2FChicago" style=" border-width:0 " width="400" height="600" frameborder="0" scrolling="no"></iframe> 
 
-// LOOPS FOR EACH DAY OF WEEK
-for(index=0; index < DAYS_OF_WEEK; index++)
-{
-
-// BOLD TODAY'S DAY OF WEEK
-if(weekday == index)
-cal += TD_start + '<B>' + day_of_week[index] + '</B>' + TD_end;
-
-// PRINTS DAY
-else
-cal += TD_start + day_of_week[index] + TD_end;
-}
-
-cal += TD_end + TR_end;
-cal += TR_start;
-
-// FILL IN BLANK GAPS UNTIL TODAY'S DAY
-for(index=0; index < Calendar.getDay(); index++)
-cal += TD_start + '  ' + TD_end;
-
-// LOOPS FOR EACH DAY IN CALENDAR
-for(index=0; index < DAYS_OF_MONTH; index++)
-{
-if( Calendar.getDate() > index )
-{
-  // RETURNS THE NEXT DAY TO PRINT
-  week_day =Calendar.getDay();
-
-  // START NEW ROW FOR FIRST DAY OF WEEK
-  if(week_day == 0)
-  cal += TR_start;
-
-  if(week_day != DAYS_OF_WEEK)
-  {
-
-  // SET VARIABLE INSIDE LOOP FOR INCREMENTING PURPOSES
-  var day  = Calendar.getDate();
-
-  // HIGHLIGHT TODAY'S DATE
-  if( today==Calendar.getDate() )
-  cal += highlight_start + day + highlight_end + TD_end;
-
-  // PRINTS DAY
-  else
-  cal += TD_start + day + TD_end;
-  }
-
-  // END ROW FOR LAST DAY OF WEEK
-  if(week_day == DAYS_OF_WEEK)
-  cal += TR_end;
-  }
-
-  // INCREMENTS UNTIL END OF THE MONTH
-  Calendar.setDate(Calendar.getDate()+1);
-
-}// end for loop
-
-cal += '</TD></TR></TABLE></TABLE>';
-
-//  PRINT CALENDAR
-document.write(cal);
-
-//  End -->
-
-
-
-</script>
-</center>
-<!--
-<br/><div style="clear:both"></div><div><a target="_blank" href="http://www.htmlbestcodes.com/"><span style="font-size: 8pt; text-decoration: none">HTML Best Codes</span></a></div>
--->
-
-</body>
+    <div id="authorize-div" style="display: none">
+      <span>Authorize access to calendar</span>
+      <!--Button for the user to click to initiate auth sequence -->
+      <button id="authorize-button" onclick="handleAuthClick(event)">
+        Authorize
+      </button>
+    </div>
+    <pre id="output"></pre>
+  </body>
 </html>
-
-
 
 
