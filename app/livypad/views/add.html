@@ -1,7 +1,20 @@
 <div ng-controller="IndexController">
   <super-navbar>
       <super-navbar-title>
-            Good4Trade
+            add an appointment
       </super-navbar-title>
   </super-navbar>
+
+<label class="item item-input item-stacked-label">
+      <span class="input-label">Title</span>
+      <input type="text" ng-model="title"/>
+</label>
+
+<button id="post" onclick="postEvent()">
+Tap to confirm
+</button>
+ 
+
+
+
 </div>
