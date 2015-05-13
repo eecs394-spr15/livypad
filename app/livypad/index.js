@@ -1,1 +1,1 @@
-var livypad = angular.module('livypad', ['common']);
+var livypad = angular.module('livypad', ['common','parse-angular']);
