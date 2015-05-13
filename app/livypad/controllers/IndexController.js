@@ -42,6 +42,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 	//var queryFamilyMember = new Parse.Query(FamilyMember);
 
 	$scope.unscheduledAppointmentList = [];
+	$scope.allScheduledAppointmentList = [];
 
 	function loadFamilyUnscheduledAppointments(){
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
@@ -59,13 +60,22 @@ livypad.controller("IndexController", function($scope,supersonic){
 			    var gender = famMember.get("gender");
 			    var nameOfFamMember = famMember.get("Name");
 
-			    //preparing to exclude existing appointments
+			    //preparing to exclude existing appointments, also filling in the scheduled appointment list at the same time.
 			    var listOfFamMemberExistingAppointments = [];
 				
 				var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");
 				famMemberScheduledAppointmentRelation.query().find().then(function(scheduledAppointmentResults){
 						scheduledAppointmentResults.forEach(function(famMemberscheduledAppointment){
-							listOfFamMemberExistingAppointments.push({famMemberSuggestedAppointment.get("name")});
+							listOfFamMemberExistingAppointments.push(famMemberSuggestedAppointment.get("name"));
+							
+							//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
+							allScheduledAppointmentList.push({ nameOfAppointment : famMemberSuggestedAppointment.get("name");
+															   doctor : famMemberSuggestedAppointment.get("doctor");
+															   location : famMemberSuggestedAppointment.get("location");
+															   dateScheduled : famMemberSuggestedAppointment.get("dateScheduled");
+															   recommendedNextDate : famMemberSuggestedAppointment.get("recommendedNextDate");
+															   nameOfFamilyMember : nameOfFamMember;
+							});
 						});
 				});
 
