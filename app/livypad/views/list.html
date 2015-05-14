@@ -16,6 +16,12 @@
  
   </super-navbar>
 
+     <div style="text-align: center">
+    <button class="button button-clear button-calm" ng-click="refresh()">
+            click to refresh
+    </button>
+  </div>
+
     <div class="list list-inset">
        <label class="item item-input">
           <i class="icon super-search placeholder-icon"></i>
@@ -39,17 +45,29 @@
   	</div>
   	
 	<div class="item item-divider" style="text-align: center">
-  		Unscheduled Visits
+  		Recommended Visits
   	</div>
   	
-  	<div class="list card">
-  		<super-navigate location="" data-params-id="">
-  			<div class="item">
-  				<h2 style="text-align: center">10/2015</h2>
-        		<p style="text-align: center">Dentist</p>
-  			</div>
-  		</super-navigate>
-  	</div>
+
+    <a ng-repeat="suggestedAppointment in suggestedAppointmentList" class="list card" >
+      <div class="card">
+
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{suggestedAppointment.appointmentName}}</h2>
+            <h2> <b>Reccomended For: </b>{{suggestedAppointment.famMemberName}}</h2>
+            <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
+            <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
+            <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2>    
+        </div>
+
+        <div class="button-bar" width=400 height=500>
+          <button ng-click="scheduleAppointment(suggestedAppointment.appointmentName, suggestedAppointment.famMember)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
+          
+          <button ng-click="ignoreReccomendation(suggestedAppointment.appointmentID, suggestedAppointment.famMember)" class="button icon-left super-close-round button-assertive"> Ignore </button>
+        </div>
+
+      </div>
+    </a>
 
 </div>
 

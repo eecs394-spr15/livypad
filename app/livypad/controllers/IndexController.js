@@ -73,9 +73,9 @@ livypad.controller("IndexController", function($scope,supersonic){
 	//Code for extracting scheduled and suggested appointments
 
 
-	$scope.unscheduledAppointmentList = [];
+	$scope.suggestedAppointmentList = [];
 	$scope.allScheduledAppointmentList = [];
-	$scope.listOfFamMemberExistingAppointments = ["Hepatitis B"];
+	$scope.listOfFamMemberExistingAppointments = [];
 
 	loadFamilyData();
 	function loadFamilyData(){	
@@ -87,7 +87,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 			    $scope.listOfFamMemberExistingAppointments = []; //resetting array to blank.
 
 			    //preparing to exclude existing appointments, also filling in the scheduled appointment list at the same time.
-			    loadFamilyMemberExistingAppointments(famMember);
+			    loadFamilyMemberExistingAppointments(famMember); //NEED TO ensure this finishes populating before you call the next function! It won't break but it relies on this being filled to filter out appointments that don't exist yet.
 				
 			    //looking through all suggested appointments to find relevant ones
 			    loadFamilyMemberSuggestedAppointments(famMember);
@@ -99,11 +99,10 @@ livypad.controller("IndexController", function($scope,supersonic){
   	function loadFamilyMemberExistingAppointments(famMember){
   		var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");
 		famMemberScheduledAppointmentRelation.query().find().then(function(scheduledAppointmentResults){
-			//alert(scheduledAppointmentResults.length);
 			scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
 				listOfFamMemberExistingAppointments.push(famMemberScheduledAppointment.get("name"));
 				//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
-				allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
+				$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 												   doctor : famMemberScheduledAppointment.get("doctor"),
 												   location : famMemberScheduledAppointment.get("location"),
 												   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
@@ -136,33 +135,87 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  	var upperBound = famMemberSuggestedAppointment.get("relevantAgeGroup")[1];
 				  	var relevantGender = famMemberSuggestedAppointment.get("relevantGender");
 				  	var nameOfSuggestedAppointment = famMemberSuggestedAppointment.get("name");
-
+				  	var frequency = famMemberSuggestedAppointment.get("frequency");
 				  	var specialAgeArray = famMemberSuggestedAppointment.get("specialAges");
 					var specialAgeMarker = specialAgeArray.indexOf(ageInMonths);
 
 					var padding = 2; //adding padding to the months
-					lowerBound = lowerBound - padding;
-					upperBound = upperBound + padding;
+					lowerBound = Math.max(0,lowerBound); //ruling out negative numbers
+					
 					//test to see if appointment already exists, by name
 					var existingAppointmentMarker = $scope.listOfFamMemberExistingAppointments.indexOf(nameOfSuggestedAppointment);
-					//alert($scope.listOfFamMemberExistingAppointments[0]);
 					
 					//test for relevant appointments
-				  	if ( ((ageInMonths >= lowerBound && ageInMonths <=upperBound) || specialAgeMarker > -1)
+				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
 				  		&& (gender==relevantGender || relevantGender == "all")
 				  		&& existingAppointmentMarker == -1 )
 				  	{
-				  		$scope.unscheduledAppointmentList.push({ famMemberName: famMember.get("Name"), 
-																 appointmentName: famMemberSuggestedAppointment.get("name"),
+				  		//Formatting Relevant Strings
+				  		var lowerBoundAgeString = formatMonthsToString (lowerBound);
+				  		var upperBoundAgeString = formatMonthsToString (upperBound);
+				
+				  		var keyAgeString = "";
+				  		for (i = 0; i <specialAgeArray.length; i++){
+				  			var keyAge = specialAgeArray[i];
+				  			if (i != 0){
+				  				keyAgeString += ", ";
+				  			}
+				  			keyAgeString += formatMonthsToString(keyAge);
+				  		};
+
+				  		var frequencyString = "";
+				  		if (frequency == 0){
+				  			frequencyString = "consult your doctor"
+				  		}else{
+				  			frequencyString = "once every " + formatMonthsToString(frequency);
+				  		};
+				  		 
+				  		 //Adding strings and information to scope
+				  		$scope.suggestedAppointmentList.push({  appointmentID : famMemberSuggestedAppointment.id,
+				  												famMember : famMember,
+				  												famMemberName: famMember.get("Name"), 
+															 	appointmentName: famMemberSuggestedAppointment.get("name"),
+															 	lowerBound : lowerBoundAgeString,
+															 	upperBound : upperBoundAgeString,
+																keyAges: keyAgeString,
+																frequency: frequencyString,
 															});	
 				  	};
 
 				});
-				//alert($scope.unscheduledAppointmentList.length);
 			});
 		
 	};
 
+	function formatMonthsToString(numMonths){
+		var formattedString = "";
+
+		if (numMonths < 12){
+			formattedString = numMonths.toString() + " months";
+		}
+		else{
+			if (numMonths > 1200){
+				formattedString = "old age";
+			}
+			else{
+				numYears = numMonths/12;
+				numYearsRounded = Math.round( numYears * 10 ) / 10;
+				formattedString = (numYearsRounded).toString() + " years";
+			}
+		}
+
+		return formattedString;
+	}
+
+	$scope.scheduleAppointment = function(appointmentName,famMember){
+		alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
+	}
+
+	$scope.ignoreReccomendation = function(appointmentID, famMember){
+		alert("ignored this appointment");
+		famMember.addUnique("ignoredAppointments", appointmentID);
+		famMember.save();
+	}
 
 });
 
