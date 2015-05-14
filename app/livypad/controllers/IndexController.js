@@ -126,6 +126,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 		    var ageInMonths = (age * 12) + m;
 		    var gender = famMember.get("gender");
 		    var nameOfFamMember = famMember.get("Name");
+		    var appointmentsToIgnore = famMember.get("ignoredAppointments");
 
 		    var querySuggestedAppointments = new Parse.Query(SuggestedAppointment);
 			querySuggestedAppointments.find().then(function(suggestedAppointmentResults){
@@ -137,18 +138,23 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  	var nameOfSuggestedAppointment = famMemberSuggestedAppointment.get("name");
 				  	var frequency = famMemberSuggestedAppointment.get("frequency");
 				  	var specialAgeArray = famMemberSuggestedAppointment.get("specialAges");
-					var specialAgeMarker = specialAgeArray.indexOf(ageInMonths);
+					
 
 					var padding = 2; //adding padding to the months
 					lowerBound = Math.max(0,lowerBound); //ruling out negative numbers
 					
 					//test to see if appointment already exists, by name
 					var existingAppointmentMarker = $scope.listOfFamMemberExistingAppointments.indexOf(nameOfSuggestedAppointment);
-					
+					//test to see if user chose to ignore appointment for this fam member
+					var ignoredAppointmentMarker = appointmentsToIgnore.indexOf(famMemberSuggestedAppointment.id);
+					//check to see if age is among special ages
+					var specialAgeMarker = specialAgeArray.indexOf(ageInMonths);
+
 					//test for relevant appointments
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
 				  		&& (gender==relevantGender || relevantGender == "all")
-				  		&& existingAppointmentMarker == -1 )
+				  		&& existingAppointmentMarker == -1 
+				  		&& ignoredAppointmentMarker == -1)
 				  	{
 				  		//Formatting Relevant Strings
 				  		var lowerBoundAgeString = formatMonthsToString (lowerBound);
