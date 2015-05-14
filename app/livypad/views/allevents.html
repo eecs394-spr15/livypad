@@ -1,16 +1,11 @@
 <div ng-controller="IndexController">
 <super-navbar>
 <super-navbar-title>
-Calendar
+All Events
 </super-navbar-title>
-<super-navbar-button class="item-icon-left" side="left" onClick="supersonic.ui.drawers.open('left')">
-ooo
-</super-navbar-button>
-<super-navbar-button class="item-icon-right" side="right" location="livypad#add">
-Add an event
-</super-navbar-button>
+
 </super-navbar>
-</div>
+
 
 <html>
 <head>
@@ -23,7 +18,8 @@ var CLIENT_ID = '1095443679190-ma099501sii38seo2v6jcoten1h5g77e.apps.googleuserc
 // https://developers.google.com/google-apps/calendar/auth if you want to
 // request write scope.
 var SCOPES = ['https://www.googleapis.com/auth/calendar'];
-
+var keyword = "";
+var events = [];
 /**
  * Check if current user has authorized this application.
  */
@@ -100,7 +96,10 @@ function listUpcomingEvents() {
 			if (!when) {
 			when = event0.start.date;
 			}
-			appendPre(event0, when)
+			//if (keyword != "" && event0.summary==keyword){
+				appendPre(event0, when)
+			//}
+			//events.push({summary:event0.summary, location:event0.location, starttime:event0.start.date});
 				}
 				}
 			else {
@@ -118,7 +117,7 @@ function listUpcomingEvents() {
 			 */
 function appendPre(message, when) {
 	var pre = document.getElementById('upcomingevents');
-	pre.innerHTML = pre.innerHTML + 'summary:' + message.summary + '<br>' + 'location:' + message.location + '<br>time:' + when +'<hr>';
+	pre.innerHTML = pre.innerHTML + '<div class="list card"> <label class="checkbox"> <input type="checkbox"> </label> <div class="item"> <h2> '+ when +'</h2> <p>' + message.summary + '</p>' + '<p> location:' + message.location + '</p> </div>';
 	//var pre = document.getElementById('output');
 	//var textContent = document.createTextNode(message + '\n');
 	//pre.appendChild(textContent);
@@ -128,7 +127,9 @@ function appendPre(message, when) {
 </script>
 </head>
 <body>
+<!--
 <iframe src="https://www.google.com/calendar/embed?height=600&amp;wkst=1&amp;src=yanghu2019%40gmail.com&amp;color=%232952A3&amp;src=%23contacts%40group.v.calendar.google.com&amp;color=%231B887A&amp;src=en.usa%23holiday%40group.v.calendar.google.com&amp;color=%232F6309&amp;ctz=America%2FChicago" style=" border-width:0 " width="400" height="600" frameborder="0" scrolling="no"></iframe> 
+-->
 <script>
 function postEvent(){
 	var resource = {
@@ -169,17 +170,69 @@ Authorize
 </button>
 </div>
 
-<!--
-<div class="item item-divider" style="text-align: center">
+    <div class="list list-inset">
+       <label class="item item-input">
+          <i class="icon super-search placeholder-icon"></i>
+          <input type="text" placeholder="Search" data-params-id="keyword">
+       </label>
+    </div>
+
+
+  	<div class="item item-divider" style="text-align: center">
+  		History
+  	</div>
+  	
+  	<div class="list card">
+  		<super-navigate location="" data-params-id="">
+  			<div class="item">
+  				<h2 style="text-align: center">05/05/2015</h2>
+        		<p style="text-align: center">Appointment with Dentist Dan.</p>
+        		<p style="text-align: center">Location: #####</p>
+  			</div>
+  		</super-navigate>
+  	</div>
+
+  	<div class="item item-divider" style="text-align: center">
   		Upcoming Events
-</div>
-<div class="list card">
-  <super-navigate location="" data-params-id="">
-  	<div id="upcomingevents">
 	</div>
-  </super-navigate>
-</div>
+	<div class="">
+	
+	  <super-navigate location="" data-params-id="">
+	  	<div id="upcomingevents">
+	  	
+	  	
+		</div>
+	  </super-navigate>
+	</div>
+
+
+  	<!--
+	<div class="item item-divider" style="text-align: center">
+  		Upcoming Events
+  	</div>
+    <div ng-repeat="mevent in events|filter:keyword" class="list card">
+      <super-navigate location="livypad#detail" data-params-id="{{mevent.summary}}">
+        <div class="item item-thumbnail-left item-button-right">
+
+          <h2>{{mevent.when}}</h2>
+          <p style="white-space: nowrap; width: 10em">{{mevent.summary}}</p>
+
+          <div class="buttons">
+            <div class="col col-center padding-top">
+                <super-navigate location="Good4Trade#items" data-params-id="{{mevent.id}}">
+                  <button class="button icon-left super-arrow-swap button-clear button-large button-calm">
+                    Trade 
+                  </button>
+                </super-navigate>
+            </div>
+          </div>
+
+        </div>
+      </super-navigate>
+     </div>
+
 -->
+
 
   	
 
@@ -188,3 +241,4 @@ Authorize
 </html>
 
 
+</div>
