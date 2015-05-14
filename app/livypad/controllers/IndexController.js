@@ -1,8 +1,9 @@
 livypad.controller("IndexController", function($scope,supersonic){
 	
 	/* can include javascript key? according to Prof */
+	
 	Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
-	//alert("hello");
+	
 	//classes
 	
 	var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
