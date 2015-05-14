@@ -19,7 +19,10 @@ var CLIENT_ID = '1095443679190-ma099501sii38seo2v6jcoten1h5g77e.apps.googleuserc
 // request write scope.
 var SCOPES = ['https://www.googleapis.com/auth/calendar'];
 var keyword = "";
-var events = [];
+//var events = [];
+//$scope.ngevents = [];
+//$scope.ngevents.push("yeah","1","2");
+
 /**
  * Check if current user has authorized this application.
  */
@@ -68,8 +71,62 @@ function handleAuthClick(event) {
  */
 function loadCalendarApi() {
 	gapi.client.load('calendar', 'v3', listUpcomingEvents);
+	gapi.client.load('calendar', 'v3', historyEvents);
 }
 
+//History
+/**
+ * Print the summary and start datetime/date of the next ten events in
+ * the authorized user's calendar. If no events are found an
+ * appropriate message is printed.
+ */
+function historyEvents() {
+	var request = gapi.client.calendar.events.list({
+			'calendarId': 'primary',
+			//'timeMin': (new Date()).toISOString(),
+			'timeMax': (new Date()).toISOString(),			
+			'showDeleted': false,
+			'singleEvents': true,
+			'maxResults': 50,
+			'orderBy': 'startTime'
+			});
+
+	request.execute(function(resp) {
+			var events = resp.items;
+
+			if (events.length > 0) {
+				
+			for (i = 0; i < events.length; i++) {
+			var event0 = events[i];
+			var when = event0.start.dateTime;
+			if (!when) {
+			when = event0.start.date;
+			}
+			//if (keyword != "" && event0.summary==keyword){
+				appendHistory(event0, when);
+			//}
+				}
+			//$scope.ngevents = evnets;
+			//appendTo($scope.ngevents);
+
+				}
+
+				});
+			}
+
+			/**
+			 * Append a pre element to the body containing the given message
+			 * as its text node.
+			 *
+			 * @param {string} message Text to be placed in pre element.
+			 */
+function appendHistory(message, when) {
+	var pre = document.getElementById('historyevents');
+	pre.innerHTML = pre.innerHTML + '<div class="list card"> <label class="checkbox"> <input type="checkbox"> </label> <div class="item"> <h2> '+ when +'</h2> <p>' + message.summary + '</p>' + '<p> location:' + message.location + '</p> </div>';
+}
+
+
+//Upcoming Events
 /**
  * Print the summary and start datetime/date of the next ten events in
  * the authorized user's calendar. If no events are found an
@@ -79,17 +136,19 @@ function listUpcomingEvents() {
 	var request = gapi.client.calendar.events.list({
 			'calendarId': 'primary',
 			'timeMin': (new Date()).toISOString(),
+			//'timeMax': (new Date()).toISOString(),			
 			'showDeleted': false,
 			'singleEvents': true,
-			'maxResults': 10,
+			'maxResults': 50,
 			'orderBy': 'startTime'
 			});
 
 	request.execute(function(resp) {
 			var events = resp.items;
-			appendPre('Upcoming events:\n');
+			//appendPre('Upcoming events:\n');
 
 			if (events.length > 0) {
+				
 			for (i = 0; i < events.length; i++) {
 			var event0 = events[i];
 			var when = event0.start.dateTime;
@@ -97,13 +156,13 @@ function listUpcomingEvents() {
 			when = event0.start.date;
 			}
 			//if (keyword != "" && event0.summary==keyword){
-				appendPre(event0, when)
+				appendPre(event0, when);
 			//}
 			//events.push({summary:event0.summary, location:event0.location, starttime:event0.start.date});
 				}
-				}
-			else {
-				appendPre('No upcoming events found.');
+			//$scope.ngevents = evnets;
+			//appendTo($scope.ngevents);
+
 				}
 
 				});
@@ -118,11 +177,23 @@ function listUpcomingEvents() {
 function appendPre(message, when) {
 	var pre = document.getElementById('upcomingevents');
 	pre.innerHTML = pre.innerHTML + '<div class="list card"> <label class="checkbox"> <input type="checkbox"> </label> <div class="item"> <h2> '+ when +'</h2> <p>' + message.summary + '</p>' + '<p> location:' + message.location + '</p> </div>';
+}
+/*
+function appendTo(events) {
+	var pre = document.getElementById('allevents');
+	pre.innerHTML = pre.innerHTML + '<div ng-repeat="mevent in $scope.ngevents|filter:keyword" class="list card">
+        									<div class="item item-thumbnail-left item-button-right">
+         										 <h2>{{mevent}}</h2>
+         										 <p style="white-space: nowrap; width: 10em">{{mevent}}</p>
+         								    </div>
+     								</div>';
 	//var pre = document.getElementById('output');
 	//var textContent = document.createTextNode(message + '\n');
 	//pre.appendChild(textContent);
 }
+*/
 </script>
+<script src="angular.js"> </script>
 <script src="https://apis.google.com/js/client.js?onload=checkAuth">
 </script>
 </head>
@@ -181,16 +252,15 @@ Authorize
   	<div class="item item-divider" style="text-align: center">
   		History
   	</div>
-  	
-  	<div class="list card">
-  		<super-navigate location="" data-params-id="">
-  			<div class="item">
-  				<h2 style="text-align: center">05/05/2015</h2>
-        		<p style="text-align: center">Appointment with Dentist Dan.</p>
-        		<p style="text-align: center">Location: #####</p>
-  			</div>
-  		</super-navigate>
-  	</div>
+	<div class="">
+	
+	  <super-navigate location="" data-params-id="">
+	  	<div id="historyevents">
+	  	
+	  	
+		</div>
+	  </super-navigate>
+	</div>
 
   	<div class="item item-divider" style="text-align: center">
   		Upcoming Events
@@ -204,18 +274,30 @@ Authorize
 		</div>
 	  </super-navigate>
 	</div>
+<!--
+  	<div class="item item-divider" style="text-align: center">
+  		Upcoming Events
+	</div>
+	<div class="">
+	  	<div id="allevents">
+	  	
+	  	
+		</div>
+	</div>
+-->
 
 
-  	<!--
+
+<!--
 	<div class="item item-divider" style="text-align: center">
   		Upcoming Events
   	</div>
-    <div ng-repeat="mevent in events|filter:keyword" class="list card">
-      <super-navigate location="livypad#detail" data-params-id="{{mevent.summary}}">
+    <div ng-repeat="mevent in ngevents|filter:keyword" class="list card">
+      <super-navigate location="livypad#detail" data-params-id="{{mevent}}">
         <div class="item item-thumbnail-left item-button-right">
 
-          <h2>{{mevent.when}}</h2>
-          <p style="white-space: nowrap; width: 10em">{{mevent.summary}}</p>
+          <h2>{{mevent}}</h2>
+          <p style="white-space: nowrap; width: 10em">{{mevent}}</p>
 
           <div class="buttons">
             <div class="col col-center padding-top">
@@ -232,7 +314,6 @@ Authorize
      </div>
 
 -->
-
 
   	
 
