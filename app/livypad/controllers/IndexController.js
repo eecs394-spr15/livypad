@@ -132,6 +132,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 			querySuggestedAppointments.find().then(function(suggestedAppointmentResults){
 				suggestedAppointmentResults.forEach(function(famMemberSuggestedAppointment){
 
+					//getting data of this suggested appointment
 				  	var lowerBound = famMemberSuggestedAppointment.get("relevantAgeGroup")[0];
 				  	var upperBound = famMemberSuggestedAppointment.get("relevantAgeGroup")[1];
 				  	var relevantGender = famMemberSuggestedAppointment.get("relevantGender");
