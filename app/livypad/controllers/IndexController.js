@@ -26,14 +26,14 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	//Parse.User.logOut();
 	//force log in, for testing
-	/*Parse.User.logIn("Sonia", "password", {
+	Parse.User.logIn("Sonia", "password", {
 	  success: function(user) {
-	  		alert("successfully logged in");
+	  		//alert("successfully logged in");
 	  },
 	  error: function(user, error) {
 	    // The login failed. Check error to see why.
 	  }
-	});*/
+	});
 	
 	var currentUser = Parse.User.current();
 
