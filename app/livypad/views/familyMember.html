@@ -1,0 +1,42 @@
+
+<div ng-controller="IndexController">
+  <super-navbar>
+    <super-navbar-title>
+      Family Members
+    </super-navbar-title>
+
+    <super-navbar-button class="super-plus-round" side="right" onClick="supersonic.ui.drawers.open('left')" location="">
+    Add
+    </super-navbar-button>
+
+  </super-navbar>
+
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner">
+
+  <a ng-repeat="member in members" class="list card" >
+    <div class="card">
+
+    <div class="item "> <!--item-avatar-->
+      <img src={{member.icon}} align="left" style="width: 20%">
+      <p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
+    </div>
+
+    <div class="item">
+      <h2><b>Birthdate:</b> {{member.dateOfBirth}} </h2>
+      <h2><b>Gender:</b> {{member.gender}} <h2>
+    </div>
+
+    <div class="button-bar" width=400 height=500>
+    <button class="button icon-left super-plus-round button-assertive"> Scheduled </button>
+    
+    <button class="button icon-left super-plus-round button-assertive"> Doctors </button>
+    </div>
+
+    </div>
+  </a> 
+ 
+  </div>
+
+</div>
+
