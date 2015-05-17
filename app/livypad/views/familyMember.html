@@ -5,7 +5,7 @@
       Family Members
     </super-navbar-title>
 
-    <super-navbar-button class="super-plus-round" side="right" onClick="supersonic.ui.drawers.open('left')" location="">
+    <super-navbar-button class="super-plus-round" side="right" onClick="supersonic.ui.drawers.open('left')" location="livypad#addFamilyMember">
     Add
     </super-navbar-button>
 
@@ -23,7 +23,7 @@
     </div>
 
     <div class="item">
-      <h2><b>Birthdate:</b> {{member.dateOfBirth}} </h2>
+      <h2><b>Birthdate:</b> {{member.dateOfBirth | date: "yyyy-MM-dd"}} </h2>
       <h2><b>Gender:</b> {{member.gender}} <h2>
     </div>
 

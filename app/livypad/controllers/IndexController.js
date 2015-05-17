@@ -88,6 +88,36 @@ livypad.controller("IndexController", function($scope,supersonic){
   		});
 	};
 	loadFamilyMember();
+
+	//Add a family member
+	$scope.addFamilyMember = function(){
+		var familyRelations = currentUser.relation("familyMember");
+		var familyMember = new FamilyMember();
+		familyMember.set("Name", $scope.newMember.name);
+		//var validDate = ($scope.newMember.dateOfBirth | date: "yyyy-MM-dd")
+		familyMember.set("dateOfBirth", $scope.newMember.birthdate);
+		familyMember.set("gender", $scope.newMember.gender);
+		// var parseFile = new Parse.File();
+		// FamilyMember.set("icon", parseFile);
+		familyMember.save().then(function(familyMember) {
+				familyRelations.add(familyMember);
+	    		currentUser.save();
+				var options = {
+				  message: "Member has been added to your family",
+				  buttonLabel: "Close"
+				};
+
+				supersonic.ui.dialog.alert("Success!", options).then(function() {
+				  supersonic.logger.log("Alert closed.");
+				});
+				supersonic.ui.layers.pop();
+					
+				}, function(error) {
+					alert("Member save failed");
+				// the save failed.
+				});
+
+	};
 	
 
 	//Code for extracting scheduled and suggested appointments

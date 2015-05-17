@@ -23,19 +23,32 @@
       <input type="date" ng-model="newMember.birthdate">
   </label>
 
+  <label class="item item-input item-stacked-label">
+    <div class="button-bar" width=380 height=500>
+       <span class="input-label">Icon:</span>
+       <button  class="button button-outline icon-left super-happy button-assertive">
+           Add Icon
+       </button>
+    </div>
+  </label>
+ 
+
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Optional:</span>
+    <div class="button-bar" width=380 height=500>
+      <button class="button button-outline icon-left super-plus-round button-assertive"> Scheduled </button>
+    </div> 
+    <br>
+    <div class="button-bar" width=380 height=500> 
+       <button class="button button-outline icon-left super-plus-round button-assertive"> Doctors </button>
+    </div> 
+  </label>
+  
   <br>
-  <img id = 'myImage'/> 
   <div class="button-bar"  width=400 height=500>
-
-  <button  class="button icon-left super-happy-outline button-assertive">
-       Add Icon
-  </button>
-
-
-  <button ng-click="addFamilyMember()" class="button icon-left super-checkmark-round button-assertive">
-      Add Member
-  </button>
-
-</div>
+    <button ng-click="addFamilyMember()" class="button icon-left super-checkmark-round button-assertive">
+        Add Member
+    </button>
+  </div>
 
 </div>	
