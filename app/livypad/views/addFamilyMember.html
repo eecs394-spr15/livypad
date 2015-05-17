@@ -1,0 +1,41 @@
+<div ng-controller="IndexController">
+  <super-navbar>
+  	    <super-navbar-title>
+  	      Add Family Member
+  	    </super-navbar-title>
+  </super-navbar>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Name: </span>
+      <input type="text" ng-model="newMember.name"/>
+  </label>
+  
+  <label class="item item-input item-select">
+      <span class="input-label">Gender:</span>  
+      <select ng-model="newMember.gender">
+        <option value ="Male"> Male </option>
+        <option value ="Female"> Female </option>
+      </select>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Birthdate:</span>
+      <input type="date" ng-model="newMember.birthdate">
+  </label>
+
+  <br>
+  <img id = 'myImage'/> 
+  <div class="button-bar"  width=400 height=500>
+
+  <button  class="button icon-left super-happy-outline button-assertive">
+       Add Icon
+  </button>
+
+
+  <button ng-click="addFamilyMember()" class="button icon-left super-checkmark-round button-assertive">
+      Add Member
+  </button>
+
+</div>
+
+</div>	
