@@ -1,5 +1,5 @@
 
-<div ng-controller="IndexController">
+<div ng-controller="IndexWithLoadFamController">
   <super-navbar>
     <super-navbar-title>
       Family Members
@@ -13,21 +13,17 @@
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
   <div ng-hide="showSpinner">
-
-  <a ng-repeat="member in members" class="list card" >
-    <div class="card">
-
-    <div class="item "> <!--item-avatar-->
-      <img src={{member.icon}} align="left" style="width: 20%">
-      <p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
-    </div>
-
-    <div class="item">
-      <h2><b>Birthdate:</b> {{member.dateOfBirth | date: "yyyy-MM-dd"}} </h2>
-      <h2><b>Gender:</b> {{member.gender}} <h2>
-    </div>
-
-    <div class="button-bar" width=400 height=500>
+    
+	<div ng-repeat="member in members" class="list card">
+	    <div class="item item-thumbnail-left">
+	    	<img src={{member.icon}} align="left">
+	    	<p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
+	    	<h2><b>Birthdate:</b> {{member.dateOfBirth | date: "yyyy-MM-dd"}} </h2>
+	    	<h2><b>Gender:</b> {{member.gender}} <h2>
+	    </div>
+	</div> 
+	
+<!--    <div class="button-bar" width=400 height=500>
     <super-navigate location="livypad#addScheduled" data-params-id="{{member.id}}">  
       <button class="button icon-left super-plus-round button-assertive"> 
           Scheduled       
@@ -42,7 +38,7 @@
     </div>
 
     </div>
-  </a> 
+  </a> -->
  
   </div>
 

@@ -35,12 +35,16 @@
   		Unscheduled Visits
   	</div>
   	
-  	<div class="list card">
-  		<super-navigate location="" data-params-id="">
-  			<div class="item">
-  				<h2 style="text-align: center">10/2015</h2>
-        		<p style="text-align: center">Dentist</p>
-  			</div>
-  		</super-navigate>
-  	</div>
+    <div ng-repeat="suggestedAppointment in members.suggested" class="list card" >
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{suggestedAppointment.frequency}}</h2>   
+        </div>
+
+        <div class="button-bar" width=400 height=500>
+          <button ng-click="scheduleAppointment(suggestedAppointment.appointmentName, suggestedAppointment.famMember)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
+          
+          <button ng-click="ignoreReccomendation(suggestedAppointment.appointmentID, suggestedAppointment.famMember)" class="button icon-left super-close-round button-assertive"> Ignore </button>
+        </div>
+
+    </div>
 </div>
