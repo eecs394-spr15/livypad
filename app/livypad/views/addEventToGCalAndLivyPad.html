@@ -1,7 +1,7 @@
 <div ng-controller="CalendarController">
 	<super-navbar>
 		<super-navbar-title>
-			Add Appointment to GCal
+			Add to GCal and Livypad
 		</super-navbar-title>
 	</super-navbar>
 
@@ -23,11 +23,7 @@
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Family Member:</span>
-			<select name = "who">
-			<option value="mother" selected>mother</option>
-			<option value="father">father</option>
-			<option value="jimmy">Jimmy</option>
-			<option value="dog">dog</option>
+			<select ng-model="familyMemberToAddTo" ng-options="famMember.famMember as famMember.name for famMember in familyMembersList"></select>
 		</select>
 	</label>
 
@@ -36,11 +32,11 @@
 		<input type="date" id="date"/>
 	</label>
 
-	<p id="test"></p>
 
 
-	<button id="post" class="button button-block button-assertive" ng-click="postEvent()">
-		Add New Appointment to Google Calendar
+
+	<button id="post" class="button button-block button-assertive" ng-click="addEventToGCalAndLivyPad()">
+		Add New Appointment to GCal and LivyPad
 	</button>
 
 	<div ng-hide="cal">

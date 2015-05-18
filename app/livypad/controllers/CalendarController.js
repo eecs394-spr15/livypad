@@ -1,9 +1,24 @@
 livypad.controller("CalendarController", function($scope,supersonic){
+        Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
+        var currentUser = Parse.User.current();
+        $scope.familyMembersList = [];   
+        var allFamilyMemberRelations = currentUser.relation("familyMember");
 
+        allFamilyMemberRelations.query().find().then(function(familyMemberResults){
+            familyMemberResults.forEach(function(famMember){
+                
+                $scope.familyMembersList.push({name: famMember.get("Name"),
+                                                famMember:famMember,
+                                            });
+             });
+        });
+        
 
         var clientId = '1095443679190-ma099501sii38seo2v6jcoten1h5g77e.apps.googleusercontent.com';
         var scopes = 'https://www.googleapis.com/auth/calendar';
-
+        $scope.refresh = function(){
+        location.reload();
+         }
         
         $scope.handleClientLoad = function() {
             window.setTimeout(checkAuth,1);
@@ -72,8 +87,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
             });
         }
 
-        $scope.postEvent = function(){
-            document.getElementById("test").innerHTML = document.getElementById("date").value;
+        $scope.addEventToGCalAndLivyPad = function(){
+
             var resource = {
                 "summary": document.getElementById("summary").value,
                 "location": document.getElementById("Location").value,
@@ -92,7 +107,9 @@ livypad.controller("CalendarController", function($scope,supersonic){
             request.execute(function(resp) {
                     alert("successfully added into your calendar!");
                     
-                    });  
+                    });
+
+             var famMemberScheduledAppointmentRelation = $scope.familyMemberToAddTo.relation("familyMember");           
 
         };
 
