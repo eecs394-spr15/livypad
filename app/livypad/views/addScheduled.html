@@ -1,0 +1,35 @@
+<div ng-controller="IndexController">
+  <super-navbar>
+  	    <super-navbar-title>
+  	      Add Scheduled 
+  	    </super-navbar-title>
+  </super-navbar>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Content: </span>
+      <input type="text" ng-model="newScheduled.name"/>
+  </label>
+  
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Doctor:</span>  
+      <input type="text" ng-model="newScheduled.doctor"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Location:</span>  
+      <input type="text" ng-model="newScheduled.location"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Date of Scheduled:</span>
+      <input type="date" ng-model="newScheduled.dateScheduled">
+  </label>
+
+  <br>
+  <div class="button-bar"  width=400 height=500>
+    <button ng-click="addScheduled()" class="button icon-left super-checkmark-round button-assertive">
+        Add 
+    </button>
+  </div>
+
+</div>	

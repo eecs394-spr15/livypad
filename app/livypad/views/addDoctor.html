@@ -1,0 +1,25 @@
+<div ng-controller="IndexController">
+  <super-navbar>
+  	    <super-navbar-title>
+  	      Add Doctor 
+  	    </super-navbar-title>
+  </super-navbar>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Name: </span>
+      <input type="text" ng-model="newDoctor.name"/>
+  </label>
+  
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Type:</span>  
+      <input type="text" ng-model="newDoctor.type"/>
+  </label>
+
+  <br>
+  <div class="button-bar"  width=400 height=500>
+    <button ng-click="addDoctor()" class="button icon-left super-checkmark-round button-assertive">
+        Add 
+    </button>
+  </div>
+
+</div>	
