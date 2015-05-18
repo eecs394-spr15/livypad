@@ -172,7 +172,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 		var queryMember = new Parse.Query(FamilyMember);
 		queryMember.get($scope.previewId, {
 		  success: function(familyMember) {
-		  	alert(familyMember.id);
 		    var memberDoctorsRelation = familyMember.relation("doctors");
 		   	var newDoctor = new Doctor();
 		   	newDoctor.set("name", $scope.newDoctor.name);
