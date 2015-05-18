@@ -106,7 +106,7 @@
     var Model, model_name;
     model_name = this.getAttribute("model");
     if (model_name != null) {
-      Model = supersonic.data.model(model_name);
+      Model = model_name === "users" ? supersonic.auth.users : supersonic.data.model(model_name);
       return this.__listener = Model.all().whenChanged((function(_this) {
         return function(items) {
           return _this.shadowRoot.innerHTML = Handlebars.compile("{{#each items}}" + _this.__template + "{{/each}}")({

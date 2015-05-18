@@ -43,7 +43,7 @@ module.exports =
     options:
       animation: "swingingDoor"
       
-  #
-  # initialView:
-  #   id: "initialView"
-  #   location: "livypad#index"
+  
+   initialView:
+     id: "initialView"
+     location: "livypad#login"

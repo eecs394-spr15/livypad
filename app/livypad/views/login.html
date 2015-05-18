@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<div ng-controller="IndexController">
+<div class="card">
+  <div class="item item-text-wrap">
+    Welcome to livypad. This is an awesome app!
+  
+  </div>
+</div>
+<label class="item item-input item-stacked-label">
+	<span class="input-label"> Username </span>
+	<input type="text" ng-model="existingUser.username"/>
+</label>
+<label class="item item-input item-stacked-label">
+	<span class="input-label"> Password </span>
+	<input type="password" ng-model="existingUser.password"/>
+</label>
+
+
+<button class="button button-block button-assertive" ng-click="login()">
+Log In
+</button>
+
+<br>
+<button class="button button-block button-assertive" ng-click="signup()">
+Sign Up
+</button>
+<br>
+<button class="button button-block button-assertive" ng-click="skiplogin()">
+
+Skip Login
+</button>
+
+</div>
+
+
