@@ -36,7 +36,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	// Preliminary Add Family Member function
 
-	function addFamilyRelation(name, datOfBirth, gender){
+	function addFamilyRelation(name, dateOfBirth, gender){
 		var familyRelations = currentUser.relation("familyMember");
 		var familyMember = new FamilyMember();
 
