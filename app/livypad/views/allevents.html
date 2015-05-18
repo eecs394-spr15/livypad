@@ -24,9 +24,24 @@
   		Past Events
   	</div>
 
-	 <div ng-repeat="pEvent in pastEvents">
-         <p>summary: {{pEvent.summary}}</p>
+	<a ng-repeat="pEvent in pastEvents" class="list card" >
+      <div class="card">
+
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{pEvent.summary}}</h2>
+            <h2> <b>Location: </b>{{pEvent.location}}</h2>
+             <h2> <b>Date: </b>{{pEvent.start.date}} </h2>
+            <h2> <b>Time:</b> {{pEvent.start.dateTime}} to {{pEvent.end.dateTime}} </h2>
+        </div>
+
+        <div class="button-bar" width=400 height=500>
+          <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
+        </div>
+
       </div>
+    </a>
+
+
 
 
   	<div class="item item-divider" style="text-align: center">

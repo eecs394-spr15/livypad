@@ -72,25 +72,32 @@ livypad.controller("CalendarController", function($scope,supersonic){
             });
         }
 
-        function postEvent(){
-			var resource = {
-				"summary": "Appointment",
-				"location": "1800 SHERMAN AVE",
-				"start": {
-					"dateTime": "2015-05-15T10:00:00.000-07:00"
-				},
-				"end": {
-					"dateTime": "2015-05-16T10:25:00.000-07:00"
-				}
-			};
-			var request = gapi.client.calendar.events.insert({
-					'calendarId': 'primary',
-					'resource': resource
-				});
-			request.execute(function(resp) {
-					alert(resp);
-			});  
+        $scope.postEvent = function(){
+            document.getElementById("test").innerHTML = document.getElementById("date").value;
+            var resource = {
+                "summary": document.getElementById("summary").value,
+                "location": document.getElementById("Location").value,
+                "start": {
+                    "dateTime": document.getElementById("date").value+"T10:00:00.000-07:00"
+                },
+                "end": {
+                    "dateTime": document.getElementById("date").value+"T12:00:00.000-07:00"
+                }
+                
+            };
+            var request = gapi.client.calendar.events.insert({
+                    'calendarId': 'primary',
+                    'resource': resource
+                    });
+            request.execute(function(resp) {
+                    alert("successfully added into your calendar!");
+                    
+                    });  
 
-		};
+        };
 
+        $scope.scheduleAppointmentFromGCal = function(summary, location, startDateTime, endDateTime){
+
+
+        };
 });
