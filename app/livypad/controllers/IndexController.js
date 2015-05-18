@@ -82,6 +82,7 @@ livypad.controller("IndexController", function($scope,supersonic){
   				suggested.query().find().then(function(suggestedResults){
   				var numSuggested = suggestedResults.length;
 	  				$scope.members.push({ familyMember: famMember,
+	  									  id : famMember.id,
 										  name: famMember.get("Name"),
 										  icon: famMember.get("icon").url(),
 										  dateOfBirth: famMember.get("dateOfBirth"),
