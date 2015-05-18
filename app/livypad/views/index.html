@@ -1,5 +1,5 @@
 
-<div ng-controller="IndexWithLoadFamController">
+<div ng-controller="IndexController">
   <super-navbar>
     <super-navbar-title>
       livypad
@@ -10,7 +10,7 @@
     </super-navbar-button>
   </super-navbar>
 
-	<div ng-repeat="member in members" class="list card">
+	<div ng-repeat="member in allFamilyMembers" class="list card">
 		<super-navigate location="livypad#person" data-params-id="{{member.id}}">
 	    	<div class="item item-thumbnail-left">
 	    		<img src={{member.icon}} align="left">
