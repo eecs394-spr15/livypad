@@ -14,8 +14,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
         supersonic.ui.views.current.params.onValue(function(values){
             $scope.currentEvent = values.id;
-            $scope.currentSummary = values.summary;
-            $scope.currentLocation = values.location;
+            //$scope.currentSummary = values.summary;
+            //$scope.currentLocation = values.location;
         });
 
         allFamilyMemberRelations.query().find().then(function(familyMemberResults){
