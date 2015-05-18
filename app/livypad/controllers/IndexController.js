@@ -227,7 +227,11 @@ livypad.controller("IndexController", function($scope,supersonic){
 															 	upperBound : upperBoundAgeString,
 																keyAges: keyAgeString,
 																frequency: frequencyString,
-															});	
+															});
+
+						var famMemberSuggestedAppointmentRelation = famMember.relation("suggestedAppointments");
+						famMemberSuggestedAppointmentRelation.add(famMemberSuggestedAppointment);
+						famMember.save();	
 				  	};
 
 				});
