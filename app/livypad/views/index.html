@@ -1,5 +1,4 @@
 
-
 <div ng-controller="IndexController">
   <super-navbar>
     <super-navbar-title>
@@ -10,42 +9,15 @@
      ooo
     </super-navbar-button>
   </super-navbar>
-	
-	<div>
-		<super-navigate location="livypad#person" data-params-id="">
-			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/images/Dad.png" align="left" style="width: 50%">
-		</super-navigate>
-		
-		<super-navigate location="livypad#person" data-params-id="">
-			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/images/Mom.png" align="right" style="width: 50%">
-		</super-navigate>
-	</div>
-	
-	<div>
-		<super-navigate location="livypad#person" data-params-id="">
-			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/images/Girl.png" align="left" style="width: 50%">
-		</super-navigate>
-		
-		<super-navigate location="livypad#person" data-params-id="">
-			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/images/Boy.png" align="right" style="width: 50%">
-		</super-navigate>
-	</div>
-	
-	<div>
-		<super-navigate location="livypad#person" data-params-id="">
-			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/images/Girl2.png" align="left" style="width: 50%">
-		</super-navigate>
-		
-		<super-navigate location="livypad#person" data-params-id="">
-			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/images/Grandma.png" align="right" style="width: 50%">
-		</super-navigate>
-	</div>
 
-	<div>
-		<super-navigate location="livypad#person" data-params-id="">
-			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/images/Dog.png" align="left" style="width: 50%">
-		</super-navigate>
-		
+	<div ng-repeat="member in members" class="list card row" >
+    <div class="item item-thumbnail-left">
+      <img src={{member.icon}} align="left">
+      <p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
+      <h2><b>Scheduled:</b> {{member.scheduled}} </h2>
+      <h2><b>Suggested:</b> {{member.suggested}} </h2>
+    </div>
+  </div> 
 <!--		<super-navigate location="livypad#person" data-params-id="">
 			<img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Mom.png" align="right" style="width: 50%">
 		</super-navigate> -->

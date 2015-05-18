@@ -68,12 +68,23 @@ livypad.controller("IndexController", function($scope,supersonic){
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
   		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
   			familyMemberResults.forEach(function(famMember){
-  				$scope.members.push({ id: famMember.id,
-									  name: famMember.get("Name"),
-									  icon: famMember.get("icon").url(),
-									  dateOfBirth: famMember.get("dateOfBirth"),
-									  gender: famMember.get("gender"),
-									});
+  				var scheduled = famMember.relation("scheduledAppointments");
+  				scheduled.query().find().then(function(scheduledResults){
+  				var numScheduled = scheduledResults.length;
+
+				var suggested = famMember.relation("suggestedAppointments");
+  				suggested.query().find().then(function(suggestedResults){
+  				var numSuggested = suggestedResults.length;
+	  				$scope.members.push({ familyMember: famMember,
+										  name: famMember.get("Name"),
+										  icon: famMember.get("icon").url(),
+										  dateOfBirth: famMember.get("dateOfBirth"),
+										  gender: famMember.get("gender"),
+										  scheduled: numScheduled,
+										  suggested: numSuggested,
+										});
+  				});
+  				});
   			});
   			//alert($scope.members.length);
   		});
