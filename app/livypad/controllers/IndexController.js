@@ -10,6 +10,12 @@ livypad.controller("IndexController", function($scope,supersonic){
 	var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
 	var SuggestedAppointment = Parse.Object.extend("SuggestedAppointments");
 	var FamilyMember = Parse.Object.extend("FamilyMember");
+	var Doctor = Parse.Object.extend("Doctor");
+
+	//get the the parameter pased by previous page
+	supersonic.ui.views.current.params.onValue(function(values){
+		$scope.previewId = values.id;
+	})
 
 	//Example Queries
 
@@ -121,6 +127,79 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	};
 	
+
+	//Add a past scheduled event
+	$scope.addScheduled = function(){
+		var queryMember = new Parse.Query(FamilyMember);
+		queryMember.get($scope.previewId, {
+		  success: function(familyMember) {
+		    var memberScheduledAppointmentsRelation = familyMember.relation("scheduledAppointments");
+		   	var newScheduled = new ScheduledAppointment();
+		   	newScheduled.set("name", $scope.newScheduled.name);
+		   	newScheduled.set("doctor", $scope.newScheduled.doctor);
+		   	newScheduled.set("location", $scope.newScheduled.location);
+		   	newScheduled.set("dateScheduled", $scope.newScheduled.dateScheduled);
+		   	var newScheduledFamMember = newScheduled.relation("familyMember");
+		   	newScheduledFamMember.add(familyMember);
+		   	newScheduled.save().then(function(newOne) {
+				memberScheduledAppointmentsRelation.add(newOne);
+	    		familyMember.save();
+
+				var options = {
+				  message: "Event has been added",
+				  buttonLabel: "Close"
+				};
+
+				supersonic.ui.dialog.alert("Success!", options).then(function() {
+				  supersonic.logger.log("Alert closed.");
+				});
+				supersonic.ui.layers.pop();
+					
+				}, function(error) {
+					alert("Event save failed");
+				// the save failed.
+				});
+		  },
+		  error: function(object, error) {
+		  	alert("could not add family member");
+		  }
+		});
+	}
+
+	//Add a doctor to particular family member
+	$scope.addDoctor = function(){
+		var queryMember = new Parse.Query(FamilyMember);
+		queryMember.get($scope.previewId, {
+		  success: function(familyMember) {
+		  	alert(familyMember.id);
+		    var memberDoctorsRelation = familyMember.relation("doctors");
+		   	var newDoctor = new Doctor();
+		   	newDoctor.set("name", $scope.newDoctor.name);
+		   	newDoctor.set("type", $scope.newDoctor.type);
+		   	newDoctor.save().then(function(newOne) {
+				memberDoctorsRelation.add(newOne);
+	    		familyMember.save();
+
+				var options = {
+				  message: "Doctor has been added",
+				  buttonLabel: "Close"
+				};
+
+				supersonic.ui.dialog.alert("Success!", options).then(function() {
+				  supersonic.logger.log("Alert closed.");
+				});
+				supersonic.ui.layers.pop();
+					
+				}, function(error) {
+					alert("Doctor save failed");
+				// the save failed.
+				});
+		  },
+		  error: function(object, error) {
+		  	alert("could not add family member");
+		  }
+		});
+	}
 
 	//Code for extracting scheduled and suggested appointments
 

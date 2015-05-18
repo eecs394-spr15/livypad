@@ -28,9 +28,17 @@
     </div>
 
     <div class="button-bar" width=400 height=500>
-    <button class="button icon-left super-plus-round button-assertive"> Scheduled </button>
-    
-    <button class="button icon-left super-plus-round button-assertive"> Doctors </button>
+    <super-navigate location="livypad#addScheduled" data-params-id="{{member.id}}">  
+      <button class="button icon-left super-plus-round button-assertive"> 
+          Scheduled       
+      </button>
+    </super-navigate>
+
+    <super-navigate location="livypad#addDoctor" data-params-id="{{member.id}}"> 
+      <button class="button icon-left super-plus-round button-assertive"> 
+          Doctors       
+      </button>
+    </super-navigate>
     </div>
 
     </div>
