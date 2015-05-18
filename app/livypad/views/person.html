@@ -1,4 +1,4 @@
-<div ng-controller="IndexController">
+<div ng-controller="PersonController">
   <super-navbar>
     <super-navbar-title>
       livypad
@@ -6,7 +6,7 @@
   </super-navbar>
 
     <div class="item item-thumbnail-left">
-      <img src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/DadSmall.png">
+      <img src="{{members.icon}}">
 
       <div class="list list-inset">
          <label class="item item-input">
@@ -24,8 +24,8 @@
   	<div class="list card">
   		<super-navigate location="" data-params-id="">
   			<div class="item">
-  				<h2 style="text-align: center">05/05/2015</h2>
-        		<p style="text-align: center">Appointment with Dentist Dan.</p>
+  				<h2 style="text-align: center"></h2>
+        		<p style="text-align: center">{{members.suggested}}</p>
         		<p style="text-align: center">Location: #####</p>
   			</div>
   		</super-navigate>
