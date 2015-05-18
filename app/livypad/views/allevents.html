@@ -24,11 +24,11 @@
     </div>
 
 
-  	<div class="item item-divider" style="text-align: center">
-  		Past Events
-  	</div>
+    <div class="item item-divider" style="text-align: center">
+      Past Events
+    </div>
 
-	<a ng-repeat="pEvent in pastEvents" class="list card" >
+  <a ng-repeat="pEvent in pastEvents|filter:keyword" class="list card" >
       <div class="card">
 
         <div class="item item-text-wrap">
@@ -39,7 +39,9 @@
         </div>
 
         <div class="button-bar" width=400 height=500>
-          <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
+            <super-navigate location="livypad#addEventToGCalAndLivyPad">
+            <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
+            </super-navigate>
         </div>
 
       </div>
@@ -48,11 +50,27 @@
 
 
 
-  	<div class="item item-divider" style="text-align: center">
-  		Upcoming Events
-	</div>
-	<div ng-repeat="uEvent in upcomingEvents">
-         <p>summary: {{uEvent.summary}}</p>
+    <div class="item item-divider" style="text-align: center">
+      Upcoming Events
+  </div>
+
+  <a ng-repeat="uEvent in upcomingEvents|filter:keyword" class="list card" >
+      <div class="card">
+
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{uEvent.summary}}</h2>
+            <h2> <b>Location: </b>{{uEvent.location}}</h2>
+             <h2> <b>Date: </b>{{uEvent.start.date}} </h2>
+            <h2> <b>Time:</b> {{uEvent.start.dateTime}} to {{uEvent.end.dateTime}} </h2>
+        </div>
+
+        <div class="button-bar" width=400 height=500>
+            <super-navigate location="livypad#addEventToGCalAndLivyPad">
+            <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
+            </super-navigate>
+        </div>
+
       </div>
+    </a>
 
 </div>
