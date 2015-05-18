@@ -66,37 +66,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	// END CODE TO MANUALLY ADD FAM MEMBERS + RELATIONS ////////////////////////
 
-	// Query the family members of current user
-
-	$scope.members = [];
-	
-	function loadFamilyMember(){
-		var allFamilyMemberRelations = currentUser.relation("familyMember");
-  		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
-  			familyMemberResults.forEach(function(famMember){
-  				var scheduled = famMember.relation("scheduledAppointments");
-  				scheduled.query().find().then(function(scheduledResults){
-  				var numScheduled = scheduledResults.length;
-
-				var suggested = famMember.relation("suggestedAppointments");
-  				suggested.query().find().then(function(suggestedResults){
-  				var numSuggested = suggestedResults.length;
-	  			$scope.members.push({ familyMember: famMember,
-	  									  id : famMember.id,
-										  name: famMember.get("Name"),
-										  icon: famMember.get("icon").url(),
-										  dateOfBirth: famMember.get("dateOfBirth"),
-										  gender: famMember.get("gender"),
-										  scheduled: numScheduled,
-										  suggested: numSuggested,
-										});
-  				});
-  				});
-  			});
-  			//alert($scope.members.length);
-  		});
-	};
-
 	//Add a family member
 	$scope.addFamilyMember = function(){
 		var familyRelations = currentUser.relation("familyMember");
