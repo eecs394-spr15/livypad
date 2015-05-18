@@ -1,4 +1,4 @@
-livypad.controller("IndexController", function($scope,supersonic){
+livypad.controller("IndexWithLoadFamController", function($scope,supersonic){
 
 //Initialize Parse with Javascript Key
 	supersonic.ui.tabs.update([{title: "Home", badge: "1"}]);
@@ -96,6 +96,7 @@ livypad.controller("IndexController", function($scope,supersonic){
   			//alert($scope.members.length);
   		});
 	};
+	loadFamilyMember();
 
 	//Add a family member
 	$scope.addFamilyMember = function(){

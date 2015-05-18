@@ -1,10 +1,10 @@
-livypad.controller("IndexController", function($scope,supersonic){
+livypad.controller("PersonController", function($scope,supersonic){
 
 //Initialize Parse with Javascript Key
-	supersonic.ui.tabs.update([{title: "Home", badge: "1"}]);
-	 	 
 	Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
-	
+	supersonic.ui.views.current.params.onValue(function(values){
+		$scope.myFamMember = values.id;
+	})
 	//classes
 	
 	var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
@@ -13,9 +13,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 	var Doctor = Parse.Object.extend("Doctor");
 
 	//get the the parameter pased by previous page
-	supersonic.ui.views.current.params.onValue(function(values){
-		$scope.previewId = values.id;
-	})
 
 	//Example Queries
 
@@ -48,7 +45,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 	    familyRelations.add(familyMember);
 	    currentUser.save();
 	}
-
 	
 	// CODE FOR MANUALLY ADDING FAMILY MEMBERS + RELATIONS , TO DELETE LATER // 
 		
@@ -68,12 +64,13 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	// Query the family members of current user
 
-	$scope.members = [];
+	$scope.members = {};
 	
 	function loadFamilyMember(){
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
   		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
   			familyMemberResults.forEach(function(famMember){
+  				if (famMember.id == $scope.myFamMember){
   				var scheduled = famMember.relation("scheduledAppointments");
   				scheduled.query().find().then(function(scheduledResults){
   				var numScheduled = scheduledResults.length;
@@ -81,22 +78,23 @@ livypad.controller("IndexController", function($scope,supersonic){
 				var suggested = famMember.relation("suggestedAppointments");
   				suggested.query().find().then(function(suggestedResults){
   				var numSuggested = suggestedResults.length;
-	  			$scope.members.push({ familyMember: famMember,
-	  									  id : famMember.id,
+	  			$scope.members = { 	  	  id : famMember.id,
 										  name: famMember.get("Name"),
 										  icon: famMember.get("icon").url(),
 										  dateOfBirth: famMember.get("dateOfBirth"),
 										  gender: famMember.get("gender"),
-										  scheduled: numScheduled,
-										  suggested: numSuggested,
-										});
+										  scheduled: scheduledResults,
+										  suggested: suggestedResults,
+										};
   				});
   				});
+  				}
   			});
   			//alert($scope.members.length);
   		});
 	};
-
+	loadFamilyMember();
+	
 	//Add a family member
 	$scope.addFamilyMember = function(){
 		var familyRelations = currentUser.relation("familyMember");
