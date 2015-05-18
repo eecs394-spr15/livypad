@@ -308,6 +308,7 @@ livypad.controller("PersonController", function($scope,supersonic){
 				  		 //Adding strings and information to scope
 				  		$scope.suggestedAppointmentList.push({  appointmentID : famMemberSuggestedAppointment.id,
 				  												famMember : famMember,
+				  												famMemberId: famMember.id,
 				  												famMemberName: famMember.get("Name"), 
 															 	appointmentName: famMemberSuggestedAppointment.get("name"),
 															 	lowerBound : lowerBoundAgeString,

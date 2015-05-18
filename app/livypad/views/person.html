@@ -21,7 +21,14 @@
   		Upcoming Visits
   	</div>
   	
-  	<div class="list card">
+    <div ng-repeat="scheduledAppointment in members.scheduled" class="list card" >
+        <div class="item">
+            <h2> <b>Description: </b>{{scheduledAppointment}}</h2>   
+        </div>
+
+    </div>
+    
+<!--  	<div class="list card">
   		<super-navigate location="" data-params-id="">
   			<div class="item">
   				<h2 style="text-align: center"></h2>
@@ -29,15 +36,15 @@
         		<p style="text-align: center">Location: #####</p>
   			</div>
   		</super-navigate>
-  	</div>
+  	</div>  -->
   	
 	<div class="item item-divider" style="text-align: center">
-  		Unscheduled Visits
+  		Recommended Visits
   	</div>
   	
     <div ng-repeat="suggestedAppointment in members.suggested" class="list card" >
-        <div class="item item-text-wrap">
-            <h2> <b>Description: </b>{{suggestedAppointment.frequency}}</h2>   
+        <div class="item">
+            <h2> <b>Description: </b>{{suggestedAppointment}}</h2>   
         </div>
 
         <div class="button-bar" width=400 height=500>
