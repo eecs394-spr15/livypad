@@ -1,246 +1,21 @@
-<div ng-controller="IndexController">
-<super-navbar>
-<super-navbar-title>
-All Events
-</super-navbar-title>
+<div ng-controller="CalendarController">
 
-</super-navbar>
+	<script src="https://apis.google.com/js/client.js" ng-init="handleClientLoad()"></script>
 
+	<super-navbar>
+		<super-navbar-title>
+			All Events
+		</super-navbar-title>
+	</super-navbar>
 
-<html>
-<head>
-<script type="text/javascript">
-// Your Client ID can be retrieved from your project in the Google
-// Developer Console, https://console.developers.google.com
-var CLIENT_ID = '1095443679190-ma099501sii38seo2v6jcoten1h5g77e.apps.googleusercontent.com';
-
-// This quickstart only requires read-only scope, check
-// https://developers.google.com/google-apps/calendar/auth if you want to
-// request write scope.
-var SCOPES = ['https://www.googleapis.com/auth/calendar'];
-var keyword = "";
-//var events = [];
-//$scope.ngevents = [];
-//$scope.ngevents.push("yeah","1","2");
-
-/**
- * Check if current user has authorized this application.
- */
-function checkAuth() {
-	gapi.auth.authorize(
-			{
-			'client_id': CLIENT_ID,
-			'scope': SCOPES,
-			'immediate': true
-			}, handleAuthResult);
-}
-
-/**
- * Handle response from authorization server.
- *
- * @param {Object} authResult Authorization result.
- */
-function handleAuthResult(authResult) {
-	var authorizeDiv = document.getElementById('authorize-div');
-	if (authResult && !authResult.error) {
-		// Hide auth UI, then load Calendar client library.
-		authorizeDiv.style.display = 'none';
-		loadCalendarApi();
-	} else {
-		// Show auth UI, allowing the user to initiate authorization by
-		// clicking authorize button.
-		authorizeDiv.style.display = 'inline';
-	}
-}
-
-/**
- * Initiate auth flow in response to user clicking authorize button.
- *
- * @param {Event} event Button click event.
- */
-function handleAuthClick(event) {
-	gapi.auth.authorize(
-			{client_id: CLIENT_ID, scope: SCOPES, immediate: false},
-			handleAuthResult);
-	return false;
-}
-
-/**
- * Load Google Calendar client library. List upcoming events
- * once client library is loaded.
- */
-function loadCalendarApi() {
-	gapi.client.load('calendar', 'v3', listUpcomingEvents);
-	gapi.client.load('calendar', 'v3', historyEvents);
-}
-
-//History
-/**
- * Print the summary and start datetime/date of the next ten events in
- * the authorized user's calendar. If no events are found an
- * appropriate message is printed.
- */
-function historyEvents() {
-	var request = gapi.client.calendar.events.list({
-			'calendarId': 'primary',
-			//'timeMin': (new Date()).toISOString(),
-			'timeMax': (new Date()).toISOString(),			
-			'showDeleted': false,
-			'singleEvents': true,
-			'maxResults': 50,
-			'orderBy': 'startTime'
-			});
-
-	request.execute(function(resp) {
-			var events = resp.items;
-
-			if (events.length > 0) {
-				
-			for (i = 0; i < events.length; i++) {
-			var event0 = events[i];
-			var when = event0.start.dateTime;
-			if (!when) {
-			when = event0.start.date;
-			}
-			//if (keyword != "" && event0.summary==keyword){
-				appendHistory(event0, when);
-			//}
-				}
-			//$scope.ngevents = evnets;
-			//appendTo($scope.ngevents);
-
-				}
-
-				});
-			}
-
-			/**
-			 * Append a pre element to the body containing the given message
-			 * as its text node.
-			 *
-			 * @param {string} message Text to be placed in pre element.
-			 */
-function appendHistory(message, when) {
-	var pre = document.getElementById('historyevents');
-	pre.innerHTML = pre.innerHTML + '<div class="list card"> <label class="checkbox"> <input type="checkbox"> </label> <div class="item"> <h2> '+ when +'</h2> <p>' + message.summary + '</p>' + '<p> location:' + message.location + '</p> </div>';
-}
-
-
-//Upcoming Events
-/**
- * Print the summary and start datetime/date of the next ten events in
- * the authorized user's calendar. If no events are found an
- * appropriate message is printed.
- */
-function listUpcomingEvents() {
-	var request = gapi.client.calendar.events.list({
-			'calendarId': 'primary',
-			'timeMin': (new Date()).toISOString(),
-			//'timeMax': (new Date()).toISOString(),			
-			'showDeleted': false,
-			'singleEvents': true,
-			'maxResults': 50,
-			'orderBy': 'startTime'
-			});
-
-	request.execute(function(resp) {
-			var events = resp.items;
-			//appendPre('Upcoming events:\n');
-
-			if (events.length > 0) {
-				
-			for (i = 0; i < events.length; i++) {
-			var event0 = events[i];
-			var when = event0.start.dateTime;
-			if (!when) {
-			when = event0.start.date;
-			}
-			//if (keyword != "" && event0.summary==keyword){
-				appendPre(event0, when);
-			//}
-			//events.push({summary:event0.summary, location:event0.location, starttime:event0.start.date});
-				}
-			//$scope.ngevents = evnets;
-			//appendTo($scope.ngevents);
-
-				}
-
-				});
-			}
-
-			/**
-			 * Append a pre element to the body containing the given message
-			 * as its text node.
-			 *
-			 * @param {string} message Text to be placed in pre element.
-			 */
-function appendPre(message, when) {
-	var pre = document.getElementById('upcomingevents');
-	pre.innerHTML = pre.innerHTML + '<div class="list card"> <label class="checkbox"> <input type="checkbox"> </label> <div class="item"> <h2> '+ when +'</h2> <p>' + message.summary + '</p>' + '<p> location:' + message.location + '</p> </div>';
-}
-/*
-function appendTo(events) {
-	var pre = document.getElementById('allevents');
-	pre.innerHTML = pre.innerHTML + '<div ng-repeat="mevent in $scope.ngevents|filter:keyword" class="list card">
-        									<div class="item item-thumbnail-left item-button-right">
-         										 <h2>{{mevent}}</h2>
-         										 <p style="white-space: nowrap; width: 10em">{{mevent}}</p>
-         								    </div>
-     								</div>';
-	//var pre = document.getElementById('output');
-	//var textContent = document.createTextNode(message + '\n');
-	//pre.appendChild(textContent);
-}
-*/
-</script>
-<script src="angular.js"> </script>
-<script src="https://apis.google.com/js/client.js?onload=checkAuth">
-</script>
-</head>
-<body>
-<!--
-<iframe src="https://www.google.com/calendar/embed?height=600&amp;wkst=1&amp;src=yanghu2019%40gmail.com&amp;color=%232952A3&amp;src=%23contacts%40group.v.calendar.google.com&amp;color=%231B887A&amp;src=en.usa%23holiday%40group.v.calendar.google.com&amp;color=%232F6309&amp;ctz=America%2FChicago" style=" border-width:0 " width="400" height="600" frameborder="0" scrolling="no"></iframe> 
--->
-<script>
-function postEvent(){
-	var resource = {
-		"summary": "Appointment",
-		"location": "1800 SHERMAN AVE",
-		"start": {
-			"dateTime": "2015-05-15T10:00:00.000-07:00"
-		},
-		"end": {
-			"dateTime": "2015-05-16T10:25:00.000-07:00"
-		}
-	};
-	var request = gapi.client.calendar.events.insert({
-			'calendarId': 'primary',
-			'resource': resource
-			});
-	request.execute(function(resp) {
-			alert(resp);
-			
-			});  
-
-};
-</script>
-<!--
-<button id="post" class="button icon-left super-checkmark-round button-assertive" onclick="postEvent()">
-click me to add a new appointment
-</button>
--->
-
-
-<br>
-<br>
-<div id="authorize-div" style="display: none">
-<span>Authorize access to calendar</span>
-<!--Button for the user to click to initiate auth sequence -->
-<button id="authorize-button" onclick="handleAuthClick(event)">
-Authorize
-</button>
-</div>
-
+    <div ng-hide="cal">
+        <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>
+    </div>
+    <div style="text-align: center">
+    <button class="button button-clear button-calm" ng-click="refresh()">
+            click to refresh
+    </button>
+  </div>
     <div class="list list-inset">
        <label class="item item-input">
           <i class="icon super-search placeholder-icon"></i>
@@ -249,77 +24,53 @@ Authorize
     </div>
 
 
-  	<div class="item item-divider" style="text-align: center">
-  		History
-  	</div>
-	<div class="">
-	
-	  <super-navigate location="" data-params-id="">
-	  	<div id="historyevents">
-	  	
-	  	
-		</div>
-	  </super-navigate>
-	</div>
+    <div class="item item-divider" style="text-align: center">
+      Past Events
+    </div>
 
-  	<div class="item item-divider" style="text-align: center">
-  		Upcoming Events
-	</div>
-	<div class="">
-	
-	  <super-navigate location="" data-params-id="">
-	  	<div id="upcomingevents">
-	  	
-	  	
-		</div>
-	  </super-navigate>
-	</div>
-<!--
-  	<div class="item item-divider" style="text-align: center">
-  		Upcoming Events
-	</div>
-	<div class="">
-	  	<div id="allevents">
-	  	
-	  	
-		</div>
-	</div>
--->
+  <a ng-repeat="pEvent in pastEvents|filter:keyword" class="list card" >
+      <div class="card">
 
-
-
-<!--
-	<div class="item item-divider" style="text-align: center">
-  		Upcoming Events
-  	</div>
-    <div ng-repeat="mevent in ngevents|filter:keyword" class="list card">
-      <super-navigate location="livypad#detail" data-params-id="{{mevent}}">
-        <div class="item item-thumbnail-left item-button-right">
-
-          <h2>{{mevent}}</h2>
-          <p style="white-space: nowrap; width: 10em">{{mevent}}</p>
-
-          <div class="buttons">
-            <div class="col col-center padding-top">
-                <super-navigate location="Good4Trade#items" data-params-id="{{mevent.id}}">
-                  <button class="button icon-left super-arrow-swap button-clear button-large button-calm">
-                    Trade 
-                  </button>
-                </super-navigate>
-            </div>
-          </div>
-
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{pEvent.summary}}</h2>
+            <h2> <b>Location: </b>{{pEvent.location}}</h2>
+             <h2> <b>Date: </b>{{pEvent.start.date}} </h2>
+            <h2> <b>Time:</b> {{pEvent.start.dateTime}} to {{pEvent.end.dateTime}} </h2>
         </div>
-      </super-navigate>
-     </div>
 
--->
+        <div class="button-bar" width=400 height=500>
+            <super-navigate location="livypad#addGCalEventToGCalAndLivyPad" data-params-id="{{pEvent.summary}}">
+            <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
+            </super-navigate>
+        </div>
 
-  	
+      </div>
+    </a>
 
-<div style="font-size: large" id="output"></div>
-</body>
-</html>
 
+
+
+    <div class="item item-divider" style="text-align: center">
+      Upcoming Events
+  </div>
+
+  <a ng-repeat="uEvent in upcomingEvents|filter:keyword" class="list card" >
+      <div class="card">
+
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{uEvent.summary}}</h2>
+            <h2> <b>Location: </b>{{uEvent.location}}</h2>
+             <h2> <b>Date: </b>{{uEvent.start.date}} </h2>
+            <h2> <b>Time:</b> {{uEvent.start.dateTime}} to {{uEvent.end.dateTime}} </h2>
+        </div>
+
+        <div class="button-bar" width=400 height=500>
+            <super-navigate location="livypad#addGCalEventToGCalAndLivyPad" data-params-id="{{uEvent.summary}}">
+            <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
+            </super-navigate>
+        </div>
+
+      </div>
+    </a>
 
 </div>

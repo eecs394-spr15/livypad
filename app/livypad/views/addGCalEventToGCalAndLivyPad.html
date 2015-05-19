@@ -1,0 +1,56 @@
+<div ng-controller="CalendarController">
+	<super-navbar>
+		<super-navbar-title>
+			Add to GCal and Livypad
+		</super-navbar-title>
+	</super-navbar>
+
+
+	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
+	</script>
+
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Appointment Name</span>
+		<input type="text" placeholder="{{currentEvent}}" id="summary"/>
+	</label>
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Location</span>
+		<input type="text" placeholder="{{currentSummary}}" id="Location"/>
+	</label>
+
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Family Member:</span>
+			<select ng-model="familyMemberToAddTo" ng-options="famMember.famMember as famMember.name for famMember in familyMembersList"></select>
+		</select>
+	</label>
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Doctor</span>
+		<input type="text" id="doctor"/>
+	</label>
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Date</span>
+		<input type="date" id="date"/> <!--try datetime-local ... doesn't work with gcal though -->
+	</label>
+
+
+
+
+	<button id="post" class="button button-block button-assertive" ng-click="addEventToGCalAndLivyPad()">
+		Add New Appointment to GCal and LivyPad
+	</button>
+
+	<div ng-hide="cal">
+	       <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>
+	</div>
+
+</div>
+ 	
+
+
+
+

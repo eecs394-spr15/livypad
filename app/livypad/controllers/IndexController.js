@@ -36,7 +36,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	// Preliminary Add Family Member function
 
-	function addFamilyRelation(name, datOfBirth, gender){
+	function addFamilyRelation(name, dateOfBirth, gender){
 		var familyRelations = currentUser.relation("familyMember");
 		var familyMember = new FamilyMember();
 
@@ -65,37 +65,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 		});*/
 
 	// END CODE TO MANUALLY ADD FAM MEMBERS + RELATIONS ////////////////////////
-
-	// Query the family members of current user
-
-	$scope.members = [];
-	
-	function loadFamilyMember(){
-		var allFamilyMemberRelations = currentUser.relation("familyMember");
-  		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
-  			familyMemberResults.forEach(function(famMember){
-  				var scheduled = famMember.relation("scheduledAppointments");
-  				scheduled.query().find().then(function(scheduledResults){
-  				var numScheduled = scheduledResults.length;
-
-				var suggested = famMember.relation("suggestedAppointments");
-  				suggested.query().find().then(function(suggestedResults){
-  				var numSuggested = suggestedResults.length;
-	  			$scope.members.push({ familyMember: famMember,
-	  									  id : famMember.id,
-										  name: famMember.get("Name"),
-										  icon: famMember.get("icon").url(),
-										  dateOfBirth: famMember.get("dateOfBirth"),
-										  gender: famMember.get("gender"),
-										  scheduled: numScheduled,
-										  suggested: numSuggested,
-										});
-  				});
-  				});
-  			});
-  			//alert($scope.members.length);
-  		});
-	};
 
 	//Add a family member
 	$scope.addFamilyMember = function(){
@@ -206,45 +175,71 @@ livypad.controller("IndexController", function($scope,supersonic){
 	$scope.suggestedAppointmentList = [];
 	$scope.allScheduledAppointmentList = [];
 	$scope.listOfFamMemberExistingAppointments = [];
+	$scope.allFamilyMembers = [];
 
 	loadFamilyData();
 	function loadFamilyData(){	
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
   		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
   			familyMemberResults.forEach(function(famMember){
-			    
+
 			    //Resetting listOfFamMemberExistingAppointments since it's only for each member, not the whole fam
 			    $scope.listOfFamMemberExistingAppointments = []; //resetting array to blank.
 
 			    //preparing to exclude existing appointments, also filling in the scheduled appointment list at the same time.
-			    loadFamilyMemberExistingAppointments(famMember); //NEED TO ensure this finishes populating before you call the next function! It won't break but it relies on this being filled to filter out appointments that don't exist yet.
+			    loadFamilyMemberExistingAppointments(famMember).then(function(result){ //NEED TO ensure this finishes populating before you call the next function! It won't break but it relies on this being filled to filter out appointments that don't exist yet.
 				
-			    //looking through all suggested appointments to find relevant ones
-			    loadFamilyMemberSuggestedAppointments(famMember);
+			    	var numExistingAppointments = result;
 
-			});
+			    	//looking through all suggested appointments to find relevant ones
+			    	loadFamilyMemberSuggestedAppointments(famMember).then(function(result){
+			    		var numSuggestedAppointments = result;
+
+			    		$scope.allFamilyMembers.push({ familyMember: famMember,
+	  									  id : famMember.id,
+										  name: famMember.get("Name"),
+										  icon: famMember.get("icon").url(),
+										  dateOfBirth: famMember.get("dateOfBirth"),
+										  gender: famMember.get("gender"),
+										  scheduled: numExistingAppointments,
+										  suggested: numSuggestedAppointments,
+										});
+  					});
+			    });
+			    
+			}); 
+			    
+		
   		});
   	};
 
   	function loadFamilyMemberExistingAppointments(famMember){
-  		var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");
-		famMemberScheduledAppointmentRelation.query().find().then(function(scheduledAppointmentResults){
-			scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
-				listOfFamMemberExistingAppointments.push(famMemberScheduledAppointment.get("name"));
-				//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
-				$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
-												   doctor : famMemberScheduledAppointment.get("doctor"),
-												   location : famMemberScheduledAppointment.get("location"),
-												   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
-												   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
-												   nameOfFamilyMember : famMember.get("name"),
-												});
+  		return new Promise(function(resolve, reject) {
+		   	var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");
+			famMemberScheduledAppointmentRelation.query().find().then(function(scheduledAppointmentResults){
+				$scope.numExistingAppointments=scheduledAppointmentResults.length;
+				//alert("infunc" + $scope.numExistingAppointments);
+				resolve(scheduledAppointmentResults.length);
+				scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
+					listOfFamMemberExistingAppointments.push(famMemberScheduledAppointment.get("name"));
+					//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
+					$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
+													   doctor : famMemberScheduledAppointment.get("doctor"),
+													   location : famMemberScheduledAppointment.get("location"),
+													   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
+													   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
+													   nameOfFamilyMember : famMember.get("name"),
+													});
+				});
+				
 			});
+			
 		});
 
   	};
 
 	function loadFamilyMemberSuggestedAppointments(famMember){
+		return new Promise(function(resolve, reject) {
 	  		//extracting out family member's info
 			var today = new Date();
 			var birthDate = famMember.get("dateOfBirth");
@@ -259,7 +254,9 @@ livypad.controller("IndexController", function($scope,supersonic){
 		    var appointmentsToIgnore = famMember.get("ignoredAppointments");
 
 		    var querySuggestedAppointments = new Parse.Query(SuggestedAppointment);
+		    var counter = 0;
 			querySuggestedAppointments.find().then(function(suggestedAppointmentResults){
+
 				suggestedAppointmentResults.forEach(function(famMemberSuggestedAppointment){
 
 					//getting data of this suggested appointment
@@ -287,6 +284,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  		&& existingAppointmentMarker == -1 
 				  		&& ignoredAppointmentMarker == -1)
 				  	{
+				  		counter += 1; //keeping track of number, for later use.
 				  		//Formatting Relevant Strings
 				  		var lowerBoundAgeString = formatMonthsToString (lowerBound);
 				  		var upperBoundAgeString = formatMonthsToString (upperBound);
@@ -325,8 +323,9 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  	};
 
 				});
+				resolve(counter);
 			});
-		
+		});
 	};
 
 	function formatMonthsToString(numMonths){
