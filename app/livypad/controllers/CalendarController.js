@@ -13,8 +13,11 @@ livypad.controller("CalendarController", function($scope,supersonic){
         var allFamilyMemberRelations = currentUser.relation("familyMember");
 
         supersonic.ui.views.current.params.onValue(function(values){
+            
             $scope.currentEvent = values.id;
-            //$scope.currentSummary = values.summary;
+
+             //document.getElementById("test").innerHTML =  values.id;
+            // = $scope.currentEvent;
             //$scope.currentLocation = values.location;
         });
 

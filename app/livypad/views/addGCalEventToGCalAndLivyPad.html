@@ -5,19 +5,20 @@
 		</super-navbar-title>
 	</super-navbar>
 
-
-	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
+<script src="https://apis.google.com/js/client.js" ng-init="handleClientLoad()"></script>
+<!--	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
 	</script>
-
-
+-->
+	<p> {{currentEvent}}</p>
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Appointment Name</span>
+
 		<input type="text" placeholder="{{currentEvent}}" id="summary"/>
 	</label>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Location</span>
-		<input type="text" placeholder="{{currentSummary}}" id="Location"/>
+		<input type="text" placeholder="{{currentLocation}}" id="Location"/>
 	</label>
 
 
@@ -44,9 +45,7 @@
 		Add New Appointment to GCal and LivyPad
 	</button>
 
-	<div ng-hide="cal">
-	       <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>
-	</div>
+
 
 </div>
  	
