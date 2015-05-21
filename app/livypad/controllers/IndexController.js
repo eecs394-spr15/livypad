@@ -34,6 +34,95 @@ livypad.controller("IndexController", function($scope,supersonic){
 		
 	var currentUser = Parse.User.current();
 
+
+	$scope.thisUser = [];
+
+	$scope.thisUser.push({ 	userName: currentUser.get("username"), 
+							Email: currentUser.get("email"), 
+							thispassword: currentUser.get("password")
+						});
+	$scope.thisuser = $scope.thisUser[0];
+
+	$scope.editThisUser = function(){
+		var queryEditUser = new Parse.Query(Parse.User);
+        queryEditUser.get(currentUser.id, {
+          success: function(userAgain) {
+            userAgain.set("username", $scope.editUser.username);
+            userAgain.set("password", $scope.editUser.password);
+			userAgain.set("email", $scope.editUser.email);
+			currentUser = Parse.User.current();
+			$scope.thisUser.push({ 	userName: currentUser.get("username"), 
+									Email: currentUser.get("email"), 
+									thispassword: currentUser.get("password")
+								});
+			$scope.thisuser = $scope.thisUser[0];
+			alert(" Successfully updated your profile! "+ userAgain.get("username")+"\n Restart the app to view your new profile!");
+            userAgain.save(null, {
+              error: function(userAgain, error) {
+                // This will error, since the Parse.User is not authenticated
+              }
+            });
+            }
+        });
+	}
+
+	// Remove Family Member function
+	$scope.deleteFamilyMember = function(memberID){
+		
+		alert(memberID);
+		var queryDeleteMember = new Parse.Query(FamilyMember);
+		var allFamilyMemberRelations = currentUser.relation("familyMember");
+		queryDeleteMember.get(memberID, {
+			success: function(memberDelete){
+				allFamilyMemberRelations.remove(memberDelete);
+				currentUser.save();
+				memberDelete.destroy({
+					success: function(myObject){
+						var options = {
+							message: "This family member has been removed from your family.",
+							buttonLable: "Close"
+						};
+						supersonic.ui.dialog.alert("Success!", options).then(function() {
+						  supersonic.logger.log("Alert closed.");
+						});
+					},
+					error: function(myObject, error){
+						var options = {
+							message: "This member could not be removed from you family.",
+							buttonLable: "Close"
+						};
+						supersonic.ui.dialog.alert("Issue Encountered", options).then(function() {
+						  supersonic.logger.log("Alert closed.");
+						});
+					}
+				});
+			},
+			error: function(memberDelete, error){
+
+			}
+		});
+	}
+
+	// Query the family members of current user
+
+	$scope.members = [];
+	
+	function loadFamilyMember(){
+		var allFamilyMemberRelations = currentUser.relation("familyMember");
+  		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
+  			familyMemberResults.forEach(function(famMember){
+  				$scope.members.push({ id: famMember.id,
+									  name: famMember.get("Name"),
+									  icon: famMember.get("icon").url(),
+									  dateOfBirth: new Date(famMember.get("dateOfBirth")),
+									  gender: famMember.get("gender"),
+									});
+  			});
+  			//alert($scope.members.length);
+  		});
+	};
+	loadFamilyMember();
+	
 	// Preliminary Add Family Member function
 
 	function addFamilyRelation(name, dateOfBirth, gender){

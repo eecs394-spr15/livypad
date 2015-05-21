@@ -1,0 +1,87 @@
+
+<div ng-controller="IndexController">
+  <super-navbar>
+    <super-navbar-title>
+      My Account
+    </super-navbar-title>
+
+    <super-navbar-button class="super-plus-round" side="right" onClick="supersonic.ui.drawers.open('left')" ng-click="editThisUser()">
+    Save
+    </super-navbar-button>
+
+  </super-navbar>
+
+  <div style="text-align: center">
+    <button class="button button-clear button-assertive" ng-click="refresh()">
+            click to refresh
+    </button>
+  </div>
+
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner">
+
+
+  <div class="item item-divider" style="text-align: center">
+      My Information
+  </div>
+
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">User Name</span>
+    <input type="text" ng-model="editUser.username" placeholder="{{thisuser.userName}}"/>
+  </label>
+  
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Password</span>
+    <input type="password" ng-model="editUser.password" placeholder="{{thisuser.thispassword}}"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Email</span>
+    <input type="text" ng-model="editUser.email" placeholder="{{thisuser.Email}}"/>
+  </label>
+
+  <div class="item item-divider" style="text-align: center">
+      My Family Members
+  </div>
+
+  <a ng-repeat="member in members" class="list card" >
+
+      <div class="card" id="{{member.id}}">
+
+            <div class="item"> <!--item-avatar-->
+              <img src={{member.icon}} align="left" style="width: 20%">
+              <p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
+            </div>
+
+            <div class="item">
+              <h2><b>Birthdate:</b> {{member.dateOfBirth | date: "yyyy-MM-dd"}} </h2>
+              <h2><b>Gender:</b> {{member.gender}} <h2>
+            </div>
+
+            <div class="button-bar" width=400 height=500>
+            <!-- <super-navigate location="livypad#addScheduled" data-params-id="{{member.id}}">  
+              <button class="button icon-left super-plus-round button-assertive"> 
+                  Scheduled       
+              </button>
+            </super-navigate>
+
+            <super-navigate location="livypad#addDoctor" data-params-id="{{member.id}}"> 
+              <button class="button icon-left super-plus-round button-assertive"> 
+                  Doctors       
+              </button>
+            </super-navigate> -->
+
+      
+            <button class="button icon-left super-trash-a button-assertive" ng-click="deleteFamilyMember(member.id)">
+              Delete
+            </button>
+        
+            </div>
+
+      </div>
+  </a> 
+ 
+  </div>
+
+</div>
+
