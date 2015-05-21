@@ -284,6 +284,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 			    	loadFamilyMemberSuggestedAppointments(famMember).then(function(result){
 			    		var numSuggestedAppointments = result;
 
+			    		var percentage = numExistingAppointments/numSuggestedAppointments*100;
+
 			    		$scope.allFamilyMembers.push({ familyMember: famMember,
 	  									  id : famMember.id,
 										  name: famMember.get("Name"),
@@ -292,6 +294,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 										  gender: famMember.get("gender"),
 										  scheduled: numExistingAppointments,
 										  suggested: numSuggestedAppointments,
+										  percent: percentage,
+
 										});
   					});
 			    });
