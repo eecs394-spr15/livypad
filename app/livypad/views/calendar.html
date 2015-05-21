@@ -1,25 +1,6 @@
 <div ng-controller="CalendarController">
 <head>
    <script type="text/javascript" src="http://www.cs.northwestern.edu/academics/courses/394/scripts/calendar-2.2.js"></script>
-   <script type="text/javascript">
-     var myCalendar = new JEC('myCalendarContainer',{
-     	tableClass: 'styledCalendar'
-     
-     });
-     myCalendar.defineEvents([
-       { 
-         eventDate: 20150519, 
-         eventDescription: '394 meeting', 
-         eventLink: 'http://www.cs.northwestern.edu/academics/courses/394/'
-       },
-       { eventDate: 20150520, 
-       eventDescription: 'client meeting' ,
-       eventLink: 'http://www.cs.northwestern.edu/academics/courses/394/'
-       }
-     ]);
-     myCalendar.showCalendar();
-
-   </script>
 <!--
 <link rel="stylesheet" href="http://www.cs.northwestern.edu/academics/courses/394/styles/jec-styled.css" type="text/css" >
 -->
@@ -32,7 +13,11 @@ table.styledCalendar {
   border: 3px solid #99997a;
   font-size: 12px;
   font-family: Arial, Verdana;
-  margin: 5px;
+  /*margin: 5px;*/
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 100%;
 }
 
 /* "Global" settings for all table cells in the calendar table */
@@ -168,8 +153,6 @@ table.styledCalendar td.demoDay {
 <!--
 	<iframe src="https://www.google.com/calendar/embed?height=600&amp;wkst=1&amp;src=yanghu2019%40gmail.com&amp;color=%232952A3&amp;src=%23contacts%40group.v.calendar.google.com&amp;color=%231B887A&amp;src=en.usa%23holiday%40group.v.calendar.google.com&amp;color=%232F6309&amp;ctz=America%2FChicago" style=" border-width:0 " width="400" height="600" frameborder="0" scrolling="no"></iframe> 
 -->
-<h2>Calendar</h2>
-<p>More items will be filled in as we go.</p>
 
 
    <div id='myCalendarContainer'></div>

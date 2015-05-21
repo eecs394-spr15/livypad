@@ -1,13 +1,55 @@
 livypad.controller("CalendarController", function($scope,supersonic){
         Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
-        
+     
+    	 
         //classes
         var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
         var SuggestedAppointment = Parse.Object.extend("SuggestedAppointments");
         var FamilyMember = Parse.Object.extend("FamilyMember");
         var Doctor = Parse.Object.extend("Doctor");
 
-        //getting list of family members
+        $scope.ScheduledAppointment = [];
+	var scheduledQuery = new Parse.Query(ScheduledAppointment);
+	scheduledQuery.find().then(function (results){
+			results.forEach(function(result){
+			   $scope.ScheduledAppointment.push({
+			       date:result.get("dateScheduled"),
+			       name:result.get("name")
+			   });
+			
+			});
+	});
+	 var myCalendar = new JEC('myCalendarContainer',{
+     		tableClass: 'styledCalendar'
+     
+    	 });
+     
+     /*myCalendar.defineEvents([
+       { 
+         eventDate: 20150519, 
+         eventDescription: '394 meeting', 
+         eventLink: 'http://www.cs.northwestern.edu/academics/courses/394/'
+       }]);
+     myCalendar.defineEvents([
+       { eventDate: 20150520, 
+       eventDescription: 'client meeting' ,
+       eventLink: 'http://www.cs.northwestern.edu/academics/courses/394/'
+       }
+     ]);
+     */
+     	angular.forEach($scope.ScheduledAppointment, function(value, key){
+		myCalendar.defineEvents([
+		{
+		  eventDate: 20150519,
+		  eventDescription: 'test'
+		}
+		]);
+	
+	});
+     	myCalendar.showCalendar();
+
+
+	//getting list of family members
         var currentUser = Parse.User.current();
         $scope.familyMembersList = [];   
         var allFamilyMemberRelations = currentUser.relation("familyMember");
