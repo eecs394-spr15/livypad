@@ -24,7 +24,7 @@
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Family Member:</span>
-			<select ng-model="familyMemberToAddTo" ng-options="famMember.famMember as famMember.name for famMember in familyMembersList"></select>
+			<select ng-init="familyMemberToAddTo = firstMemberOfFamily" ng-model="familyMemberToAddTo" ng-options="famMember.famMember as famMember.name for famMember in familyMembersList"></select>
 		</select>
 	</label>
 
