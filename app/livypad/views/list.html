@@ -34,23 +34,24 @@
   		Upcoming Visits
   	</div>
   	
-  	<div class="list card">
-  		<super-navigate location="" data-params-id="">
-  			<div class="item">
-  				<h2 style="text-align: center">05/05/2015</h2>
-        		<p style="text-align: center">Appointment with Dentist Dan.</p>
-        		<p style="text-align: center">Location: #####</p>
-  			</div>
-  		</super-navigate>
-  	</div>
+    <div ng-repeat="scheduledAppointment in allScheduledApps" class="list card">
+
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{scheduledAppointment.results.get("name")}}</h2>
+        	<h2> <b>For: </b>{{scheduledAppointment.name}}</h2>
+            <h2> <b>Doctor: </b>{{scheduledAppointment.results.get("doctor")}}</h2>
+            <h2> <b>Location: </b>{{scheduledAppointment.results.get("location")}}</h2>
+            <h2> <b>Date: </b>{{scheduledAppointment.results.get("dateScheduled")}}</h2>
+        </div>
+        
+    </div>
   	
 	<div class="item item-divider" style="text-align: center">
   		Recommended Visits
   	</div>
   	
 
-    <a ng-repeat="suggestedAppointment in suggestedAppointmentList" class="list card" >
-      <div class="card">
+    <div ng-repeat="suggestedAppointment in suggestedAppointmentList" class="list card" >
 
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.appointmentName}}</h2>
@@ -66,8 +67,7 @@
           <button ng-click="ignoreReccomendation(suggestedAppointment.appointmentID, suggestedAppointment.famMember)" class="button icon-left super-close-round button-assertive"> Ignore </button>
         </div>
 
-      </div>
-    </a>
+    </div>
 
 </div>
 

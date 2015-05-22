@@ -106,6 +106,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 	// Query the family members of current user
 
 	$scope.members = [];
+	$scope.allScheduledApps = [];
 	
 	function loadFamilyMember(){
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
@@ -117,6 +118,13 @@ livypad.controller("IndexController", function($scope,supersonic){
 									  dateOfBirth: new Date(famMember.get("dateOfBirth")),
 									  gender: famMember.get("gender"),
 									});
+				var scheduled = famMember.relation("scheduledAppointments");
+				scheduled.query().find().then(function(scheduledResults){
+					for (i = 0; i < scheduledResults.length; i++) {
+						$scope.allScheduledApps.push({name: famMember.get("Name"), 
+													  results: scheduledResults[i]});
+					}
+				});
   			});
   			//alert($scope.members.length);
   		});
