@@ -37,7 +37,15 @@
 		<input type="date" id="date"/> <!--try datetime-local ... doesn't work with gcal though -->
 	</label>
 
-
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Start Time</span>
+		<input type="time" id="startTime"/>
+	</label>
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">End Time</span>
+		<input type="time" id="endTime"/>
+	</label>
+	
 
 
 	<button id="post" class="button button-block button-assertive" ng-click="addEventToGCalAndLivyPad()">

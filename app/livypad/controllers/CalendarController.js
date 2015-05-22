@@ -157,17 +157,31 @@ livypad.controller("CalendarController", function($scope,supersonic){
             var location = document.getElementById("Location").value;
             var dateTime = document.getElementById("date").value;
             var doctor = document.getElementById("doctor").value;
+            var startTime = document.getElementById("startTime").value;
+            var endTime = document.getElementById("endTime").value;
+            var currentDate = new Date();
+            var offset = currentDate.getTimezoneOffset() / 60;
+            /*alert(dateTime);
+            alert(startTime);
+            alert(endTime);
+            alert("offset:" + offset);*/
+            var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
+            var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
+
+            var dateObject = new Date(startDateTime);
+            alert("month: " +dateObject.getMonth());
+
             var resource = {
                 "summary": summary,
                 "location": location,
                 "start": {
-                    "dateTime": dateTime+"T10:00:00.000-07:00"
+                    "dateTime": startDateTime
                 },
                 "end": {
-                    "dateTime": dateTime+"T12:00:00.000-07:00"
+                    "dateTime": endDateTime
                 }
-                
             };
+            
             var request = gapi.client.calendar.events.insert({
                     'calendarId': 'primary',
                     'resource': resource
@@ -181,7 +195,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             newAppointment.set("name", summary);
             newAppointment.set("doctor", doctor);
             newAppointment.set("location", location);
-            //newAppointment.set("dateScheduled", dateTime);
+            newAppointment.set("dateScheduled", dateObject);
             //adding to relations
             var scheduledAppointmentRelation = newAppointment.relation("familyMember");           
             scheduledAppointmentRelation.add($scope.familyMemberToAddTo);
@@ -191,7 +205,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 //saving
                 $scope.familyMemberToAddTo.save();
             });
-                     
+            
         };
 
         $scope.scheduleAppointmentFromGCal = function(summary, location, startDateTime, endDateTime){
