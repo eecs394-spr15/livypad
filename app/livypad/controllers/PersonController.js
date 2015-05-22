@@ -12,55 +12,15 @@ livypad.controller("PersonController", function($scope,supersonic){
 	var FamilyMember = Parse.Object.extend("FamilyMember");
 	var Doctor = Parse.Object.extend("Doctor");
 
-	//get the the parameter pased by previous page
-
-	//Example Queries
-
-	//var queryScheduledAppointments = new Parse.Query(ScheduledAppointment);
-	//var querySuggestedAppointments = new Parse.Query(SuggestedAppointment);
-	//var queryFamilyMember = new Parse.Query(FamilyMember);
 
 	//Refresh functionality
 
 	$scope.refresh = function(){
 		location.reload();
 	}
-
-	// Preliminary Log in Functionality, mostly for testing
-
 		
 	var currentUser = Parse.User.current();
 
-	// Preliminary Add Family Member function
-
-	function addFamilyRelation(name, datOfBirth, gender){
-		var familyRelations = currentUser.relation("familyMember");
-		var familyMember = new FamilyMember();
-
-		familyMember.set("Name", name);
-		familyMember.set("dateOfBirth", dateOfBirth);
-		familyMember.set("gender", gender);
-		familyMember.save();
-
-	    familyRelations.add(familyMember);
-	    currentUser.save();
-	}
-	
-	// CODE FOR MANUALLY ADDING FAMILY MEMBERS + RELATIONS , TO DELETE LATER // 
-		
-		/*var query = new Parse.Query(FamilyMember);
-		query.get("n43SZ2EUg1", {
-		  success: function(familyMember) {
-		   // alert(familyMember.id);
-		   	familyRelations.add(familyMember);
-		   	currentUser.save();
-		  },
-		  error: function(object, error) {
-		  	alert("could not add family member");
-		  }
-		});*/
-
-	// END CODE TO MANUALLY ADD FAM MEMBERS + RELATIONS ////////////////////////
 
 	// Query the family members of current user
 
@@ -86,36 +46,6 @@ livypad.controller("PersonController", function($scope,supersonic){
 	};
 	loadFamilyMember();
 	
-	//Add a family member
-	$scope.addFamilyMember = function(){
-		var familyRelations = currentUser.relation("familyMember");
-		var familyMember = new FamilyMember();
-		familyMember.set("Name", $scope.newMember.name);
-		//var validDate = ($scope.newMember.dateOfBirth | date: "yyyy-MM-dd")
-		familyMember.set("dateOfBirth", $scope.newMember.birthdate);
-		familyMember.set("gender", $scope.newMember.gender);
-		familyMember.set("iconID",  $scope.urlPass);
-		
-		
-		familyMember.save().then(function(familyMember) {
-				familyRelations.add(familyMember);
-	    		currentUser.save();
-				var options = {
-				  message: "Member has been added to your family",
-				  buttonLabel: "Close"
-				};
-
-				supersonic.ui.dialog.alert("Success!", options).then(function() {
-				  supersonic.logger.log("Alert closed.");
-				});
-				supersonic.ui.layers.pop();
-					
-				}, function(error) {
-					alert("Member save failed");
-				// the save failed.
-				});
-
-	};
 	
 	// Query all the icons
 	$scope.icons = [];
@@ -142,77 +72,6 @@ livypad.controller("PersonController", function($scope,supersonic){
 		
 	}
 
-	//Add a past scheduled event
-	$scope.addScheduled = function(){
-		var queryMember = new Parse.Query(FamilyMember);
-		queryMember.get($scope.previewId, {
-		  success: function(familyMember) {
-		    var memberScheduledAppointmentsRelation = familyMember.relation("scheduledAppointments");
-		   	var newScheduled = new ScheduledAppointment();
-		   	newScheduled.set("name", $scope.newScheduled.name);
-		   	newScheduled.set("doctor", $scope.newScheduled.doctor);
-		   	newScheduled.set("location", $scope.newScheduled.location);
-		   	newScheduled.set("dateScheduled", $scope.newScheduled.dateScheduled);
-		   	var newScheduledFamMember = newScheduled.relation("familyMember");
-		   	newScheduledFamMember.add(familyMember);
-		   	newScheduled.save().then(function(newOne) {
-				memberScheduledAppointmentsRelation.add(newOne);
-	    		familyMember.save();
-
-				var options = {
-				  message: "Event has been added",
-				  buttonLabel: "Close"
-				};
-
-				supersonic.ui.dialog.alert("Success!", options).then(function() {
-				  supersonic.logger.log("Alert closed.");
-				});
-				supersonic.ui.layers.pop();
-					
-				}, function(error) {
-					alert("Event save failed");
-				// the save failed.
-				});
-		  },
-		  error: function(object, error) {
-		  	alert("could not add family member");
-		  }
-		});
-	}
-
-	//Add a doctor to particular family member
-	$scope.addDoctor = function(){
-		var queryMember = new Parse.Query(FamilyMember);
-		queryMember.get($scope.previewId, {
-		  success: function(familyMember) {
-		    var memberDoctorsRelation = familyMember.relation("doctors");
-		   	var newDoctor = new Doctor();
-		   	newDoctor.set("name", $scope.newDoctor.name);
-		   	newDoctor.set("type", $scope.newDoctor.type);
-		   	newDoctor.save().then(function(newOne) {
-				memberDoctorsRelation.add(newOne);
-	    		familyMember.save();
-
-				var options = {
-				  message: "Doctor has been added",
-				  buttonLabel: "Close"
-				};
-
-				supersonic.ui.dialog.alert("Success!", options).then(function() {
-				  supersonic.logger.log("Alert closed.");
-				});
-				supersonic.ui.layers.pop();
-					
-				}, function(error) {
-					alert("Doctor save failed");
-				// the save failed.
-				});
-		  },
-		  error: function(object, error) {
-		  	alert("could not add family member");
-		  }
-		});
-	}
 
 	//Code for extracting scheduled and suggested appointments
 
@@ -371,52 +230,5 @@ livypad.controller("PersonController", function($scope,supersonic){
 		famMember.addUnique("ignoredAppointments", appointmentID);
 		famMember.save();
 	}
-
-
-
-	$scope.login = function (){
-	Parse.User.logOut();
-	//force log in, for testing
-	Parse.User.logIn("Sonia", "password", {
-	  success: function(user) {
-	  	supersonic.ui.dialog.alert("Welcome, Sonia!");
-		supersonic.ui.initialView.dismiss();
-		//alert("successfully logged in");
-			supersonic.ui.animation("curlDown").perform();
-		},
-	  error: function(user, error) {
-	    	alert("log in error");
-	       // The login failed. Check error to see why.
-	  }
-	});
-	};
-
-	$scope.skiplogin = function (){
-		supersonic.ui.dialog.alert("Welcome, guest!");
-		supersonic.ui.initialView.dismiss();
 	
-	};		
-	$scope.signup = function (){
-		var view = new supersonic.ui.View("livypad#signup");
-		supersonic.ui.layers.push(view);
-	
-	};	
-	$scope.confirmSignUp = function(){
-		var user = new Parse.User();
-		user.set("username", $scope.newUser.username);
-		user.set("password", $scope.newUser.password);
-		//user.set("email", $scope.newUser.email);
-		user.signUp(null, {
-			success: function(user) {
-				supersonic.ui.initialView.dismiss();
-				supersonic.ui.dialog.alert("Success!");
-			},
-			error: function(user, error) {
-				alert("sign up error!");
-			}
-		});
-	};
 });
-
-
-
