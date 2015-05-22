@@ -13,7 +13,7 @@
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Appointment Name</span>
 
-		<input type="text" placeholder="{{currentEvent}}" id="summary"/>
+		<input type="text" placeholder="{{currentEvent.kind}}" id="summary"/>
 	</label>
 
 	<label class="item item-input item-stacked-label">
@@ -42,7 +42,7 @@
 
 
 	<button id="post" class="button button-block button-assertive" ng-click="addEventToGCalAndLivyPad()">
-		Add New Appointment to GCal and LivyPad
+		Add Google Calendar Event To LivyPad
 	</button>
 
 

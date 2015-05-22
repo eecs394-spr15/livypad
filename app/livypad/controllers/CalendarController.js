@@ -61,19 +61,32 @@ livypad.controller("CalendarController", function($scope,supersonic){
         var allFamilyMemberRelations = currentUser.relation("familyMember");
 
         supersonic.ui.views.current.params.onValue(function(values){
-            
-            $scope.currentEvent = values.id;
-
+            //alert(values.id);
+            //var data = "'" + values.id +"'";//JSON.parse(values.id);
+            //var data = '{"name": "mkyong","age": 30,"address": {"streetAddress": "88 8nd Street","city": "New York"},"phoneNumber": [{"type": "home","number": "111 111-1111"},{"type": "fax","number": "222 222-2222"}]}';
+           // var newJSON = JSON.stringify(values.id["kind"]);
+            //alert(newJSON);
+            //var json = JSON.parse(newJSON);
+            //alert(json.kind);
+            //alert(values.id);
+            // alert(values.famMemberToAddTo);
+             $scope.newAppointmentName = values.newAppointmentName;
+             $scope.famMemberToAddTo = values.famMemberToAddTo;
+             //alert($scope.famMemberToAddTo);
+            //$scope.currentEvent = values.id;
+            //alert(json);
              //document.getElementById("test").innerHTML =  values.id;
             // = $scope.currentEvent;
             //$scope.currentLocation = values.location;
         });
+
 
         allFamilyMemberRelations.query().find().then(function(familyMemberResults){
             familyMemberResults.forEach(function(famMember){
                 
                 $scope.familyMembersList.push({name: famMember.get("Name"),
                                                 famMember:famMember,
+                                                famMemberID:famMember.id,
                                             });
              });
         });
