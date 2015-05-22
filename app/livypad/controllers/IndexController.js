@@ -499,50 +499,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 		famMember.save();
 	}
 
-
-
-	$scope.login = function (){
-	Parse.User.logOut();
-	//force log in, for testing
-	Parse.User.logIn("Sonia", "password", {
-	  success: function(user) {
-	  	supersonic.ui.dialog.alert("Welcome, Sonia!");
-		supersonic.ui.initialView.dismiss();
-		//alert("successfully logged in");
-			supersonic.ui.animation("curlDown").perform();
-		},
-	  error: function(user, error) {
-	    	alert("log in error");
-	       // The login failed. Check error to see why.
-	  }
-	});
-	};
-
-	$scope.skiplogin = function (){
-		supersonic.ui.dialog.alert("Welcome, guest!");
-		supersonic.ui.initialView.dismiss();
-	
-	};		
-	$scope.signup = function (){
-		var view = new supersonic.ui.View("livypad#signup");
-		supersonic.ui.layers.push(view);
-	
-	};	
-	$scope.confirmSignUp = function(){
-		var user = new Parse.User();
-		user.set("username", $scope.newUser.username);
-		user.set("password", $scope.newUser.password);
-		//user.set("email", $scope.newUser.email);
-		user.signUp(null, {
-			success: function(user) {
-				supersonic.ui.initialView.dismiss();
-				supersonic.ui.dialog.alert("Success!");
-			},
-			error: function(user, error) {
-				alert("sign up error!");
-			}
-		});
-	};
 });
 
 
