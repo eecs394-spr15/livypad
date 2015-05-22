@@ -25,15 +25,18 @@
 
   <label class="item item-input item-stacked-label">
     <div class="button-bar" width=380 height=500>
-       <span class="input-label">Icon:</span>
-       <button  class="button button-outline icon-left super-happy button-assertive">
-           Add Icon
-       </button>
+       <!-- <span class="input-label">Icon:</span>
+       <br> -->
+       <a ng-repeat="icon in icons" class="list" >
+          <button class="button hidden" ng-click="getIconTitle(icon.url)">
+            <img src={{icon.url}} style="width: 120%"> <!--  align="left"  -->
+          </button>
+       </a>
     </div>
   </label>
  
 
-  <label class="item item-input item-stacked-label">
+ <!--  <label class="item item-input item-stacked-label">
     <span class="input-label">Optional:</span>
     <div class="button-bar" width=380 height=500>
       <button class="button button-outline icon-left super-plus-round button-assertive"> Scheduled </button>
@@ -42,7 +45,7 @@
     <div class="button-bar" width=380 height=500> 
        <button class="button button-outline icon-left super-plus-round button-assertive"> Doctors </button>
     </div> 
-  </label>
+  </label> -->
   
   <br>
   <div class="button-bar"  width=400 height=500>

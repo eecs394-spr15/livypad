@@ -77,7 +77,7 @@ livypad.controller("PersonController", function($scope,supersonic){
   					var scheduled = famMember.relation("scheduledAppointments");
   					scheduled.query().find().then(function(scheduledResults){
   					$scope.scheduledAppointments = scheduledResults;
-  					$scope.memberIcon = famMember.get("icon").url();
+  					$scope.memberIcon = famMember.get("iconID");
   				});
   				}
   			});
@@ -94,8 +94,9 @@ livypad.controller("PersonController", function($scope,supersonic){
 		//var validDate = ($scope.newMember.dateOfBirth | date: "yyyy-MM-dd")
 		familyMember.set("dateOfBirth", $scope.newMember.birthdate);
 		familyMember.set("gender", $scope.newMember.gender);
-		// var parseFile = new Parse.File();
-		// FamilyMember.set("icon", parseFile);
+		familyMember.set("iconID",  $scope.urlPass);
+		
+		
 		familyMember.save().then(function(familyMember) {
 				familyRelations.add(familyMember);
 	    		currentUser.save();
@@ -116,6 +117,30 @@ livypad.controller("PersonController", function($scope,supersonic){
 
 	};
 	
+	// Query all the icons
+	$scope.icons = [];
+	$scope.icons.push({ url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Dad.png",
+						name: "dad"});
+	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Boy.png",
+						name: "boy"
+						});
+	$scope.icons.push({	url: src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Mom.png",
+						name: "mom"});
+	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Girl.png",
+						name: "girl_1"});
+	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Girl2.png",
+						name: "girl_2"});
+	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Grandma.png",
+						name: "grandma"});
+	$scope.icons.push({ url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Dog.png",
+						name: "dog"});
+
+	$scope.urlPass = ""
+	$scope.getIconTitle = function(url){
+		alert("Icon selected! Click Add Member to save.");
+		$scope.urlPass = url;
+		
+	}
 
 	//Add a past scheduled event
 	$scope.addScheduled = function(){
