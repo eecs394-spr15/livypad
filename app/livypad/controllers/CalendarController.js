@@ -61,23 +61,15 @@ livypad.controller("CalendarController", function($scope,supersonic){
         var allFamilyMemberRelations = currentUser.relation("familyMember");
 
         supersonic.ui.views.current.params.onValue(function(values){
-            //alert(values.id);
-            //var data = "'" + values.id +"'";//JSON.parse(values.id);
-            //var data = '{"name": "mkyong","age": 30,"address": {"streetAddress": "88 8nd Street","city": "New York"},"phoneNumber": [{"type": "home","number": "111 111-1111"},{"type": "fax","number": "222 222-2222"}]}';
-           // var newJSON = JSON.stringify(values.id["kind"]);
-            //alert(newJSON);
-            //var json = JSON.parse(newJSON);
-            //alert(json.kind);
-            //alert(values.id);
-            // alert(values.famMemberToAddTo);
-             $scope.newAppointmentName = values.newAppointmentName;
-             $scope.famMemberToAddTo = values.famMemberToAddTo;
-             //alert($scope.famMemberToAddTo);
-            //$scope.currentEvent = values.id;
-            //alert(json);
-             //document.getElementById("test").innerHTML =  values.id;
-            // = $scope.currentEvent;
-            //$scope.currentLocation = values.location;
+             //for when scheduling from suggested
+            $scope.newAppointmentName = values.newAppointmentName;
+            $scope.famMemberToAddTo = values.famMemberToAddTo;
+             //for when adding GCal event to Livypad
+            $scope.eventSummary = values.eventSummary;
+            $scope.eventLocation = values.eventLocation;
+            $scope.eventDate=new Date(values.startTime);
+            $scope.startTime = new Date(values.startTime);
+            $scope.endTime=new Date(values.endTime);
         });
 
 
@@ -184,8 +176,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
             var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
 
             var dateObject = new Date(startDateTime);
-            alert("month: " +dateObject.getMonth());
-
+            //alert("month: " +dateObject.getMonth());
+            //alert($scope.famMemberToAddTo);
             var resource = {
                 "summary": summary,
                 "location": location,
@@ -205,26 +197,82 @@ livypad.controller("CalendarController", function($scope,supersonic){
                     alert("successfully added into your calendar!");
                     
                     });
-            
-            var newAppointment = new ScheduledAppointment();
-            newAppointment.set("name", summary);
-            newAppointment.set("doctor", doctor);
-            newAppointment.set("location", location);
-            newAppointment.set("dateScheduled", dateObject);
-            //adding to relations
-            var scheduledAppointmentRelation = newAppointment.relation("familyMember");           
-            scheduledAppointmentRelation.add($scope.familyMemberToAddTo);
-            var famMemberScheduledAppointmentRelation = $scope.familyMemberToAddTo.relation("scheduledAppointments");  
-            newAppointment.save().then(function(newAppointment) {
-                famMemberScheduledAppointmentRelation.add(newAppointment);
-                //saving
-                $scope.familyMemberToAddTo.save();
+
+            var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
+            queryFamMemberToAddTo.get($scope.famMemberToAddTo, {
+              success: function(famMember) {
+                //alert(famMember.get("Name"));
+                var newAppointment = new ScheduledAppointment();
+                newAppointment.set("name", summary);
+                newAppointment.set("doctor", doctor);
+                newAppointment.set("location", location);
+                newAppointment.set("dateScheduled", dateObject);
+                var scheduledAppointmentRelation = newAppointment.relation("familyMember");           
+                scheduledAppointmentRelation.add(famMember);
+                var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");  
+                newAppointment.save().then(function(newAppointment) {
+                    famMemberScheduledAppointmentRelation.add(newAppointment);
+                    famMember.save();
+                });
+              },
+              error: function(object, error) {
+                // The object was not retrieved successfully.
+                // error is a Parse.Error with an error code and message.
+              }
             });
             
         };
 
-        $scope.scheduleAppointmentFromGCal = function(summary, location, startDateTime, endDateTime){
-
-
+        $scope.loadGCalAppointment = function(summary, location, startDateTime, endDateTime){
+            var myParams = {params: {eventSummary: summary, eventLocation: location, startTime:startDateTime, endTime:endDateTime}}; 
+            var view = new supersonic.ui.View("livypad#addGCalEventToLivyPad");
+            supersonic.ui.layers.push(view,myParams);
         };
+
+        $scope.addGCalEventToLivyPad = function(){
+            
+            var summary = "";
+            var doctor = "";
+            var location = "";
+            summary = document.getElementById("summary").value;
+            location = document.getElementById("Location").value;
+            var dateTime = document.getElementById("date").value;
+            doctor = document.getElementById("doctor").value;
+            var startTime = (document.getElementById("startTime").value).slice(0,5);
+            var endTime = (document.getElementById("endTime").value).slice(0,5);
+            var currentDate = new Date();
+            var offset = currentDate.getTimezoneOffset() / 60;
+            var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
+            var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
+            //alert(startDateTime);
+            var dateObject = new Date(startDateTime);
+            //alert("month: " +dateObject.getMonth());
+        
+            //adding to relations
+            var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
+            queryFamMemberToAddTo.get($scope.familyMemberToAddTo, {
+              success: function(famMember) {
+                var newAppointmentTwo = new ScheduledAppointment();
+                newAppointmentTwo.set("name", summary);
+                newAppointmentTwo.set("doctor", doctor);
+                newAppointmentTwo.set("location", location);
+                newAppointmentTwo.set("dateScheduled", dateObject);
+                var scheduledAppointmentRelation = newAppointmentTwo.relation("familyMember");           
+                scheduledAppointmentRelation.add(famMember);
+                var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");  
+                newAppointmentTwo.save().then(function(newAppointmentTwo) {
+                    famMemberScheduledAppointmentRelation.add(newAppointmentTwo);
+                    famMember.save();
+                    alert("successfully added Event to LivyPad");
+                });
+              },
+              error: function(object, error) {
+                // The object was not retrieved successfully.
+                // error is a Parse.Error with an error code and message.
+              }
+            });
+        };
+
+
+
 });

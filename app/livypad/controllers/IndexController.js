@@ -486,7 +486,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 	}
 
 	$scope.scheduleAppointment = function(appointmentName,famMember){
-		alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
+		//alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
 		var famMemberID = famMember.id;
 		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddTo: famMemberID}}; 
 		var view = new supersonic.ui.View("livypad#addEventToGCalAndLivyPad");

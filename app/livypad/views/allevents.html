@@ -38,10 +38,12 @@
             <h2> <b>Time:</b> {{pEvent.start.dateTime}} to {{pEvent.end.dateTime}} </h2>
         </div>
 
-        
-            <super-navigate location="livypad#addGCalEventToLivyPad" data-params-id="{{pEvent}}">
+        <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)">
+        Add to LivyPad
+        </button>
+            <!--<super-navigate location="livypad#addGCalEventToLivyPad" data-params-id="{{pEvent}}">
             <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button button-block super-checkmark-round button-assertive"> Add to Livypad</button>
-            </super-navigate>
+            </super-navigate>-->
         
 
       </div>

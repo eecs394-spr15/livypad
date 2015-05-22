@@ -9,22 +9,21 @@
 <!--	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
 	</script>
 -->
-	<p> {{currentEvent}}</p>
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Appointment Name</span>
 
-		<input type="text" placeholder="{{currentEvent.kind}}" id="summary"/>
+		<input type="text" value="{{eventSummary}}" id="summary"/>
 	</label>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Location</span>
-		<input type="text" placeholder="{{currentLocation}}" id="Location"/>
+		<input type="text" value="{{eventLocation}}" id="Location"/>
 	</label>
 
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Family Member:</span>
-			<select ng-init="familyMemberToAddTo = firstMemberOfFamily" ng-model="familyMemberToAddTo" ng-options="famMember.famMember as famMember.name for famMember in familyMembersList"></select>
+			<select ng-model="familyMemberToAddTo" ng-options="famMember.famMemberID as famMember.name for famMember in familyMembersList"></select>
 		</select>
 	</label>
 
@@ -35,13 +34,22 @@
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Date</span>
-		<input type="date" id="date"/> <!--try datetime-local ... doesn't work with gcal though -->
+		<input type="date" ng-model="eventDate" id="date"/> <!--try datetime-local ... doesn't work with gcal though -->
 	</label>
 
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Start Time</span>
+		<input ng-model="startTime" type="time" id="startTime"/>
+	</label>
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">End Time</span>
+		<input ng-model="endTime" type="time" id="endTime"/>
+	</label>
+	
 
 
 
-	<button id="post" class="button button-block button-assertive" ng-click="addEventToGCalAndLivyPad()">
+	<button id="post" class="button button-block button-assertive" ng-click="addGCalEventToLivyPad()">
 		Add Google Calendar Event To LivyPad
 	</button>
 
