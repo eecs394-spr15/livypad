@@ -82,13 +82,15 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
 
         allFamilyMemberRelations.query().find().then(function(familyMemberResults){
+            $scope.famMemberToAddTo = familyMemberResults[0].id;
             familyMemberResults.forEach(function(famMember){
-                
                 $scope.familyMembersList.push({name: famMember.get("Name"),
                                                 famMember:famMember,
                                                 famMemberID:famMember.id,
                                             });
+
              });
+
         });
         
         //Google Calendar Authorization
