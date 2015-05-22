@@ -34,7 +34,7 @@
   		Upcoming Visits
   	</div>
   	
-    <div ng-repeat="scheduledAppointment in allScheduledApps" class="list card">
+    <div ng-repeat="scheduledAppointment in allScheduledApps|filter:keyword" class="list card">
 
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{scheduledAppointment.results.get("name")}}</h2>
@@ -51,7 +51,7 @@
   	</div>
   	
 
-    <div ng-repeat="suggestedAppointment in suggestedAppointmentList" class="list card" >
+    <div ng-repeat="suggestedAppointment in suggestedAppointmentList|filter:keyword" class="list card" >
 
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.appointmentName}}</h2>
