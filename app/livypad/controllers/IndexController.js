@@ -487,6 +487,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	$scope.scheduleAppointment = function(appointmentName,famMember){
 		alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
+		var view = new supersonic.ui.View("livypad#addEventToGCalAndLivyPad");
+		supersonic.ui.layers.push(view);
 	}
 
 	$scope.ignoreReccomendation = function(appointmentID, famMember){
