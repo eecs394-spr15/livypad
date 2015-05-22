@@ -41,7 +41,7 @@
         	<h2> <b>For: </b>{{scheduledAppointment.name}}</h2>
             <h2> <b>Doctor: </b>{{scheduledAppointment.results.get("doctor")}}</h2>
             <h2> <b>Location: </b>{{scheduledAppointment.results.get("location")}}</h2>
-            <h2> <b>Date: </b>{{scheduledAppointment.results.get("dateScheduled")}}</h2>
+            <h2> <b>Date: </b>{{scheduledAppointment.results.get("dateScheduled") | date: "yyyy-MM-dd"}}</h2>
         </div>
         
     </div>
