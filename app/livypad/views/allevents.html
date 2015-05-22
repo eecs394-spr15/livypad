@@ -38,11 +38,13 @@
             <h2> <b>Time:</b> {{pEvent.start.dateTime}} to {{pEvent.end.dateTime}} </h2>
         </div>
 
-        <div class="button-bar" width=400 height=500>
-            <super-navigate location="livypad#addGCalEventToGCalAndLivyPad" data-params-id="{{pEvent}}">
-            <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
-            </super-navigate>
-        </div>
+        <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)">
+        Add to LivyPad
+        </button>
+            <!--<super-navigate location="livypad#addGCalEventToLivyPad" data-params-id="{{pEvent}}">
+            <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button button-block super-checkmark-round button-assertive"> Add to Livypad</button>
+            </super-navigate>-->
+        
 
       </div>
     </a>
@@ -63,12 +65,14 @@
              <h2> <b>Date: </b>{{uEvent.start.date}} </h2>
             <h2> <b>Time:</b> {{uEvent.start.dateTime}} to {{uEvent.end.dateTime}} </h2>
         </div>
-
-        <div class="button-bar" width=400 height=500>
+        <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(uEvent.summary, uEvent.location, uEvent.start.dateTime, uEvent.end.dateTime)">
+        Add to LivyPad
+        </button>
+        <!--<div class="button-bar" width=400 height=500>
             <super-navigate location="livypad#addGCalEventToGCalAndLivyPad" data-params-id="{{uEvent.summary}}">
             <button ng-click="scheduleAppointmentFromGCal(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)" class="button icon-left super-checkmark-round button-assertive"> Add to Livypad</button>
             </super-navigate>
-        </div>
+        </div>-->
 
       </div>
     </a>

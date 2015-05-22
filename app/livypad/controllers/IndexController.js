@@ -486,9 +486,11 @@ livypad.controller("IndexController", function($scope,supersonic){
 	}
 
 	$scope.scheduleAppointment = function(appointmentName,famMember){
-		alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
-		var view = new supersonic.ui.View("livypad#addEventToGCalAndLivyPad");
-		supersonic.ui.layers.push(view);
+		//alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
+		var famMemberID = famMember.id;
+		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID}}; 
+		var view = new supersonic.ui.View("livypad#addRecommendedEventToGCalandLivyPad");
+		supersonic.ui.layers.push(view,myParams);
 	}
 
 	$scope.ignoreReccomendation = function(appointmentID, famMember){
