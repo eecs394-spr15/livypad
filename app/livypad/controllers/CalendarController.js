@@ -9,19 +9,10 @@ livypad.controller("CalendarController", function($scope,supersonic){
         var Doctor = Parse.Object.extend("Doctor");
 
         $scope.ScheduledAppointment = [];
-	var scheduledQuery = new Parse.Query(ScheduledAppointment);
-	scheduledQuery.find().then(function (results){
-			results.forEach(function(result){
-			   $scope.ScheduledAppointment.push({
-			       date:result.get("dateScheduled"),
-			       name:result.get("name")
-			   });
-			
-			});
-	});
-	 var myCalendar = new JEC('myCalendarContainer',{
-     		tableClass: 'styledCalendar'
-     
+	var myCalendar = new JEC('myCalendarContainer',{
+     		tableClass: 'styledCalendar',
+    		firstMonth: 201205,
+		lastMonth: 201605
     	 });
      
      /*myCalendar.defineEvents([
@@ -37,16 +28,31 @@ livypad.controller("CalendarController", function($scope,supersonic){
        }
      ]);
      */
-     	angular.forEach($scope.ScheduledAppointment, function(value, key){
-		myCalendar.defineEvents([
-		{
-		  eventDate: 20150519,
-		  eventDescription: 'test'
-		}
-		]);
-	
+        $scope.defineEvents = function(date, description){
+       	myCalendar.defineEvents([
+	{
+		eventDate: date,
+		eventDescription: description,
+		eventLink: 'http://www.hhs.gov'
+	}
+	]);
+       
+       };
+       $scope.defineEvents("20120520", "today");
+	var scheduledQuery = new Parse.Query(ScheduledAppointment);
+	scheduledQuery.find().then(function (results){
+			results.forEach(function(result){
+			   $scope.ScheduledAppointment.push({
+			       date:result.get("dateScheduled"),
+			       name:result.get("name")
+			   });
+			   //alert(result.get("name"));
+			   $scope.defineEvents(result.get("date"),result.get("name"));
+			   
+			});
+
 	});
-     	myCalendar.showCalendar();
+	myCalendar.showCalendar();
 
 
 	//getting list of family members
