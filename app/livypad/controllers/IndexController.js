@@ -265,6 +265,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 	$scope.allScheduledAppointmentList = [];
 	$scope.listOfFamMemberExistingAppointments = [];
 	$scope.allFamilyMembers = [];
+	$scope.sorted = [];
 
 	loadFamilyData();
 	function loadFamilyData(){	
@@ -297,7 +298,9 @@ livypad.controller("IndexController", function($scope,supersonic){
 										  percent: percentage,
 
 										});
+			    		$scope.sorted = $scope.allFamilyMembers.sort(compare);
   					});
+
 			    });
 			    
 			}); 
@@ -305,6 +308,14 @@ livypad.controller("IndexController", function($scope,supersonic){
 		
   		});
   	};
+
+  	   function compare(a,b) {
+	  if (a.name < b.name)
+	    return -1;
+	  if (a.name > b.name)
+	    return 1;
+	  return 0;
+	}
 
   	function loadFamilyMemberExistingAppointments(famMember){
   		return new Promise(function(resolve, reject) {
