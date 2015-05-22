@@ -65,28 +65,19 @@ livypad.controller("PersonController", function($scope,supersonic){
 	// Query the family members of current user
 
 	$scope.members = {};
+	$scope.scheduledAppointments = [];
+	$scope.memberIcon = "";
 	
 	function loadFamilyMember(){
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
   		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
   			familyMemberResults.forEach(function(famMember){
   				if (famMember.id == $scope.myFamMember){
-  				var scheduled = famMember.relation("scheduledAppointments");
-  				scheduled.query().find().then(function(scheduledResults){
-  				var numScheduled = scheduledResults.length;
-
-				var suggested = famMember.relation("suggestedAppointments");
-  				suggested.query().find().then(function(suggestedResults){
-  				var numSuggested = suggestedResults.length;
-	  			$scope.members = { 	  	  id : famMember.id,
-										  name: famMember.get("Name"),
-										  icon: famMember.get("icon").url(),
-										  dateOfBirth: famMember.get("dateOfBirth"),
-										  gender: famMember.get("gender"),
-										  scheduled: scheduledResults,
-										  suggested: suggestedResults,
-										};
-  				});
+					loadFamilyMemberSuggestedAppointments(famMember);
+  					var scheduled = famMember.relation("scheduledAppointments");
+  					scheduled.query().find().then(function(scheduledResults){
+  					$scope.scheduledAppointments = scheduledResults;
+  					$scope.memberIcon = famMember.get("icon").url();
   				});
   				}
   			});
@@ -205,7 +196,6 @@ livypad.controller("PersonController", function($scope,supersonic){
 	$scope.allScheduledAppointmentList = [];
 	$scope.listOfFamMemberExistingAppointments = [];
 
-	loadFamilyData();
 	function loadFamilyData(){	
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
   		allFamilyMemberRelations.query().find().then(function(familyMemberResults){

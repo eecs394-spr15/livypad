@@ -6,7 +6,7 @@
   </super-navbar>
 
     <div class="item item-thumbnail-left">
-      <img src="{{members.icon}}">
+      <img src="{{memberIcon}}">
 
       <div class="list list-inset">
          <label class="item item-input">
@@ -21,9 +21,12 @@
   		Upcoming Visits
   	</div>
   	
-    <div ng-repeat="scheduledAppointment in members.scheduled" class="list card" >
-        <div class="item">
-            <h2> <b>Description: </b>{{scheduledAppointment}}</h2>   
+    <div ng-repeat="scheduledAppointment in scheduledAppointments" class="list card">
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{scheduledAppointment.get("name")}}</h2>
+            <h2> <b>Doctor: </b>{{scheduledAppointment.get("doctor")}}</h2>
+            <h2> <b>Location: </b>{{scheduledAppointment.get("location")}}</h2>
+            <h2> <b>Date: </b>{{scheduledAppointment.get("dateScheduled")}}</h2>
         </div>
 
     </div>
@@ -42,9 +45,13 @@
   		Recommended Visits
   	</div>
   	
-    <div ng-repeat="suggestedAppointment in members.suggested" class="list card" >
-        <div class="item">
-            <h2> <b>Description: </b>{{suggestedAppointment}}</h2>   
+    <div ng-repeat="suggestedAppointment in suggestedAppointmentList" class="list card" >
+        <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{suggestedAppointment.appointmentName}}</h2>
+            <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
+            <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
+            <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
+            <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2>    
         </div>
 
         <div class="button-bar" width=400 height=500>
