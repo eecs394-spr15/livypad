@@ -1,0 +1,64 @@
+<div ng-controller="CalendarController">
+	<super-navbar>
+		<super-navbar-title>
+			Schedule Recommended Event
+		</super-navbar-title>
+	</super-navbar>
+
+
+	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
+	</script>
+
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Appointment Name</span>
+		<input value="{{newAppointmentName}}"type="text" id="summary"/>
+	</label>
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Location</span>
+		<input type="text" id="Location"/>
+	</label>
+
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Family Member:</span>
+			<select ng-model="famMemberToAddToForRecommended" ng-options="famMember.famMemberID as famMember.name for famMember in familyMembersList"></select>
+		</select>
+	</label>
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Doctor</span>
+		<input type="text" id="doctor"/>
+	</label>
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Date</span>
+		<input type="date" id="date"/> <!--try datetime-local ... doesn't work with gcal though -->
+	</label>
+
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Start Time</span>
+		<input type="time" id="startTime"/>
+	</label>
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">End Time</span>
+		<input type="time" id="endTime"/>
+	</label>
+	
+
+
+	<button id="post" class="button button-block button-assertive" ng-click="addRecommendedEventToGCalAndLivyPad()">
+		Add New Appointment to GCal and LivyPad
+	</button>
+
+	<div ng-hide="cal">
+	       <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>
+	</div>
+
+</div>
+ 	
+
+
+
+

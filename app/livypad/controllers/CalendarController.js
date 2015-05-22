@@ -63,7 +63,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
         supersonic.ui.views.current.params.onValue(function(values){
              //for when scheduling from suggested
             $scope.newAppointmentName = values.newAppointmentName;
-            $scope.famMemberToAddTo = values.famMemberToAddTo;
+            $scope.famMemberToAddToForRecommended = values.famMemberToAddToForRecommended;
              //for when adding GCal event to Livypad
             $scope.eventSummary = values.eventSummary;
             $scope.eventLocation = values.eventLocation;
@@ -74,7 +74,9 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
 
         allFamilyMemberRelations.query().find().then(function(familyMemberResults){
-            $scope.firstMemberOfFamily = familyMemberResults[0].id;
+            //initializing forms for adding events
+            $scope.familyMemberToAddTo = familyMemberResults[0].id;
+            $scope.famMemberToAddTo = familyMemberResults[0].id;
             familyMemberResults.forEach(function(famMember){
                 $scope.familyMembersList.push({name: famMember.get("Name"),
                                                 famMember:famMember,
@@ -271,6 +273,70 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 // error is a Parse.Error with an error code and message.
               }
             });
+        };
+
+        $scope.addRecommendedEventToGCalAndLivyPad = function(){
+            var summary = document.getElementById("summary").value;
+            var location = document.getElementById("Location").value;
+            var dateTime = document.getElementById("date").value;
+            var doctor = document.getElementById("doctor").value;
+            var startTime = document.getElementById("startTime").value;
+            var endTime = document.getElementById("endTime").value;
+            var currentDate = new Date();
+            var offset = currentDate.getTimezoneOffset() / 60;
+            /*alert(dateTime);
+            alert(startTime);
+            alert(endTime);
+            alert("offset:" + offset);*/
+            var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
+            var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
+
+            var dateObject = new Date(startDateTime);
+            //alert("month: " +dateObject.getMonth());
+            //alert($scope.famMemberToAddTo);
+            var resource = {
+                "summary": summary,
+                "location": location,
+                "start": {
+                    "dateTime": startDateTime
+                },
+                "end": {
+                    "dateTime": endDateTime
+                }
+            };
+            
+            var request = gapi.client.calendar.events.insert({
+                    'calendarId': 'primary',
+                    'resource': resource
+                    });
+            request.execute(function(resp) {
+                    alert("successfully added into your calendar!");
+                    
+                    });
+
+            var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
+            queryFamMemberToAddTo.get($scope.famMemberToAddToForRecommended, {
+              success: function(famMember) {
+                //alert(famMember.get("Name"));
+                var newAppointment = new ScheduledAppointment();
+                newAppointment.set("name", summary);
+                newAppointment.set("doctor", doctor);
+                newAppointment.set("location", location);
+                newAppointment.set("dateScheduled", dateObject);
+                var scheduledAppointmentRelation = newAppointment.relation("familyMember");           
+                scheduledAppointmentRelation.add(famMember);
+                var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");  
+                newAppointment.save().then(function(newAppointment) {
+                    famMemberScheduledAppointmentRelation.add(newAppointment);
+                    famMember.save();
+                });
+              },
+              error: function(object, error) {
+                // The object was not retrieved successfully.
+                // error is a Parse.Error with an error code and message.
+              }
+            });
+            
         };
 
 
