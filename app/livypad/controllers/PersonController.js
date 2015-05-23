@@ -20,7 +20,6 @@ livypad.controller("PersonController", function($scope,supersonic){
 	}
 		
 	var currentUser = Parse.User.current();
-	var queryFamMember = new Parse.Query(ScheduledAppointment);
 
 	// load data for family member
 	var queryFamMember = new Parse.Query(FamilyMember);
@@ -38,32 +37,6 @@ livypad.controller("PersonController", function($scope,supersonic){
 	        // error is a Parse.Error with an error code and message.
 	      }
 	    });
-
-		
-	// Query all the icons
-	$scope.icons = [];
-	$scope.icons.push({ url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Dad.png",
-						name: "dad"});
-	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Boy.png",
-						name: "boy"
-						});
-	$scope.icons.push({	url: src="https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Mom.png",
-						name: "mom"});
-	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Girl.png",
-						name: "girl_1"});
-	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Girl2.png",
-						name: "girl_2"});
-	$scope.icons.push({	url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Grandma.png",
-						name: "grandma"});
-	$scope.icons.push({ url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Dog.png",
-						name: "dog"});
-
-	$scope.urlPass = ""
-	$scope.getIconTitle = function(url){
-		alert("Icon selected! Click Add Member to save.");
-		$scope.urlPass = url;
-		
-	}
 
 
 	//Code for extracting scheduled and suggested appointments
