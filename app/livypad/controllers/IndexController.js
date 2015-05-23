@@ -102,8 +102,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 		});
 	}
 
-	// Query the family members of current user
-
+	// Redundant Code to be deleted???? /////////////////
+	/*
 	$scope.members = [];
 	$scope.allScheduledApps = [];
 	
@@ -128,7 +128,7 @@ livypad.controller("IndexController", function($scope,supersonic){
   			//alert($scope.members.length);
   		});
 	};
-	loadFamilyMember();
+	loadFamilyMember();*/
 
 	// Query all the icons
 	$scope.icons = [];
@@ -171,22 +171,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 	}
 
 	
-	// CODE FOR MANUALLY ADDING FAMILY MEMBERS + RELATIONS , TO DELETE LATER // 
-		
-		/*var query = new Parse.Query(FamilyMember);
-		query.get("n43SZ2EUg1", {
-		  success: function(familyMember) {
-		   // alert(familyMember.id);
-		   	familyRelations.add(familyMember);
-		   	currentUser.save();
-		  },
-		  error: function(object, error) {
-		  	alert("could not add family member");
-		  }
-		});*/
-
-	// END CODE TO MANUALLY ADD FAM MEMBERS + RELATIONS ////////////////////////
-
 	//Add a family member
 	$scope.addFamilyMember = function(){
 		var familyRelations = currentUser.relation("familyMember");
@@ -196,7 +180,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 		familyMember.set("dateOfBirth", $scope.newMember.birthdate);
 		familyMember.set("gender", $scope.newMember.gender);
 		familyMember.set("iconID", $scope.urlPass);
-		
+		familyMember.set("ignoredAppointments", []);
 
 		familyMember.save().then(function(familyMember) {
 				familyRelations.add(familyMember);
@@ -291,7 +275,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 		});
 	}
 
-	//Code for extracting scheduled and suggested appointments
+	//LOADING scheduled and suggested appointments DATA FOR WHOLE FAMILY....On Initial load///////////////////////////////////////////////
 
 
 	$scope.suggestedAppointmentList = [];
@@ -358,15 +342,16 @@ livypad.controller("IndexController", function($scope,supersonic){
 				//alert("infunc" + $scope.numExistingAppointments);
 				resolve(scheduledAppointmentResults.length);
 				scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
-					listOfFamMemberExistingAppointments.push(famMemberScheduledAppointment.get("name"));
+					$scope.listOfFamMemberExistingAppointments.push(famMemberScheduledAppointment.get("name"));
 					//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
 					$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 													   doctor : famMemberScheduledAppointment.get("doctor"),
 													   location : famMemberScheduledAppointment.get("location"),
 													   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 													   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
-													   nameOfFamilyMember : famMember.get("name"),
+													   nameOfFamilyMember : famMember.get("Name"),
 													});
+					
 				});
 				
 			});

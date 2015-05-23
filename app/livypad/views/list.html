@@ -34,14 +34,14 @@
   		Upcoming Visits
   	</div>
   	
-    <div ng-repeat="scheduledAppointment in allScheduledApps|filter:keyword" class="list card">
+    <div ng-repeat="scheduledAppointment in allScheduledAppointmentList|filter:keyword" class="list card">
 
         <div class="item item-text-wrap">
-            <h2> <b>Description: </b>{{scheduledAppointment.results.get("name")}}</h2>
-        	<h2> <b>For: </b>{{scheduledAppointment.name}}</h2>
-            <h2> <b>Doctor: </b>{{scheduledAppointment.results.get("doctor")}}</h2>
-            <h2> <b>Location: </b>{{scheduledAppointment.results.get("location")}}</h2>
-            <h2> <b>Date: </b>{{scheduledAppointment.results.get("dateScheduled") | date: "yyyy-MM-dd"}}</h2>
+            <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
+        	<h2> <b>For: </b>{{scheduledAppointment.nameOfFamilyMember}}</h2>
+            <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
+            <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
+            <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
         </div>
         
     </div>
