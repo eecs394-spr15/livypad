@@ -17,35 +17,35 @@
       
    </div>
 
-  	<div class="item item-divider" style="text-align: center">
-  		Upcoming Visits
-  	</div>
-  	
-    <div ng-repeat="scheduledAppointment in scheduledAppointments|filter:keyword" class="list card">
+    <div class="item item-divider" style="text-align: center">
+      Upcoming Visits
+    </div>
+    
+    <div ng-repeat="scheduledAppointment in famMemberScheduledAppointmentList" class="list card">
         <div class="item item-text-wrap">
-            <h2> <b>Description: </b>{{scheduledAppointment.get("name")}}</h2>
-            <h2> <b>Doctor: </b>{{scheduledAppointment.get("doctor")}}</h2>
-            <h2> <b>Location: </b>{{scheduledAppointment.get("location")}}</h2>
-            <h2> <b>Date: </b>{{scheduledAppointment.get("dateScheduled") | date: "yyyy-MM-dd"}}</h2>
+            <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
+            <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
+            <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
+            <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
         </div>
 
     </div>
     
-<!--  	<div class="list card">
-  		<super-navigate location="" data-params-id="">
-  			<div class="item">
-  				<h2 style="text-align: center"></h2>
-        		<p style="text-align: center">{{members.suggested}}</p>
-        		<p style="text-align: center">Location: #####</p>
-  			</div>
-  		</super-navigate>
-  	</div>  -->
-  	
-	<div class="item item-divider" style="text-align: center">
-  		Recommended Visits
-  	</div>
-  	
-    <div ng-repeat="suggestedAppointment in suggestedAppointmentList|filter:keyword" class="list card" >
+<!--    <div class="list card">
+      <super-navigate location="" data-params-id="">
+        <div class="item">
+          <h2 style="text-align: center"></h2>
+            <p style="text-align: center">{{members.suggested}}</p>
+            <p style="text-align: center">Location: #####</p>
+        </div>
+      </super-navigate>
+    </div>  -->
+    
+  <div class="item item-divider" style="text-align: center">
+      Recommended Visits
+    </div>
+    
+    <div ng-repeat="suggestedAppointment in famMemberSuggestedAppointmentList" class="list card" >
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.appointmentName}}</h2>
             <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
