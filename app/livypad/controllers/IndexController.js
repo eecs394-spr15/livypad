@@ -367,7 +367,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 														   nameOfFamilyMember : famMember.get("Name"),
 														   famMemberID : famMember.id,
 														});
-					
+
 					if (dateLastScheduled >currentDate){
 						//filling in the all scheduled appointment list
 						counter ++;
@@ -460,8 +460,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 								dateLastScheduled = mostRecentScheduledDate.toDateString();
 					        }
 					        //alert(" here! " + recommendedNextDate);
-					        break;
 					    }
+					   // break;
 					}
 
 					//calculating days left till you should have a next appointment...
@@ -483,7 +483,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 					//test for relevant appointments, maybe check if days left < 30? for more pressing appointments...
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
 				  		&& (gender==relevantGender || relevantGender == "all")
-				  		&& (existingAppointmentMarker == -1 || mostRecentScheduledDate < currentDate) //either the appointment does not exist or the existing appointment has passed
+				  		&& (existingAppointmentMarker == -1 || mostRecentScheduledDate < currentDate) //the appointment does not exist and the most recent existing appointment has passed //
 				  		&& ignoredAppointmentMarker == -1)
 				  	{
 				  		counter += 1; //keeping track of number, for later use.
