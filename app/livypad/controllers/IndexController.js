@@ -44,8 +44,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 		location.reload();
 	}
 
-	// Preliminary Log in Functionality, mostly for testing
 
+	//USER FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////
 		
 	var currentUser = Parse.User.current();
 
@@ -289,6 +289,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 		  }
 		});
 	}
+
+
 
 	//LOADING scheduled and suggested appointments DATA FOR WHOLE FAMILY....On Initial load///////////////////////////////////////////////
 
@@ -545,6 +547,10 @@ livypad.controller("IndexController", function($scope,supersonic){
 		return formattedString;
 	}
 
+
+	//FUNCTIONS FOR RECOMMENDED VISITS ///////////////////////////////////////////////////////
+
+	//Scheduling new recommended appointment 
 	$scope.scheduleRecommendedAppointment = function(appointmentName,famMember,frequency){
 		//alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
 		var famMemberID = famMember.id;
@@ -553,10 +559,48 @@ livypad.controller("IndexController", function($scope,supersonic){
 		supersonic.ui.layers.push(view,myParams);
 	}
 
+	//ignoring recommendation
 	$scope.ignoreReccomendation = function(appointmentID, famMember){
 		alert("ignored this appointment");
 		famMember.addUnique("ignoredAppointments", {appointmentID: appointmentID, ignoredDate: new Date()});
 		famMember.save();
+	}
+
+	//FUNCTIONS FOR ADDING CUSTOM RECOMMENDED VISIT ///////////////////////////////////////////////////////
+
+	//initializing
+	$scope.newUserAddedRecommendation= {"category":"screen", "frequency" : 0, "lower":0, "upper":130, "specialOne":0, "specialTwo":0,"relevantGender":"male"} ;
+
+	$scope.addNewRecommendedVisit = function (){
+		var arrayOfSpecialAges = [];
+		if ($scope.newUserAddedRecommendation.specialOne != 0){
+			arrayOfSpecialAges.push($scope.newUserAddedRecommendation.specialOne * 12);
+		}
+		if ($scope.newUserAddedRecommendation.specialTwo != 0){
+			arrayOfSpecialAges.push($scope.newUserAddedRecommendation.specialTwo * 12);
+		}
+		var suggestedFrequency = $scope.newUserAddedRecommendation.frequency * 12;
+		var lowerBoundMonths = $scope.newUserAddedRecommendation.lower * 12;
+		var upperBoundMonths = $scope.newUserAddedRecommendation.upper * 12;
+
+		var newSuggestedAppointment = new SuggestedAppointment();
+        newSuggestedAppointment.set("name", $scope.newUserAddedRecommendation.newTitle);
+        newSuggestedAppointment.set("type", $scope.newUserAddedRecommendation.category);
+        newSuggestedAppointment.set("frequency", suggestedFrequency);
+        newSuggestedAppointment.set("relevantAgeGroup", [lowerBoundMonths,upperBoundMonths]);
+        newSuggestedAppointment.set("specialAges", arrayOfSpecialAges);
+        newSuggestedAppointment.set("relevantGender", $scope.newUserAddedRecommendation.relevantGender);
+    	newSuggestedAppointment.set("author", currentUser.id);
+
+        newSuggestedAppointment.save(null, {
+		  success: function(newSuggestedAppointment) {
+		    alert('Successfully created custom recommended visit!');
+		  },
+		  error: function(newSuggestedAppointment, error) {
+		    alert('Failed to create new custom recommended visit, with error code: ' + error.message);
+		  }
+		});
+     
 	}
 
 });

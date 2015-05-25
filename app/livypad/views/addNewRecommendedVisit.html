@@ -7,38 +7,122 @@
 
   <label class="item item-input item-stacked-label">
       <span class="input-label">Visit Description: </span>
-      <input type="text" ng-model="newUserAddedRecommendation.description"/>
+      <input type="text" ng-model="newUserAddedRecommendation.newTitle" required/>
   </label>
   
+  <form>
+  	<label class="item item-input item-stacked-label">
+	      <span class="input-label">Category:</span> 
+	      <div class="list">
+
+		  <label class="item item-radio">
+		    <input type="radio" name="category" ng-model="newUserAddedRecommendation.category" value="screen" >
+		    <div class="item-content">
+		      Screening
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+
+		  <label class="item item-radio">
+		    <input type="radio" name="category" ng-model="newUserAddedRecommendation.category" value="immunization" >
+		    <div class="item-content">
+		      Immunization
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+
+		  <label class="item item-radio">
+		    <input type="radio" name="category" ng-model="newUserAddedRecommendation.category" value="check-up" >
+		    <div class="item-content">
+		      Check-up
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+
+		  <label class="item item-radio">
+		    <input type="radio" name="category" ng-model="newUserAddedRecommendation.category" value="test" >
+		    <div class="item-content">
+		      Test
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+
+		  <label class="item item-radio">
+		    <input type="radio" name="category" ng-model="newUserAddedRecommendation.category" value="other" >
+		    <div class="item-content">
+		      Other
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+		</div>
+	  	</label>
+	</form>
+
   <label class="item item-input item-stacked-label">
-      <span class="input-label">Category:</span>  
-      <input type="text" ng-model="newUserAddedRecommendation.category"/>
+      <span class="input-label">Recommended Frequency (in years):</span>  
+      <input type="number" min="0" max="130" ng-model="newUserAddedRecommendation.frequency" required/>
   </label>
 
   <label class="item item-input item-stacked-label">
-      <span class="input-label">Frequency (in months):</span>  
-      <input type="text" ng-model="newUserAddedRecommendation.frequency"/>
+      <span class="input-label">Lower bound of age range (in years):</span>  
+     	<input type="number" min="0" max="130" ng-model="newUserAddedRecommendation.lower" required/>
   </label>
 
   <label class="item item-input item-stacked-label">
-      <span class="input-label">lower bound of age range (in months):</span>  
-      <input type="text" ng-model="newUserAddedRecommendation.lowerbound"/>
+      <span class="input-label">Upper bound of age range (in years):</span>  
+      <input type="number" min="0" max="130"  ng-model="newUserAddedRecommendation.upper" required/>
   </label>
 
   <label class="item item-input item-stacked-label">
-      <span class="input-label">upper bound of age range (in months):</span>  
-      <input type="text" ng-model="newUserAddedRecommendation.upper"/>
+      <span class="input-label">Special age 1 (in years) - optional:</span>  
+      <input type="number" min="0" max="130" ng-model="newUserAddedRecommendation.specialOne"/>
   </label>
 
   <label class="item item-input item-stacked-label">
-      <span class="input-label">special ages (in months):</span>  
-      <input type="text" ng-model="newUserAddedRecommendation.special"/>
+      <span class="input-label">Special age 2 (in years) - optional:</span>  
+      <input type="number" min="0" max="130" ng-model="newUserAddedRecommendation.specialTwo"/>
   </label>
 
+<form>
   <label class="item item-input item-stacked-label">
-      <span class="input-label">Relevant Gender:</span>  
-      <input type="text" ng-model="newUserAddedRecommendation.relevantGender"/>
+      <span class="input-label">Relevant Gender:</span>
+
+      <div class="list">
+
+		  <label class="item item-radio">
+		    <input type="radio" name="relevantGender" ng-model="newUserAddedRecommendation.relevantGender" value="male" >
+		    <div class="item-content">
+		      Male
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+
+		  <label class="item item-radio">
+		    <input type="radio" name="relevantGender" ng-model="newUserAddedRecommendation.relevantGender" value="female" >
+		    <div class="item-content">
+		      Female
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+
+		  <label class="item item-radio">
+		    <input type="radio" name="relevantGender" ng-model="newUserAddedRecommendation.relevantGender" value="all" >
+		    <div class="item-content">
+		      Both Genders
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+
+		  <label class="item item-radio">
+		    <input type="radio" name="relevantGender" ng-model="newUserAddedRecommendation.relevantGender" value="animal" >
+		    <div class="item-content">
+		      Animal
+		    </div>
+		    <i class="radio-icon super-checkmark"></i>
+		  </label>
+		</div>
   </label>
+</form>
 
   <br>
   <div class="button-bar"  width=400 height=500>
