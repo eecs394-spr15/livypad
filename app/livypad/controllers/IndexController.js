@@ -395,15 +395,29 @@ livypad.controller("IndexController", function($scope,supersonic){
 					var padding = 2; //adding padding to the months
 					lowerBound = Math.max(0,lowerBound); //ruling out negative numbers
 					
-					//test to see if appointment already exists, by name
-					//var existingAppointmentMarker = $scope.listOfFamMemberExistingAppointments.indexOf(nameOfSuggestedAppointment);
-					//test to see if user chose to ignore appointment for this fam member
-					var ignoredAppointmentMarker = appointmentsToIgnore.indexOf(famMemberSuggestedAppointment.id);
 					//check to see if age is among special ages
 					var specialAgeMarker = specialAgeArray.indexOf(ageInMonths);
+					
+					var currentDate = new Date();
+
+					//test to see if user chose to ignore appointment for this fam member. The last ignored date must be within the same year for it to count
+					//var ignoredAppointmentMarker = appointmentsToIgnore.indexOf(famMemberSuggestedAppointment.id);
+					var searchTermIgnore = famMemberSuggestedAppointment.id;
+					var ignoredAppointmentMarker = -1;
+					
+					for(var j = 0; j < appointmentsToIgnore.length; j++) {
+					    if (appointmentsToIgnore[j].appointmentID === searchTermIgnore && appointmentsToIgnore[j].ignoredDate.getFullYear() >= currentDate.getFullYear()) {
+					        ignoredAppointmentMarker = 1;
+					        //alert(" here! " + searchTermIgnore);
+					        break;
+					    }
+					}
+					
+
+					//test to see if appointment already exists, by name
+					//if appointment exists, check for next date...
 					var recommendedNextDate = new Date(0);
 					var currentDateScheduled = null;
-					//if appointment exists, check for next date...
 					var searchTerm = nameOfSuggestedAppointment;
 					var existingAppointmentMarker = -1;
 					for(var i = 0; i < $scope.allScheduledAppointmentList.length; i++) {
@@ -419,7 +433,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 					//calculating days left till you should have a next appointment...
 					var recommendation = "";
 					var daysLeft = 0;
-					var currentDate = new Date();
+					
 					if (recommendedNextDate.getFullYear() > 1971){ //this happens if there is a valid recommended next date
 						var _MS_PER_DAY = 1000 * 60 * 60 * 24;
 						var utc1 = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
@@ -430,6 +444,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 					} else {
 						recommendation = "no information about prior appointment";
 					}
+
 
 					//test for relevant appointments, maybe check if days left < 30? for more pressing appointments...
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
@@ -516,7 +531,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	$scope.ignoreReccomendation = function(appointmentID, famMember){
 		alert("ignored this appointment");
-		famMember.addUnique("ignoredAppointments", appointmentID);
+		famMember.addUnique("ignoredAppointments", {appointmentID: appointmentID, ignoredDate: new Date()});
 		famMember.save();
 	}
 
