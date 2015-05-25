@@ -58,11 +58,11 @@
             <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
             <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
             <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
-            <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2>    
+            <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2> 
         </div>
 
         <div class="button-bar" width=400 height=500>
-          <button ng-click="scheduleAppointment(suggestedAppointment.appointmentName, suggestedAppointment.famMember)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
+          <button ng-click="scheduleRecommendedAppointment(suggestedAppointment.appointmentName, suggestedAppointment.famMember,suggestedAppointment.frequencyNum)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
           
           <button ng-click="ignoreReccomendation(suggestedAppointment.appointmentID, suggestedAppointment.famMember)" class="button icon-left super-close-round button-assertive"> Ignore </button>
         </div>

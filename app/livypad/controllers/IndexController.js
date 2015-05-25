@@ -422,7 +422,9 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 				  		var frequencyString = "";
 				  		if (frequency == 0){
-				  			frequencyString = "consult your doctor"
+				  			frequencyString = "consult your doctor";
+				  		}else if (frequency ==12) {
+				  			frequencyString = "yearly";
 				  		}else{
 				  			frequencyString = "once every " + formatMonthsToString(frequency);
 				  		};
@@ -437,9 +439,11 @@ livypad.controller("IndexController", function($scope,supersonic){
 															 	upperBound : upperBoundAgeString,
 																keyAges: keyAgeString,
 																frequency: frequencyString,
+																frequencyNum : frequency,
 															});
 
 						var famMemberSuggestedAppointmentRelation = famMember.relation("suggestedAppointments");
+						//maybe clear all relations first?
 						famMemberSuggestedAppointmentRelation.add(famMemberSuggestedAppointment);
 						famMember.save();	
 				  	};
@@ -470,10 +474,10 @@ livypad.controller("IndexController", function($scope,supersonic){
 		return formattedString;
 	}
 
-	$scope.scheduleAppointment = function(appointmentName,famMember){
+	$scope.scheduleRecommendedAppointment = function(appointmentName,famMember,frequency){
 		//alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
 		var famMemberID = famMember.id;
-		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID}}; 
+		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID, recommendedFrequency:frequency}}; 
 		var view = new supersonic.ui.View("livypad#addRecommendedEventToGCalandLivyPad");
 		supersonic.ui.layers.push(view,myParams);
 	}

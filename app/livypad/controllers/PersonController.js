@@ -127,10 +127,10 @@ livypad.controller("PersonController", function($scope,supersonic){
 		return formattedString;
 	}
 	///THIS NEEDS TO BE IN THE PERSON CONTROLLER AS WELL!!
-	$scope.scheduleAppointment = function(appointmentName,famMember){
+	$scope.scheduleRecommendedAppointment = function(appointmentName,famMember,frequency){
 		//alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
 		var famMemberID = famMember.id;
-		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID}}; 
+		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID,recommendedFrequency:frequency}}; 
 		var view = new supersonic.ui.View("livypad#addRecommendedEventToGCalandLivyPad");
 		supersonic.ui.layers.push(view,myParams);
 	}
