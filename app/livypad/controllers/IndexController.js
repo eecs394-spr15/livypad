@@ -295,7 +295,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	$scope.suggestedAppointmentList = [];
 	$scope.allScheduledAppointmentList = [];
-	$scope.listOfFamMemberExistingAppointments = [];
 	$scope.allFamilyMembers = [];
 	$scope.sorted = [];
 
@@ -304,9 +303,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
   		allFamilyMemberRelations.query().find().then(function(familyMemberResults){
   			familyMemberResults.forEach(function(famMember){
-
-			    //Resetting listOfFamMemberExistingAppointments since it's only for each member, not the whole fam
-			    $scope.listOfFamMemberExistingAppointments = []; //resetting array to blank.
 
 			    //preparing to exclude existing appointments, also filling in the scheduled appointment list at the same time.
 			    loadFamilyMemberExistingAppointments(famMember).then(function(result){ //NEED TO ensure this finishes populating before you call the next function! It won't break but it relies on this being filled to filter out appointments that don't exist yet.
@@ -355,22 +351,26 @@ livypad.controller("IndexController", function($scope,supersonic){
 			famMemberScheduledAppointmentRelation.query().find().then(function(scheduledAppointmentResults){
 				$scope.numExistingAppointments=scheduledAppointmentResults.length;
 				//alert("infunc" + $scope.numExistingAppointments);
-				resolve(scheduledAppointmentResults.length);
+				var counter = 0;
 				scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
-					$scope.listOfFamMemberExistingAppointments.push({nameOfScheduledAppointment: famMemberScheduledAppointment.get("name"),
-																		recommendedNextDate: famMemberScheduledAppointment.get("recommendedNextDate")});
-					//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
-					$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
-													   doctor : famMemberScheduledAppointment.get("doctor"),
-													   location : famMemberScheduledAppointment.get("location"),
-													   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
-													   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
-													   nameOfFamilyMember : famMember.get("Name"),
-													   famMemberID : famMember.id,
-													});
-					
+					var dateLastScheduled = famMemberScheduledAppointment.get("dateScheduled");
+					var currentDate = new Date();
+					//test to see if the appointment is in the future, if so, add it, else, don't.
+
+					if (dateLastScheduled >currentDate){
+						//filling in the all scheduled appointment list
+						counter ++;
+						$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
+														   doctor : famMemberScheduledAppointment.get("doctor"),
+														   location : famMemberScheduledAppointment.get("location"),
+														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
+														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
+														   nameOfFamilyMember : famMember.get("Name"),
+														   famMemberID : famMember.id,
+														});
+					}
 				});
-				
+				resolve(counter);
 			});
 			
 		});
@@ -435,11 +435,17 @@ livypad.controller("IndexController", function($scope,supersonic){
 					var currentDateScheduled = null;
 					var searchTerm = nameOfSuggestedAppointment;
 					var existingAppointmentMarker = -1;
+					var mostRecentScheduledDate = new Date(0); 
+					var dateLastScheduled = "no prior information";
 					for(var i = 0; i < $scope.allScheduledAppointmentList.length; i++) {
-					    if ($scope.allScheduledAppointmentList[i].nameOfAppointment === searchTerm && $scope.allScheduledAppointmentList[i].famMemberID === famMember.id) {
+					    if ($scope.allScheduledAppointmentList[i].nameOfAppointment.toLowerCase() === searchTerm.toLowerCase() && $scope.allScheduledAppointmentList[i].famMemberID === famMember.id) {
 					        existingAppointmentMarker = i;
 					        recommendedNextDate = $scope.allScheduledAppointmentList[i].recommendedNextDate;
 					        currentDateScheduled = $scope.allScheduledAppointmentList[i].dateScheduled;
+					        if (mostRecentScheduledDate < currentDateScheduled){
+					        	mostRecentScheduledDate = currentDateScheduled;
+								dateLastScheduled = mostRecentScheduledDate.toDateString();
+					        }
 					        //alert(" here! " + recommendedNextDate);
 					        break;
 					    }
@@ -457,14 +463,14 @@ livypad.controller("IndexController", function($scope,supersonic){
 						//alert("days left" + daysLeft + " for " + nameOfSuggestedAppointment + " for " + famMember.get("Name"));
 						recommendation = "schedule within the next " + daysLeft + " days! "; //also should see if it's negative, then you need to change the phrasing				
 					} else {
-						recommendation = "no information about prior appointment";
+						recommendation = "schedule it now!";
 					}
 
 
 					//test for relevant appointments, maybe check if days left < 30? for more pressing appointments...
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
 				  		&& (gender==relevantGender || relevantGender == "all")
-				  		&& (existingAppointmentMarker == -1 || currentDateScheduled < currentDate) //either the appointment does not exist or the existing appointment has passed
+				  		&& (existingAppointmentMarker == -1 || mostRecentScheduledDate < currentDate) //either the appointment does not exist or the existing appointment has passed
 				  		&& ignoredAppointmentMarker == -1)
 				  	{
 				  		counter += 1; //keeping track of number, for later use.
@@ -502,6 +508,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 																frequency: frequencyString,
 																frequencyNum: frequency,
 																recommendedNextDate : recommendation,
+																dateLastScheduled: dateLastScheduled,
 															});
 
 						var famMemberSuggestedAppointmentRelation = famMember.relation("suggestedAppointments");
