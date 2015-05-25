@@ -15,6 +15,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 	//get the the parameter pased by previous page
 	supersonic.ui.views.current.params.onValue(function(values){
 		$scope.previewId = values.id;
+		$scope.individualFamMember = values.id;
+		loadIndividualFamilyMember();
 	})
 
 	//Example Queries
@@ -22,6 +24,19 @@ livypad.controller("IndexController", function($scope,supersonic){
 	//var queryScheduledAppointments = new Parse.Query(ScheduledAppointment);
 	//var querySuggestedAppointments = new Parse.Query(SuggestedAppointment);
 	//var queryFamilyMember = new Parse.Query(FamilyMember);
+	function loadIndividualFamilyMember(){
+		var queryIndividualFamMember = new Parse.Query(FamilyMember);
+
+		queryIndividualFamMember.get($scope.individualFamMember, {
+		      success: function(famMember) {
+		      	$scope.memberIcon = famMember.get("iconID");
+		      	$scope.individualFamMemberName = famMember.get("Name");
+		      },
+		      error: function(object, error) {
+		      	//alert("ERROR");
+		      }
+		    });
+	}
 
 	//Refresh functionality
 
@@ -478,7 +493,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  		 //Adding strings and information to scope
 				  		$scope.suggestedAppointmentList.push({  appointmentID : famMemberSuggestedAppointment.id,
 				  												famMember : famMember,
-				  												famMemberId: famMember.id,
+				  												famMemberID: famMember.id,
 				  												famMemberName: famMember.get("Name"), 
 															 	appointmentName: famMemberSuggestedAppointment.get("name"),
 															 	lowerBound : lowerBoundAgeString,

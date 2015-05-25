@@ -1,4 +1,4 @@
-<div ng-controller="PersonController">
+<div ng-controller="IndexController">
   <super-navbar>
     <super-navbar-title>
       livypad
@@ -21,16 +21,17 @@
       Upcoming Visits
     </div>
     
-    <div ng-repeat="scheduledAppointment in famMemberScheduledAppointmentList" class="list card">
+    
+    <div ng-repeat="scheduledAppointment in allScheduledAppointmentList | filter: {famMemberID:individualFamMember}" class="list card">
         <div class="item item-text-wrap">
-            <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
-            <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
-            <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
-            <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
+          <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
+          <h2> <b>For: </b>{{scheduledAppointment.nameOfFamilyMember}}</h2>
+          <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
+          <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
+          <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
         </div>
 
     </div>
-    
 <!--    <div class="list card">
       <super-navigate location="" data-params-id="">
         <div class="item">
@@ -45,13 +46,14 @@
       Recommended Visits
     </div>
     
-    <div ng-repeat="suggestedAppointment in famMemberSuggestedAppointmentList" class="list card" >
+    <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: {famMemberID:individualFamMember}" class="list card" >
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.appointmentName}}</h2>
             <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
             <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
             <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
-            <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2>    
+            <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2> 
+            <h2> <b>Recommendation: </b>{{suggestedAppointment.recommendedNextDate}}</h2>  
         </div>
 
         <div class="button-bar" width=400 height=500>

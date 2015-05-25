@@ -54,11 +54,11 @@
     <div ng-repeat="scheduledAppointment in allScheduledAppointmentList|filter:keyword" class="list card">
 
         <div class="item item-text-wrap">
-            <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
+          <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
         	<h2> <b>For: </b>{{scheduledAppointment.nameOfFamilyMember}}</h2>
-            <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
-            <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
-            <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
+          <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
+          <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
+          <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
         </div>
         
     </div>
@@ -76,7 +76,7 @@
             <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
             <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
             <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2> 
-             <h2> <b>Recommendation: </b>{{suggestedAppointment.recommendedNextDate}}</h2> 
+            <h2> <b>Recommendation: </b>{{suggestedAppointment.recommendedNextDate}}</h2> 
         </div>
 
         <div class="button-bar" width=400 height=500>
