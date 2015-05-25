@@ -444,20 +444,27 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 					//test to see if appointment already exists, by name
 					//if appointment exists, check for next date...
-					var recommendedNextDate = new Date(0);
-					var currentDateScheduled = null;
 					var searchTerm = nameOfSuggestedAppointment;
 					var existingAppointmentMarker = -1;
-					var mostRecentScheduledDate = new Date(0); 
+
+					var currentDateScheduled = null;
+					var recommendedNextDate = new Date(0);
+
+					var currentRecommendedDate = null;
+					var mostRecentScheduledDate = new Date(0);
+					 
 					var dateLastScheduled = "no prior information";
 					for(var i = 0; i < $scope.allScheduledAppointmentWithHistory.length; i++) {
 					    if ($scope.allScheduledAppointmentWithHistory[i].nameOfAppointment.toLowerCase() === searchTerm.toLowerCase() && $scope.allScheduledAppointmentWithHistory[i].famMemberID === famMember.id) {
 					        existingAppointmentMarker = i;
-					        recommendedNextDate = $scope.allScheduledAppointmentWithHistory[i].recommendedNextDate;
+					        currentRecommendedDate = $scope.allScheduledAppointmentWithHistory[i].recommendedNextDate;
 					        currentDateScheduled = $scope.allScheduledAppointmentWithHistory[i].dateScheduled;
 					        if (mostRecentScheduledDate < currentDateScheduled){
 					        	mostRecentScheduledDate = currentDateScheduled;
-								dateLastScheduled = mostRecentScheduledDate.toDateString();
+								dateLastScheduled = mostRecentScheduledDate.toDateString(); //picking the most recent date
+					        } 
+					        if (recommendedNextDate < currentRecommendedDate){
+					        	recommendedNextDate = currentRecommendedDate; // picking the latest recommendation,
 					        }
 					        //alert(" here! " + recommendedNextDate);
 					    }
