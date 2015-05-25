@@ -102,8 +102,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 		});
 	}
 
-	// Query the family members of current user
-
+	// Redundant Code to be deleted???? /////////////////
+	/*
 	$scope.members = [];
 	$scope.allScheduledApps = [];
 	
@@ -128,7 +128,7 @@ livypad.controller("IndexController", function($scope,supersonic){
   			//alert($scope.members.length);
   		});
 	};
-	loadFamilyMember();
+	loadFamilyMember();*/
 
 	// Query all the icons
 	$scope.icons = [];
@@ -171,22 +171,6 @@ livypad.controller("IndexController", function($scope,supersonic){
 	}
 
 	
-	// CODE FOR MANUALLY ADDING FAMILY MEMBERS + RELATIONS , TO DELETE LATER // 
-		
-		/*var query = new Parse.Query(FamilyMember);
-		query.get("n43SZ2EUg1", {
-		  success: function(familyMember) {
-		   // alert(familyMember.id);
-		   	familyRelations.add(familyMember);
-		   	currentUser.save();
-		  },
-		  error: function(object, error) {
-		  	alert("could not add family member");
-		  }
-		});*/
-
-	// END CODE TO MANUALLY ADD FAM MEMBERS + RELATIONS ////////////////////////
-
 	//Add a family member
 	$scope.addFamilyMember = function(){
 		var familyRelations = currentUser.relation("familyMember");
@@ -196,7 +180,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 		familyMember.set("dateOfBirth", $scope.newMember.birthdate);
 		familyMember.set("gender", $scope.newMember.gender);
 		familyMember.set("iconID", $scope.urlPass);
-		
+		familyMember.set("ignoredAppointments", []);
 
 		familyMember.save().then(function(familyMember) {
 				familyRelations.add(familyMember);
@@ -291,7 +275,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 		});
 	}
 
-	//Code for extracting scheduled and suggested appointments
+	//LOADING scheduled and suggested appointments DATA FOR WHOLE FAMILY....On Initial load///////////////////////////////////////////////
 
 
 	$scope.suggestedAppointmentList = [];
@@ -358,15 +342,18 @@ livypad.controller("IndexController", function($scope,supersonic){
 				//alert("infunc" + $scope.numExistingAppointments);
 				resolve(scheduledAppointmentResults.length);
 				scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
-					listOfFamMemberExistingAppointments.push(famMemberScheduledAppointment.get("name"));
+					$scope.listOfFamMemberExistingAppointments.push({nameOfScheduledAppointment: famMemberScheduledAppointment.get("name"),
+																		recommendedNextDate: famMemberScheduledAppointment.get("recommendedNextDate")});
 					//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
 					$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 													   doctor : famMemberScheduledAppointment.get("doctor"),
 													   location : famMemberScheduledAppointment.get("location"),
 													   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 													   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
-													   nameOfFamilyMember : famMember.get("name"),
+													   nameOfFamilyMember : famMember.get("Name"),
+													   famMemberID : famMember.id,
 													});
+					
 				});
 				
 			});
@@ -408,17 +395,61 @@ livypad.controller("IndexController", function($scope,supersonic){
 					var padding = 2; //adding padding to the months
 					lowerBound = Math.max(0,lowerBound); //ruling out negative numbers
 					
-					//test to see if appointment already exists, by name
-					var existingAppointmentMarker = $scope.listOfFamMemberExistingAppointments.indexOf(nameOfSuggestedAppointment);
-					//test to see if user chose to ignore appointment for this fam member
-					var ignoredAppointmentMarker = appointmentsToIgnore.indexOf(famMemberSuggestedAppointment.id);
 					//check to see if age is among special ages
 					var specialAgeMarker = specialAgeArray.indexOf(ageInMonths);
+					
+					var currentDate = new Date();
 
-					//test for relevant appointments
+					//test to see if user chose to ignore appointment for this fam member. The last ignored date must be within the same year for it to count
+					//var ignoredAppointmentMarker = appointmentsToIgnore.indexOf(famMemberSuggestedAppointment.id);
+					var searchTermIgnore = famMemberSuggestedAppointment.id;
+					var ignoredAppointmentMarker = -1;
+					
+					for(var j = 0; j < appointmentsToIgnore.length; j++) {
+					    if (appointmentsToIgnore[j].appointmentID === searchTermIgnore && appointmentsToIgnore[j].ignoredDate.getFullYear() >= currentDate.getFullYear()) {
+					        ignoredAppointmentMarker = 1;
+					        //alert(" here! " + searchTermIgnore);
+					        break;
+					    }
+					}
+					
+
+					//test to see if appointment already exists, by name
+					//if appointment exists, check for next date...
+					var recommendedNextDate = new Date(0);
+					var currentDateScheduled = null;
+					var searchTerm = nameOfSuggestedAppointment;
+					var existingAppointmentMarker = -1;
+					for(var i = 0; i < $scope.allScheduledAppointmentList.length; i++) {
+					    if ($scope.allScheduledAppointmentList[i].nameOfAppointment === searchTerm && $scope.allScheduledAppointmentList[i].famMemberID === famMember.id) {
+					        existingAppointmentMarker = i;
+					        recommendedNextDate = $scope.allScheduledAppointmentList[i].recommendedNextDate;
+					        currentDateScheduled = $scope.allScheduledAppointmentList[i].dateScheduled;
+					        //alert(" here! " + recommendedNextDate);
+					        break;
+					    }
+					}
+
+					//calculating days left till you should have a next appointment...
+					var recommendation = "";
+					var daysLeft = 0;
+					
+					if (recommendedNextDate.getFullYear() > 1971){ //this happens if there is a valid recommended next date
+						var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+						var utc1 = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+						var utc2 = Date.UTC(recommendedNextDate.getFullYear(), recommendedNextDate.getMonth(), recommendedNextDate.getDate());
+						daysLeft = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+						//alert("days left" + daysLeft + " for " + nameOfSuggestedAppointment + " for " + famMember.get("Name"));
+						recommendation = "schedule within the next " + daysLeft + " days! "; //also should see if it's negative, then you need to change the phrasing				
+					} else {
+						recommendation = "no information about prior appointment";
+					}
+
+
+					//test for relevant appointments, maybe check if days left < 30? for more pressing appointments...
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
 				  		&& (gender==relevantGender || relevantGender == "all")
-				  		&& existingAppointmentMarker == -1 
+				  		&& (existingAppointmentMarker == -1 || currentDateScheduled < currentDate) //either the appointment does not exist or the existing appointment has passed
 				  		&& ignoredAppointmentMarker == -1)
 				  	{
 				  		counter += 1; //keeping track of number, for later use.
@@ -437,7 +468,9 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 				  		var frequencyString = "";
 				  		if (frequency == 0){
-				  			frequencyString = "consult your doctor"
+				  			frequencyString = "consult your doctor";
+				  		}else if (frequency ==12) {
+				  			frequencyString = "yearly";
 				  		}else{
 				  			frequencyString = "once every " + formatMonthsToString(frequency);
 				  		};
@@ -452,9 +485,12 @@ livypad.controller("IndexController", function($scope,supersonic){
 															 	upperBound : upperBoundAgeString,
 																keyAges: keyAgeString,
 																frequency: frequencyString,
+																frequencyNum: frequency,
+																recommendedNextDate : recommendation,
 															});
 
 						var famMemberSuggestedAppointmentRelation = famMember.relation("suggestedAppointments");
+						//maybe clear all relations first?
 						famMemberSuggestedAppointmentRelation.add(famMemberSuggestedAppointment);
 						famMember.save();	
 				  	};
@@ -485,64 +521,20 @@ livypad.controller("IndexController", function($scope,supersonic){
 		return formattedString;
 	}
 
-	$scope.scheduleAppointment = function(appointmentName,famMember){
+	$scope.scheduleRecommendedAppointment = function(appointmentName,famMember,frequency){
 		//alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
 		var famMemberID = famMember.id;
-		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID}}; 
+		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID, recommendedFrequency:frequency}}; 
 		var view = new supersonic.ui.View("livypad#addRecommendedEventToGCalandLivyPad");
 		supersonic.ui.layers.push(view,myParams);
 	}
 
 	$scope.ignoreReccomendation = function(appointmentID, famMember){
 		alert("ignored this appointment");
-		famMember.addUnique("ignoredAppointments", appointmentID);
+		famMember.addUnique("ignoredAppointments", {appointmentID: appointmentID, ignoredDate: new Date()});
 		famMember.save();
 	}
 
-
-
-	$scope.login = function (){
-	Parse.User.logOut();
-	//force log in, for testing
-	Parse.User.logIn("Sonia", "password", {
-	  success: function(user) {
-	  	supersonic.ui.dialog.alert("Welcome, Sonia!");
-		supersonic.ui.initialView.dismiss();
-		//alert("successfully logged in");
-			supersonic.ui.animation("curlDown").perform();
-		},
-	  error: function(user, error) {
-	    	alert("log in error");
-	       // The login failed. Check error to see why.
-	  }
-	});
-	};
-
-	$scope.skiplogin = function (){
-		supersonic.ui.dialog.alert("Welcome, guest!");
-		supersonic.ui.initialView.dismiss();
-	
-	};		
-	$scope.signup = function (){
-		var view = new supersonic.ui.View("livypad#signup");
-		supersonic.ui.layers.push(view);
-	
-	};	
-	$scope.confirmSignUp = function(){
-		var user = new Parse.User();
-		user.set("username", $scope.newUser.username);
-		user.set("password", $scope.newUser.password);
-		//user.set("email", $scope.newUser.email);
-		user.signUp(null, {
-			success: function(user) {
-				supersonic.ui.initialView.dismiss();
-				supersonic.ui.dialog.alert("Success!");
-			},
-			error: function(user, error) {
-				alert("sign up error!");
-			}
-		});
-	};
 });
 
 
