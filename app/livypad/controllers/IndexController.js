@@ -347,6 +347,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 	  return 0;
 	}
 
+	$scope.allScheduledAppointmentWithHistory = [];
   	function loadFamilyMemberExistingAppointments(famMember){
   		return new Promise(function(resolve, reject) {
 		   	var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");
@@ -358,7 +359,15 @@ livypad.controller("IndexController", function($scope,supersonic){
 					var dateLastScheduled = famMemberScheduledAppointment.get("dateScheduled");
 					var currentDate = new Date();
 					//test to see if the appointment is in the future, if so, add it, else, don't.
-
+					$scope.allScheduledAppointmentWithHistory.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
+														   doctor : famMemberScheduledAppointment.get("doctor"),
+														   location : famMemberScheduledAppointment.get("location"),
+														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
+														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
+														   nameOfFamilyMember : famMember.get("Name"),
+														   famMemberID : famMember.id,
+														});
+					
 					if (dateLastScheduled >currentDate){
 						//filling in the all scheduled appointment list
 						counter ++;
@@ -441,11 +450,11 @@ livypad.controller("IndexController", function($scope,supersonic){
 					var existingAppointmentMarker = -1;
 					var mostRecentScheduledDate = new Date(0); 
 					var dateLastScheduled = "no prior information";
-					for(var i = 0; i < $scope.allScheduledAppointmentList.length; i++) {
-					    if ($scope.allScheduledAppointmentList[i].nameOfAppointment.toLowerCase() === searchTerm.toLowerCase() && $scope.allScheduledAppointmentList[i].famMemberID === famMember.id) {
+					for(var i = 0; i < $scope.allScheduledAppointmentWithHistory.length; i++) {
+					    if ($scope.allScheduledAppointmentWithHistory[i].nameOfAppointment.toLowerCase() === searchTerm.toLowerCase() && $scope.allScheduledAppointmentWithHistory[i].famMemberID === famMember.id) {
 					        existingAppointmentMarker = i;
-					        recommendedNextDate = $scope.allScheduledAppointmentList[i].recommendedNextDate;
-					        currentDateScheduled = $scope.allScheduledAppointmentList[i].dateScheduled;
+					        recommendedNextDate = $scope.allScheduledAppointmentWithHistory[i].recommendedNextDate;
+					        currentDateScheduled = $scope.allScheduledAppointmentWithHistory[i].dateScheduled;
 					        if (mostRecentScheduledDate < currentDateScheduled){
 					        	mostRecentScheduledDate = currentDateScheduled;
 								dateLastScheduled = mostRecentScheduledDate.toDateString();
