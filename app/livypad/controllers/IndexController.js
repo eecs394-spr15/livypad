@@ -481,7 +481,11 @@ livypad.controller("IndexController", function($scope,supersonic){
 						var utc2 = Date.UTC(recommendedNextDate.getFullYear(), recommendedNextDate.getMonth(), recommendedNextDate.getDate());
 						daysLeft = Math.floor((utc2 - utc1) / _MS_PER_DAY);
 						//alert("days left" + daysLeft + " for " + nameOfSuggestedAppointment + " for " + famMember.get("Name"));
-						recommendation = "schedule within the next " + daysLeft + " days! "; //also should see if it's negative, then you need to change the phrasing				
+						if(daysLeft<0){
+							recommendation = "You should have scheduled this " + Math.abs(daysLeft) + " days ago! ";
+						}else{
+							recommendation = "schedule within the next " + daysLeft + " days! "; //also should see if it's negative, then you need to change the phrasing
+						}										
 					} else {
 						recommendation = "schedule it now!";
 					}
