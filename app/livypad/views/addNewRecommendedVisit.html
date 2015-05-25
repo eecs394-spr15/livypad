@@ -1,0 +1,50 @@
+<div ng-controller="IndexController">
+  <super-navbar>
+  	    <super-navbar-title>
+  	      Add New Recommended Visit 
+  	    </super-navbar-title>
+  </super-navbar>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Visit Description: </span>
+      <input type="text" ng-model="newUserAddedRecommendation.description"/>
+  </label>
+  
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Category:</span>  
+      <input type="text" ng-model="newUserAddedRecommendation.category"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Frequency (in months):</span>  
+      <input type="text" ng-model="newUserAddedRecommendation.frequency"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">lower bound of age range (in months):</span>  
+      <input type="text" ng-model="newUserAddedRecommendation.lowerbound"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">upper bound of age range (in months):</span>  
+      <input type="text" ng-model="newUserAddedRecommendation.upper"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">special ages (in months):</span>  
+      <input type="text" ng-model="newUserAddedRecommendation.special"/>
+  </label>
+
+  <label class="item item-input item-stacked-label">
+      <span class="input-label">Relevant Gender:</span>  
+      <input type="text" ng-model="newUserAddedRecommendation.relevantGender"/>
+  </label>
+
+  <br>
+  <div class="button-bar"  width=400 height=500>
+    <button ng-click="addNewRecommendedVisit()" class="button icon-left super-checkmark-round button-assertive">
+        Add New Recommended Visit 
+    </button>
+  </div>
+
+</div>	

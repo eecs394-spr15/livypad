@@ -393,6 +393,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 		    var appointmentsToIgnore = famMember.get("ignoredAppointments");
 
 		    var querySuggestedAppointments = new Parse.Query(SuggestedAppointment);
+		    //constraining it so it's only the livypad suggested appointments, and the ones created by the user
+		    querySuggestedAppointments.containedIn("author",["livypad", currentUser.id]);
 		    var counter = 0;
 			querySuggestedAppointments.find().then(function(suggestedAppointmentResults){
 
