@@ -16,12 +16,29 @@
  
   </super-navbar>
 
+    <script type="text/javascript">
+    setInterval(checkRefresh, 2000);
+    checkRefresh();
+
+    function checkRefresh(){
+     
+          var refresh = localStorage.getItem('refresh');
+          if (refresh == 1)
+          {
+            window.location.reload();
+            refresh = 0;
+            localStorage.setItem('refresh', refresh);
+        }
+
+      }
+  </script>
+<!--
   <div style="text-align: center">
     <button class="button button-clear button-calm" ng-click="refresh()">
             click to refresh
     </button>
   </div>
-
+-->
     <div class="list list-inset">
        <label class="item item-input">
           <i class="icon super-search placeholder-icon"></i>
