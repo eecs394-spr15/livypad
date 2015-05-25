@@ -342,7 +342,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 				//alert("infunc" + $scope.numExistingAppointments);
 				resolve(scheduledAppointmentResults.length);
 				scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
-					$scope.listOfFamMemberExistingAppointments.push(famMemberScheduledAppointment.get("name"));
+					$scope.listOfFamMemberExistingAppointments.push({nameOfScheduledAppointment: famMemberScheduledAppointment.get("name"),
+																		recommendedNextDate: famMemberScheduledAppointment.get("recommendedNextDate")});
 					//filling in the all scheduled appointment list while I'm at it, so I don't need to duplicate queries.
 					$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 													   doctor : famMemberScheduledAppointment.get("doctor"),
@@ -350,6 +351,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 													   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 													   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
 													   nameOfFamilyMember : famMember.get("Name"),
+													   famMemberID : famMember.id,
 													});
 					
 				});
@@ -394,16 +396,45 @@ livypad.controller("IndexController", function($scope,supersonic){
 					lowerBound = Math.max(0,lowerBound); //ruling out negative numbers
 					
 					//test to see if appointment already exists, by name
-					var existingAppointmentMarker = $scope.listOfFamMemberExistingAppointments.indexOf(nameOfSuggestedAppointment);
+					//var existingAppointmentMarker = $scope.listOfFamMemberExistingAppointments.indexOf(nameOfSuggestedAppointment);
 					//test to see if user chose to ignore appointment for this fam member
 					var ignoredAppointmentMarker = appointmentsToIgnore.indexOf(famMemberSuggestedAppointment.id);
 					//check to see if age is among special ages
 					var specialAgeMarker = specialAgeArray.indexOf(ageInMonths);
+					var recommendedNextDate = new Date(0);
+					var currentDateScheduled = null;
+					//if appointment exists, check for next date...
+					var searchTerm = nameOfSuggestedAppointment;
+					var existingAppointmentMarker = -1;
+					for(var i = 0; i < $scope.allScheduledAppointmentList.length; i++) {
+					    if ($scope.allScheduledAppointmentList[i].nameOfAppointment === searchTerm && $scope.allScheduledAppointmentList[i].famMemberID === famMember.id) {
+					        existingAppointmentMarker = i;
+					        recommendedNextDate = $scope.allScheduledAppointmentList[i].recommendedNextDate;
+					        currentDateScheduled = $scope.allScheduledAppointmentList[i].dateScheduled;
+					        //alert(" here! " + recommendedNextDate);
+					        break;
+					    }
+					}
 
-					//test for relevant appointments
+					//calculating days left till you should have a next appointment...
+					var recommendation = "";
+					var daysLeft = 0;
+					var currentDate = new Date();
+					if (recommendedNextDate.getFullYear() > 1971){ //this happens if there is a valid recommended next date
+						var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+						var utc1 = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+						var utc2 = Date.UTC(recommendedNextDate.getFullYear(), recommendedNextDate.getMonth(), recommendedNextDate.getDate());
+						daysLeft = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+						//alert("days left" + daysLeft + " for " + nameOfSuggestedAppointment + " for " + famMember.get("Name"));
+						recommendation = "schedule within the next " + daysLeft + " days! "; //also should see if it's negative, then you need to change the phrasing				
+					} else {
+						recommendation = "no information about prior appointment";
+					}
+
+					//test for relevant appointments, maybe check if days left < 30? for more pressing appointments...
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
 				  		&& (gender==relevantGender || relevantGender == "all")
-				  		&& existingAppointmentMarker == -1 
+				  		&& (existingAppointmentMarker == -1 || currentDateScheduled < currentDate) //either the appointment does not exist or the existing appointment has passed
 				  		&& ignoredAppointmentMarker == -1)
 				  	{
 				  		counter += 1; //keeping track of number, for later use.
@@ -439,7 +470,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 															 	upperBound : upperBoundAgeString,
 																keyAges: keyAgeString,
 																frequency: frequencyString,
-																frequencyNum : frequency,
+																frequencyNum: frequency,
+																recommendedNextDate : recommendation,
 															});
 
 						var famMemberSuggestedAppointmentRelation = famMember.relation("suggestedAppointments");

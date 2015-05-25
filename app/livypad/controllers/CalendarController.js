@@ -179,6 +179,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
 
             var dateObject = new Date(startDateTime);
+            var recommendedNextDate = new Date(0);
             //alert("month: " +dateObject.getMonth());
             //alert($scope.famMemberToAddTo);
             var resource = {
@@ -210,6 +211,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 newAppointment.set("doctor", doctor);
                 newAppointment.set("location", location);
                 newAppointment.set("dateScheduled", dateObject);
+                newAppointment.set("recommendedNextDate", recommendedNextDate);
                 var scheduledAppointmentRelation = newAppointment.relation("familyMember");           
                 scheduledAppointmentRelation.add(famMember);
                 var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");  
@@ -250,7 +252,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             //alert(startDateTime);
             var dateObject = new Date(startDateTime);
             //alert("month: " +dateObject.getMonth());
-        
+            var recommendedNextDate = new Date(0);
             //adding to relations
             var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
             queryFamMemberToAddTo.get($scope.familyMemberToAddTo, {
@@ -260,6 +262,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 newAppointmentTwo.set("doctor", doctor);
                 newAppointmentTwo.set("location", location);
                 newAppointmentTwo.set("dateScheduled", dateObject);
+                newAppointment.set("recommendedNextDate", recommendedNextDate);
                 var scheduledAppointmentRelation = newAppointmentTwo.relation("familyMember");           
                 scheduledAppointmentRelation.add(famMember);
                 var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");  
@@ -284,7 +287,6 @@ livypad.controller("CalendarController", function($scope,supersonic){
             }
             var location = "";
             var doctor = "";
-            //alert($scope.recommendedFrequency);
             var summary = document.getElementById("summary").value;
             location = document.getElementById("Location").value;
             var dateTime = document.getElementById("date").value;
@@ -301,20 +303,22 @@ livypad.controller("CalendarController", function($scope,supersonic){
             var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
 
             var startDateObject = new Date(startDateTime);
-            var recommededNextDate = new Date(startDateTime);
+            var recommendedNextDate = new Date(startDateTime);
            
-            var startMonth = recommededNextDate.getMonth();
-            recommededNextDate.setMonth(recommededNextDate.getMonth() + recommendedFrequency)
+            var startMonth = recommendedNextDate.getMonth();
+            recommendedNextDate.setMonth(recommendedNextDate.getMonth() + recommendedFrequency);
 
-            if (recommededNextDate.getMonth() != ((startMonth + recommendedFrequency) % 12)){
-                recommededNextDate.setDate(0);
+            if (recommendedNextDate.getMonth() != ((startMonth + recommendedFrequency) % 12)){
+                recommendedNextDate.setDate(0);
             }
 
             if (invalidFrequency){
-                recommededNextDate = new Date(0);
+                //alert("invalid frequency");
+                recommendedNextDate = new Date(0);
             }
+        
             //var endDateObject = startDateObject.setHours(startDateObject.getHours()+1);// adding 1 to the current time, by default
-            //var recommededNextDate = recommededNextDate.setMonth(recommededNextDate.getMonth()+recommendedFrequency);
+            //var recommendedNextDate = recommendedNextDate.setMonth(recommendedNextDate.getMonth()+recommendedFrequency);
 
             //alert("month: " +startDateObject.getMonth());
             //alert($scope.famMemberToAddTo);
@@ -337,7 +341,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                     alert("successfully added into your calendar!");
                     
                     });
-            alert(recommededNextDate.toDateString());
+
             var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
             queryFamMemberToAddTo.get($scope.famMemberToAddToForRecommended, {
               success: function(famMember) {
@@ -347,7 +351,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 newAppointment.set("doctor", doctor);
                 newAppointment.set("location", location);
                 newAppointment.set("dateScheduled", startDateObject);
-                newAppointment.set("recommendedNextDate", recommededNextDate);
+                newAppointment.set("recommendedNextDate", recommendedNextDate);
                 var scheduledAppointmentRelation = newAppointment.relation("familyMember");           
                 scheduledAppointmentRelation.add(famMember);
                 var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");  
