@@ -5,6 +5,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 	 	 
 	Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
 	
+	//used for icon select ui
+	$scope.selectedRow=null;
 	//classes
 	
 	var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
@@ -164,10 +166,10 @@ livypad.controller("IndexController", function($scope,supersonic){
 						name: "dog"});
 
 	$scope.urlPass = ""
-	$scope.getIconTitle = function(url){
-		alert("Icon selected! Click Add Member to save.");
+	$scope.getIconTitle = function(url,index){
+		//alert("Icon selected! Click Add Member to save.");
 		$scope.urlPass = url;
-		
+		$scope.selectedRow = index;
 	}
 	
 	// Preliminary Add Family Member function
