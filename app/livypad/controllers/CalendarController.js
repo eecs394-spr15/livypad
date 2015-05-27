@@ -9,36 +9,25 @@ livypad.controller("CalendarController", function($scope,supersonic){
         var Doctor = Parse.Object.extend("Doctor");
 
         $scope.ScheduledAppointment = [];
-	var myCalendar = new JEC('myCalendarContainer',{
+	$scope.myCalendar = new JEC('myCalendarContainer',{
      		tableClass: 'styledCalendar',
     		firstMonth: 201205,
 		lastMonth: 201605
     	 });
      
-     /*myCalendar.defineEvents([
-       { 
-         eventDate: 20150519, 
-         eventDescription: '394 meeting', 
-         eventLink: 'http://www.cs.northwestern.edu/academics/courses/394/'
-       }]);
-     myCalendar.defineEvents([
-       { eventDate: 20150520, 
-       eventDescription: 'client meeting' ,
-       eventLink: 'http://www.cs.northwestern.edu/academics/courses/394/'
-       }
-     ]);
-     */
         $scope.defineEvents = function(date, description){
-       	myCalendar.defineEvents([
+       	$scope.myCalendar.defineEvents([
 	{
 		eventDate: date,
-		eventDescription: description,
-		eventLink: 'http://www.hhs.gov'
+		eventDescription: description
+		
 	}
 	]);
        
        };
        $scope.defineEvents("20120520", "test");
+
+       $scope.refreshCalendar = function(){
 	var scheduledQuery = new Parse.Query(ScheduledAppointment);
 	scheduledQuery.find().then(function (results){
 			results.forEach(function(result){
@@ -47,17 +36,24 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
 			   var newdateScheduled = dateScheduled.substring(0,4) + dateScheduled.substring(5,7) + dateScheduled.substring(8,10);
 			   //alert(newdateScheduled);
-			   $scope.defineEvents(newdateScheduled,result.get("name"));
-			   
-			});
-                        myCalendar.showCalendar();
+			   var nameQuery = result.relation("familyMember");
+			   var myname = "David";
+			   nameQuery.query().find().then(function(fam){
+			   	myname = fam[0].get("Name");
+			        //alert($scope.myname);
+				
+			   });
+			   $scope.defineEvents(newdateScheduled, result.get("name"));
 
+			   });
+                           $scope.myCalendar.showCalendar();
 
 	});
-	
+	};
 	//getting list of family members
         var currentUser = Parse.User.current();
-        $scope.familyMembersList = [];   
+        $scope.refreshCalendar();
+	$scope.familyMembersList = [];   
         var allFamilyMemberRelations = currentUser.relation("familyMember");
 
         supersonic.ui.views.current.params.onValue(function(values){
