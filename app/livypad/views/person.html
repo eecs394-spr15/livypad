@@ -22,7 +22,7 @@
     </div>
     
     
-    <div ng-repeat="scheduledAppointment in allScheduledAppointmentList | filter: {famMemberID:individualFamMember}" class="list card">
+    <div ng-repeat="scheduledAppointment in allScheduledAppointmentList | filter: filterFunction" class="list card">
         <div class="item item-text-wrap">
           <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
           <h2> <b>For: </b>{{scheduledAppointment.nameOfFamilyMember}}</h2>
@@ -46,9 +46,9 @@
       Recommended Visits
     </div>
     
-    <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: {famMemberID:individualFamMember}" class="list card" >
+    <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: filterFunction" class="list card" >
         <div class="item item-text-wrap">
-            <h2> <b>Description: </b>{{suggestedAppointment.appointmentName}}</h2>
+            <h2> <b>Description: </b>{{suggestedAppointment.nameOfAppointment}}</h2>
             <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
             <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
             <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
@@ -58,7 +58,7 @@
         </div>
 
         <div class="button-bar" width=400 height=500>
-          <button ng-click="scheduleRecommendedAppointment(suggestedAppointment.appointmentName, suggestedAppointment.famMember, suggestedAppointment.frequencyNum)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
+          <button ng-click="scheduleRecommendedAppointment(suggestedAppointment.nameOfAppointment, suggestedAppointment.famMember, suggestedAppointment.frequencyNum)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
           
           <button ng-click="ignoreReccomendation(suggestedAppointment.appointmentID, suggestedAppointment.famMember)" class="button icon-left super-close-round button-assertive"> Ignore </button>
         </div>

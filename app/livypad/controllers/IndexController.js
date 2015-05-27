@@ -7,6 +7,10 @@ livypad.controller("IndexController", function($scope,supersonic){
 	
 	//used for icon select ui
 	$scope.selectedRow=null;
+
+	//for search
+	$scope.keyword = "";
+
 	//classes
 	
 	var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
@@ -44,6 +48,13 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 	$scope.refresh = function(){
 		location.reload();
+	}
+
+	//function to filter by serach and by person  (element.nameOfAppointment.toLowerCase().match($scope.keyword.toLowerCase()) ? true : false)
+	$scope.filterFunction= function(element){
+		var localBool = (element.famMemberID == $scope.individualFamMember)
+						&& (element.nameOfAppointment.toLowerCase().match($scope.keyword.toLowerCase())? true : false);
+		return localBool
 	}
 
 
@@ -530,7 +541,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  												famMember : famMember,
 				  												famMemberID: famMember.id,
 				  												famMemberName: famMember.get("Name"), 
-															 	appointmentName: famMemberSuggestedAppointment.get("name"),
+															 	nameOfAppointment: famMemberSuggestedAppointment.get("name"),
 															 	lowerBound : lowerBoundAgeString,
 															 	upperBound : upperBoundAgeString,
 																keyAges: keyAgeString,
