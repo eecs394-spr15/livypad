@@ -8,6 +8,9 @@ livypad.controller("CalendarController", function($scope,supersonic){
         var FamilyMember = Parse.Object.extend("FamilyMember");
         var Doctor = Parse.Object.extend("Doctor");
 
+        // for search
+        $scope.keyword = "";
+        
         $scope.ScheduledAppointment = [];
 	$scope.myCalendar = new JEC('myCalendarContainer',{
      		tableClass: 'styledCalendar',

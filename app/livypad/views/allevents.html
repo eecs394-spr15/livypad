@@ -18,7 +18,7 @@
     <div class="list list-inset">
        <label class="item item-input">
           <i class="icon super-search placeholder-icon"></i>
-          <input type="text" placeholder="Search" data-params-id="keyword">
+          <input type="text" placeholder="Search" ng-model="keyword">
        </label>
     </div>
 
@@ -27,7 +27,7 @@
       Past Events
     </div>
 
-  <a ng-repeat="pEvent in pastEvents|filter:keyword" class="list card" >
+  <a ng-repeat="pEvent in pastEvents|filter: keyword" class="list card" >
       <div class="card">
 
         <div class="item item-text-wrap">
