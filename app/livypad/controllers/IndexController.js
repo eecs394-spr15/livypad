@@ -232,7 +232,9 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  supersonic.logger.log("Alert closed.");
 				});
 				supersonic.ui.layers.pop();
-					
+				$scope.allFamilyMembers = [];
+				loadFamilyData();
+				location.reload();
 				}, function(error) {
 					alert("Member save failed");
 				// the save failed.

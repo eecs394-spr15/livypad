@@ -53,10 +53,10 @@
 
 
 	<button id="post" class="button button-block button-assertive" ng-click="addEventToGCalAndLivyPad()">
-		Add New Appointment to GCal and LivyPad
+		Add to LivyPad
 	</button>
 
-	<div ng-hide="cal">
+	<div ng-show="cal">
 	       <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>
 	</div>
 
