@@ -36,7 +36,7 @@
 	<div ng-repeat="member in sorted" class="list card">
 		<super-navigate location="livypad#person" data-params-id="{{member.id}}">
 	    	<div class="item item-thumbnail-left">
-	    		<img src={{member.icon}} align="left">
+	    		<img src={{member.iconID}} align="left">
 	    		<p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
 	    		<h2><b>Scheduled:</b> {{member.scheduled}} </h2>
 	    		<h2><b>Suggested:</b> {{member.suggested}} </h2>
