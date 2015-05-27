@@ -164,7 +164,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             var dateTime = document.getElementById("date").value;
             var doctor = document.getElementById("doctor").value;
             var startTime = document.getElementById("startTime").value;
-            var endTime = document.getElementById("endTime").value;
+           // var endTime = document.getElementById("endTime").value;
             var currentDate = new Date();
             var offset = currentDate.getTimezoneOffset() / 60;
             /*alert(dateTime);
@@ -172,12 +172,25 @@ livypad.controller("CalendarController", function($scope,supersonic){
             alert(endTime);
             alert("offset:" + offset);*/
             var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
-            var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
+            //var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
+
+            //calculating end date object based on duration.
+            var duration = parseInt(document.getElementById("duration").value);
+            var endDateObject = new Date(startDateTime);
+            endDateObject.setHours(endDateObject.getHours() + duration);
+            var extractedEndingTime =  endDateObject.toTimeString().split(' ')[0];
+            //getting the ending date in string yyyy-mm-dd format
+            var yyyy = endDateObject.getFullYear().toString();
+            var mm = (endDateObject.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = endDateObject.getDate().toString();
+            var endDateString = yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]); // padding
+            var endDateTime = endDateString+"T"+extractedEndingTime + ".000-0"+offset+":00";
 
             var dateObject = new Date(startDateTime);
             var recommendedNextDate = new Date(0);
-            //alert("month: " +dateObject.getMonth());
-            //alert($scope.famMemberToAddTo);
+
+
+            //Adding to GCAL
             var resource = {
                 "summary": summary,
                 "location": location,
@@ -198,6 +211,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                     
                     });
 
+            //Adding to Parse
             var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
             queryFamMemberToAddTo.get($scope.famMemberToAddTo, {
               success: function(famMember) {
@@ -217,6 +231,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 });
               },
               error: function(object, error) {
+                alert("could not add new visit");
                 // The object was not retrieved successfully.
                 // error is a Parse.Error with an error code and message.
               }
@@ -289,7 +304,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             var dateTime = document.getElementById("date").value;
             doctor = document.getElementById("doctor").value;
             var startTime = document.getElementById("startTime").value;
-            var endTime = document.getElementById("endTime").value;
+            //var endTime = document.getElementById("endTime").value;
             var currentDate = new Date();
             var offset = currentDate.getTimezoneOffset() / 60;
             /*alert(dateTime);
@@ -297,28 +312,40 @@ livypad.controller("CalendarController", function($scope,supersonic){
             alert(endTime);
             alert("offset:" + offset);*/
             var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
-            var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
+            //var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
 
+            //calculating end date object based on duration.
+            var duration = parseInt(document.getElementById("duration").value);
+            var endDateObject = new Date(startDateTime);
+            endDateObject.setHours(endDateObject.getHours() + duration);
+            var extractedEndingTime =  endDateObject.toTimeString().split(' ')[0];
+            //getting the ending date in string yyyy-mm-dd format
+            var yyyy = endDateObject.getFullYear().toString();
+            var mm = (endDateObject.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = endDateObject.getDate().toString();
+            var endDateString = yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]); // padding
+            var endDateTime = endDateString+"T"+extractedEndingTime + ".000-0"+offset+":00";
+
+
+
+            //calculating the recommended next date
             var startDateObject = new Date(startDateTime);
             var recommendedNextDate = new Date(startDateTime);
            
             var startMonth = recommendedNextDate.getMonth();
             recommendedNextDate.setMonth(recommendedNextDate.getMonth() + recommendedFrequency);
 
+            //testing for invalid dates/ invalid frequency
             if (recommendedNextDate.getMonth() != ((startMonth + recommendedFrequency) % 12)){
                 recommendedNextDate.setDate(0);
             }
-
             if (invalidFrequency){
                 //alert("invalid frequency");
                 recommendedNextDate = new Date(0);
             }
-        
-            //var endDateObject = startDateObject.setHours(startDateObject.getHours()+1);// adding 1 to the current time, by default
-            //var recommendedNextDate = recommendedNextDate.setMonth(recommendedNextDate.getMonth()+recommendedFrequency);
+    
 
-            //alert("month: " +startDateObject.getMonth());
-            //alert($scope.famMemberToAddTo);
+            //adding to GCAL
             var resource = {
                 "summary": summary,
                 "location": location,
@@ -339,6 +366,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
                     
                     });
 
+
+            //Adding to Parse
             var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
             queryFamMemberToAddTo.get($scope.famMemberToAddToForRecommended, {
               success: function(famMember) {
@@ -358,13 +387,14 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 });
               },
               error: function(object, error) {
+                alert("Could not add this to Livypad database");
                 // The object was not retrieved successfully.
                 // error is a Parse.Error with an error code and message.
               }
             });
-            
+          
+  
         };
-
 
 
 });
