@@ -1,0 +1,50 @@
+<div ng-controller="IndexController">
+  <super-navbar>
+    <super-navbar-title>
+      Scheduling Center
+    </super-navbar-title>
+  </super-navbar>
+
+	<script type="text/javascript">
+		setInterval(checkRefresh, 2000);
+		checkRefresh();
+
+		function checkRefresh(){
+     
+	        var refresh = localStorage.getItem('refresh');
+	        if (refresh == 1)
+	        {
+	          window.location.reload();
+	          refresh = 0;
+	          localStorage.setItem('refresh', refresh);
+	  		}
+
+    	}
+	</script>
+
+	<div class="list card">
+		<super-navigate location="livypad#addEventToGCalAndLivyPad">
+	    	<div class="item">
+	    		<h2>SCHEDULE CUSTOM PERSONAL VISIT</h2>
+	    	</div>
+	    </super-navigate>
+	  </div> 
+	  <div class="list card">
+	    <super-navigate location="livypad#allevents">
+	    	<div class="item">
+	    		<h2>SYNC A VISIT FROM CALENDAR</h2>
+	    	</div>
+	    </super-navigate>
+	    </div>
+
+	    <div class="list card">
+	    <super-navigate location="livypad#addNewRecommendedVisit">
+	    	<div class="item">
+	    		<h2>CREATE A NEW VISIT REMINDER</h2>
+	    	</div>
+	    </super-navigate>
+	    </div>
+
+	</div> 
+
+</div>
