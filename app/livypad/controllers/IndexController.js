@@ -488,6 +488,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 						}else{
 							recommendation = "schedule within the next " + daysLeft + " days! "; //also should see if it's negative, then you need to change the phrasing
 						}										
+					} else if (frequency == 0){ //test for invalid frequency, or maybe it's just once...
+						recommendation = "consult your doctor";
 					} else {
 						recommendation = "schedule it now!";
 					}
