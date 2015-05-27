@@ -38,23 +38,23 @@ livypad.controller("CalendarController", function($scope,supersonic){
 	]);
        
        };
-       $scope.defineEvents("20120520", "today");
+       $scope.defineEvents("20120520", "test");
 	var scheduledQuery = new Parse.Query(ScheduledAppointment);
 	scheduledQuery.find().then(function (results){
 			results.forEach(function(result){
-			   $scope.ScheduledAppointment.push({
-			       date:result.get("dateScheduled"),
-			       name:result.get("name")
-			   });
-			   //alert(result.get("name"));
-			   $scope.defineEvents(result.get("date"),result.get("name"));
+			   //alert(result.get("dateScheduled").toISOString());
+			   var dateScheduled = result.get("dateScheduled").toISOString();
+
+			   var newdateScheduled = dateScheduled.substring(0,4) + dateScheduled.substring(5,7) + dateScheduled.substring(8,10);
+			   //alert(newdateScheduled);
+			   $scope.defineEvents(newdateScheduled,result.get("name"));
 			   
 			});
+                        myCalendar.showCalendar();
+
 
 	});
-	myCalendar.showCalendar();
-
-
+	
 	//getting list of family members
         var currentUser = Parse.User.current();
         $scope.familyMembersList = [];   
