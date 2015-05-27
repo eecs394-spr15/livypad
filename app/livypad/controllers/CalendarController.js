@@ -230,7 +230,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
         $scope.loadGCalAppointment = function(summary, location, startDateTime, endDateTime){
             var myParams = {params: {eventSummary: summary, eventLocation: location, startTime:startDateTime, endTime:endDateTime}}; 
-            var view = new supersonic.ui.View("livypad#addGCalEventToLivyPad");
+            
+	    var view = new supersonic.ui.View("livypad#addGCalEventToLivyPad");
             supersonic.ui.layers.push(view,myParams);
         };
 
