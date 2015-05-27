@@ -191,7 +191,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
             var dateObject = new Date(startDateTime);
             var recommendedNextDate = new Date(0);
-
+            //alert(startDateTime);
 
             //Adding to GCAL
             var resource = {
@@ -316,7 +316,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             alert("offset:" + offset);*/
             var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
             //var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
-
+            
             //calculating end date object based on duration.
             var duration = parseInt(document.getElementById("duration").value);
             var endDateObject = new Date(startDateTime);
