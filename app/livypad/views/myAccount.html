@@ -5,11 +5,29 @@
       My Account
     </super-navbar-title>
 
-    <super-navbar-button class="super-plus-round" side="right" onClick="supersonic.ui.drawers.open('left')" ng-click="editThisUser()">
-    Save
-    </super-navbar-button>
 
   </super-navbar>
+
+  <html>
+  <head>
+  <script type="text/javascript">
+    setInterval(checkRefresh, 2000);
+    checkRefresh();
+
+    function checkRefresh(){
+     
+          var refresh = localStorage.getItem('refresh');
+          if (refresh == 1)
+          {
+            window.location.reload();
+            refresh = 0;
+            localStorage.setItem('refresh', refresh);
+        }
+
+      }
+  </script>
+</head>
+<body>
 
   <div style="text-align: center">
     <button class="button icon-left super-loop button-clear button-assertive" ng-click="refresh()">
@@ -20,8 +38,9 @@
   <div ng-hide="showSpinner">
 
 
-  <div class="item item-divider" style="text-align: center">
-      My Information
+  <div class="item item-divider item-button-right" >
+      <p> <font size="3"> My Infomation</font></p>
+      <button  class="button icon-left super-ios7-download button-clear button-assertive" ng-click="editThisUser()"></button>
   </div>
 
   <label class="item item-input item-stacked-label">
@@ -39,8 +58,11 @@
     <input type="text" ng-model="editUser.email" placeholder="{{thisuser.Email}}"/>
   </label>
 
-  <div class="item item-divider" style="text-align: center">
-      My Family Members
+  <div class="item item-divider item-button-right" >
+
+      <p> <font size="3"> My Family Members</font></p>
+      <button  class="button icon-left super-ios7-plus button-clear button-assertive" ng-click="openaddfamilymembers()"></button>
+
   </div>
 
   <a ng-repeat="member in allFamilyMembers" class="list card" >
@@ -80,7 +102,8 @@
       </div>
   </a> 
  
-  </div>
 
+</body>
+</html>
 </div>
 

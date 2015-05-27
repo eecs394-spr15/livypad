@@ -130,6 +130,14 @@ livypad.controller("IndexController", function($scope,supersonic){
 		});
 	}
 
+
+
+	$scope.openaddfamilymembers = function (){
+		var view = new supersonic.ui.View("livypad#addFamilyMember");
+		supersonic.ui.layers.push(view);
+	
+	};
+
 	// Redundant Code to be deleted???? /////////////////
 	/*
 	$scope.members = [];
