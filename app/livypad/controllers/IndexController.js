@@ -497,7 +497,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
 				  		&& (gender==relevantGender || relevantGender == "all")
 				  		&& (existingAppointmentMarker == -1 || mostRecentScheduledDate < currentDate) //the appointment does not exist and the most recent existing appointment has passed //
-				  		&& ignoredAppointmentMarker == -1)
+				  		&& ignoredAppointmentMarker == -1
+				  		&& daysLeft <= 180) //the days left test ensures that only suggested appointments in the next 180 days show up...
 				  	{
 				  		counter += 1; //keeping track of number, for later use.
 				  		//Formatting Relevant Strings
