@@ -222,18 +222,18 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 		familyMember.save().then(function(familyMember) {
 				familyRelations.add(familyMember);
-	    		currentUser.save();
+	    			currentUser.save();
 				var options = {
-				  message: "Member has been added to your family",
+				  message: $scope.newMember.name +  " has been added to your family",
 				  buttonLabel: "Close"
 				};
+				$scope.allFamilyMembers = [];
+				loadFamilyData();
 
 				supersonic.ui.dialog.alert("Success!", options).then(function() {
 				  supersonic.logger.log("Alert closed.");
 				});
 				supersonic.ui.layers.pop();
-				$scope.allFamilyMembers = [];
-				loadFamilyData();
 				location.reload();
 				}, function(error) {
 					alert("Member save failed");

@@ -52,7 +52,7 @@ livypad.controller("LoginController", function($scope,supersonic){
 				success: function(user) {
 					user.save(null, {
 						success: function(user) {
-						supersonic.ui.dialog.alert("Successfully Logged In.");
+						supersonic.ui.dialog.alert("Welcome to livypad, " + $scope.existingUser.username + "!");
 						supersonic.ui.initialView.dismiss();
 						}
 					});
