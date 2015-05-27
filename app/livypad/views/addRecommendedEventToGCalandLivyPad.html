@@ -39,13 +39,16 @@
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Start Time</span>
-		<input type="time" id="startTime"/>
+		<input type="time" step="900" id="startTime"/>
 	</label>
-	<label class="item item-input item-stacked-label">
+	<!--<label class="item item-input item-stacked-label">
 		<span class="input-label">End Time</span>
 		<input type="time" id="endTime"/>
+	</label>-->
+	<label class="item item-input item-stacked-label">
+		<span class="input-label">Duration (in hours)</span>
+		<input type="number" id="duration" min="0.5" max="24" step="0.5" value="1">
 	</label>
-	
 
 
 	<button id="post" class="button button-block button-assertive" ng-click="addRecommendedEventToGCalAndLivyPad()">

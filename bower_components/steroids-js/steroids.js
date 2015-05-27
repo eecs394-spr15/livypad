@@ -1,4 +1,4 @@
-/*! steroids-js - v3.5.10 - 2015-01-21 12:30 */
+/*! steroids-js - v3.5.11 - 2015-05-25 17:12 */
 (function(window){
 var Bridge,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
@@ -1165,6 +1165,25 @@ App = (function() {
       callbacks = {};
     }
     return window.AG_STEROIDS_SCANNER_URL;
+  };
+
+  App.prototype.getLaunchURI = function(options, callbacks) {
+    var extractStringFromUriJson;
+    if (options == null) {
+      options = {};
+    }
+    if (callbacks == null) {
+      callbacks = {};
+    }
+    extractStringFromUriJson = function(uriJson) {
+      return callbacks.onSuccess(uriJson.uri);
+    };
+    return steroids.nativeBridge.nativeCall({
+      method: "getLaunchUri",
+      parameters: {},
+      successCallbacks: [extractStringFromUriJson],
+      failureCallbacks: [callbacks.onFailure]
+    });
   };
 
   App.prototype.getMode = function(options, callbacks) {
@@ -3851,7 +3870,7 @@ PostMessage = (function() {
 ;var _this = this;
 
 window.steroids = {
-  version: "3.5.10",
+  version: "3.5.11",
   Animation: Animation,
   File: File,
   views: {
