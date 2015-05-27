@@ -327,8 +327,10 @@ livypad.controller("IndexController", function($scope,supersonic){
 			    	//looking through all suggested appointments to find relevant ones
 			    	loadFamilyMemberSuggestedAppointments(famMember).then(function(result){
 			    		var numSuggestedAppointments = result;
-
-			    		var percentage = numExistingAppointments/numSuggestedAppointments*100;
+			    		var percentage = 0.0;
+						if ((numExistingAppointments + numSuggestedAppointments) != 0) {
+							percentage = Math.round(numExistingAppointments/(numSuggestedAppointments + numExistingAppointments)*100) / 10;
+						}
 
 			    		$scope.allFamilyMembers.push({ familyMember: famMember,
 	  									  id : famMember.id,
