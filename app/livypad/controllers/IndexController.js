@@ -322,7 +322,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 			    		$scope.allFamilyMembers.push({ familyMember: famMember,
 	  									  id : famMember.id,
 										  name: famMember.get("Name"),
-										  icon: famMember.get("icon").url(),
+										  iconID: famMember.get("iconID"),
 										  dateOfBirth: famMember.get("dateOfBirth"),
 										  gender: famMember.get("gender"),
 										  scheduled: numExistingAppointments,
