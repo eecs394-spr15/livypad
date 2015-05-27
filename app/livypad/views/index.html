@@ -41,18 +41,16 @@
 		<super-navigate location="livypad#person" data-params-id="{{member.id}}">
 	    	<div class="item item-thumbnail-left">
 	    		<img src={{member.iconID}} align="left">
-	    		<p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
-	    		<h2><b>Scheduled:</b> {{member.scheduled}} </h2>
-	    		<h2><b>Suggested:</b> {{member.suggested}} </h2>
-	    	</div>
-
-			    <div class="item range range-positive">
-			      <input type="range" name="numbers" min="0" max="100" value="{{member.percent}}">
-			      <div style="width: 50px;">{{member.percent}}%</div>
-			    </div>
+	    		<div class="row">
+	    			<div class="col col-67 col-center">
+	    				<h2 style="font-size:30px;"><b>{{member.name}}</b></h2>
+	    			</div>
+	    			<div class="col">
+	    				<p style="text-align: right"><h2><font color="#FF3030" size="28"><b>{{member.percent}}</b></font></h2></p>
+	    			</div>
+	    		</div>
 
 	    </super-navigate>
 	</div> 
-<!-- <h1 style="position:relative;bottom:5px"> livypad</h1>
-<h4 style="position:relative"> helping to organize household medical visits and expenses </h4> -->
+
 </div>
