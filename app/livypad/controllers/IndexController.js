@@ -1,7 +1,7 @@
 livypad.controller("IndexController", function($scope,supersonic){
 
 //Initialize Parse with Javascript Key
-	supersonic.ui.tabs.update([{title: "Home", badge: "1"}]);
+	
 	 	 
 	Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
 	
