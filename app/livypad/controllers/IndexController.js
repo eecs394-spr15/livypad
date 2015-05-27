@@ -112,6 +112,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 						supersonic.ui.dialog.alert("Success!", options).then(function() {
 						  supersonic.logger.log("Alert closed.");
 						});
+						$scope.allFamilyMembers = [];
+						loadFamilyData();
 					},
 					error: function(myObject, error){
 						var options = {
