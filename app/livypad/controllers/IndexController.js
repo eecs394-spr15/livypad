@@ -337,7 +337,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 			    		var numSuggestedAppointments = result;
 			    		var percentage = 0.0;
 						if ((numExistingAppointments + numSuggestedAppointments) != 0) {
-							percentage = Math.round(numExistingAppointments/(numSuggestedAppointments + numExistingAppointments)*100) / 10;
+							percentage = Math.round(numExistingAppointments/(numSuggestedAppointments + numExistingAppointments)*100);
 						}
 
 			    		$scope.allFamilyMembers.push({ familyMember: famMember,
