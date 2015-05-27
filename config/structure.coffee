@@ -14,11 +14,6 @@ module.exports =
       id: "settings"
       location: "livypad#calendar"
     }
-    {
-      title: "List"
-      id: "internet"
-      location: "livypad#list" # URLs are supported!
-    }
   ]
 
   # rootView:
