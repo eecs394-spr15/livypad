@@ -342,9 +342,9 @@ livypad.controller("IndexController", function($scope,supersonic){
   	};
 
   	   function compare(a,b) {
-	  if (a.name < b.name)
+	  if (a.dateOfBirth < b.dateOfBirth)
 	    return -1;
-	  if (a.name > b.name)
+	  if (a.dateOfBirth > b.dateOfBirth)
 	    return 1;
 	  return 0;
 	}
