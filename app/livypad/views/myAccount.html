@@ -37,27 +37,27 @@
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
   <div ng-hide="showSpinner">
 
-
+<form name="editUserForm" novalidate>
   <div class="item item-divider item-button-right" >
       <p> <font size="3"> My Infomation</font></p>
-      <button  class="button icon-left super-upload button-clear button-assertive" ng-click="editThisUser()"></button>
+      <button class="button icon-left super-upload button-clear button-assertive" ng-click="editThisUser()" ng-disabled="editUserForm.$invalid"></button>
   </div>
 
   <label class="item item-input item-stacked-label">
     <span class="input-label">User Name</span>
-    <input type="text" ng-model="editUser.username" placeholder="{{thisuser.userName}}"/>
+    <input type="text" ng-model="editUser.username" placeholder="{{thisuser.userName}}" minlength="3" required/>
   </label>
   
   <label class="item item-input item-stacked-label">
     <span class="input-label">Password</span>
-    <input type="password" ng-model="editUser.password" placeholder="{{thisuser.thispassword}}"/>
+    <input type="password" ng-model="editUser.password" placeholder="minimum 6 characters" minlength="6" required/>
   </label>
 
   <label class="item item-input item-stacked-label">
     <span class="input-label">Email</span>
     <input type="text" ng-model="editUser.email" placeholder="{{thisuser.Email}}"/>
   </label>
-
+</form>
   <div class="item item-divider item-button-right" >
 
       <p> <font size="3"> My Family Members</font></p>
