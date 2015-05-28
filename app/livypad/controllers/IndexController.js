@@ -186,7 +186,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 	$scope.icons.push({ url: "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Dog.png",
 						name: "dog"});
 
-	$scope.urlPass = ""
+	$scope.urlPass = "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Dad.png"; //initializing to default icon
 	$scope.getIconTitle = function(url,index){
 		//alert("Icon selected! Click Add Member to save.");
 		$scope.urlPass = url;
