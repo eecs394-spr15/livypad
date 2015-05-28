@@ -1,5 +1,5 @@
 
-<div ng-controller="IndexController">
+<div ng-controller="IndexController"  class="page" scroll>
   <super-navbar>
     <super-navbar-title>
       livypad
@@ -13,7 +13,7 @@
      Add
     </super-navbar-button>
   </super-navbar>
-
+<!--
 	<script type="text/javascript">
 		setInterval(checkRefresh, 2000);
 		checkRefresh();
@@ -31,12 +31,13 @@
     	}
 	</script>
 
-
   <div style="text-align: center">
     <button class="button icon-center super-loop button-clear button-assertive" ng-click="refresh()">
     </button>
   </div>
-
+-->
+    <div class="button-block button-clear refresh" ng-show="iconstatus"><i class="icon iconhide super-refreshing"></i></div>
+    
 	<div ng-repeat="member in sorted" class="list card">
 		<super-navigate location="livypad#person" data-params-id="{{member.id}}">
 	    	<div class="item item-thumbnail-left">
