@@ -17,6 +17,31 @@
       
    </div>
 
+
+     <button ng-click="showHistory = !showHistory" class="button button-full button-small button-stable">
+     <a ng-hide ="showHistory"> Show History</a>
+     <a ng-show ="showHistory"> Hide History</a>
+      </button>
+
+      <div ng-show = "showHistory">
+        <div class="item item-divider" style="text-align: center">
+               Past Visits
+            </div>
+
+        <div ng-repeat="pastAppointment in allVisitHistory | filter: filterFunction" class="list card">
+          
+          <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{pastAppointment.nameOfAppointment}}</h2>
+            <h2> <b>For: </b>{{pastAppointment.nameOfFamilyMember}}</h2>
+            <h2> <b>Doctor: </b>{{pastAppointment.doctor}}</h2>
+            <h2> <b>Location: </b>{{pastAppointment.location}}</h2>
+            <h2> <b>Date: </b>{{pastAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
+          </div>
+
+        </div>
+      </div>
+
+
     <div class="item item-divider" style="text-align: center">
       Upcoming Visits
     </div>

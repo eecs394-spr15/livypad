@@ -375,6 +375,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 	}
 
 	$scope.allScheduledAppointmentWithHistory = [];
+	$scope.allVisitHistory = [];
   	function loadFamilyMemberExistingAppointments(famMember){
   		return new Promise(function(resolve, reject) {
 		   	var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");
@@ -385,7 +386,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 				scheduledAppointmentResults.forEach(function(famMemberScheduledAppointment){
 					var dateLastScheduled = famMemberScheduledAppointment.get("dateScheduled");
 					var currentDate = new Date();
-					//test to see if the appointment is in the future, if so, add it, else, don't.
+					
 					$scope.allScheduledAppointmentWithHistory.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 														   doctor : famMemberScheduledAppointment.get("doctor"),
 														   location : famMemberScheduledAppointment.get("location"),
@@ -394,11 +395,20 @@ livypad.controller("IndexController", function($scope,supersonic){
 														   nameOfFamilyMember : famMember.get("Name"),
 														   famMemberID : famMember.id,
 														});
-
+					//test to see if the appointment is in the future, if so, add it, else, don't.
 					if (dateLastScheduled >currentDate){
 						//filling in the all scheduled appointment list
 						counter ++;
 						$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
+														   doctor : famMemberScheduledAppointment.get("doctor"),
+														   location : famMemberScheduledAppointment.get("location"),
+														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
+														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
+														   nameOfFamilyMember : famMember.get("Name"),
+														   famMemberID : famMember.id,
+														});
+					} else {
+						$scope.allVisitHistory.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 														   doctor : famMemberScheduledAppointment.get("doctor"),
 														   location : famMemberScheduledAppointment.get("location"),
 														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
@@ -600,6 +610,10 @@ livypad.controller("IndexController", function($scope,supersonic){
 
 
 	//FUNCTIONS FOR RECOMMENDED VISITS ///////////////////////////////////////////////////////
+
+	//variable for showing history:
+	$scope.showHistory = false;
+
 
 	//Scheduling new recommended appointment 
 	$scope.scheduleRecommendedAppointment = function(appointmentName,famMember,frequency){
