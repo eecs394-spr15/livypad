@@ -192,10 +192,13 @@ livypad.controller("CalendarController", function($scope,supersonic){
         //initializing duration
         $scope.newAppointmentToAddToGCalandLivypadDuration = 1;
         $scope.addEventToGCalAndLivyPad = function(){
-            var summary = document.getElementById("summary").value;
-            var location = document.getElementById("Location").value;
+            var doctor = "";
+            var summary = "";
+            var location = "";
+            summary = document.getElementById("summary").value;
+            location = document.getElementById("Location").value;
             var dateTime = document.getElementById("date").value;
-            var doctor = document.getElementById("doctor").value;
+            doctor = document.getElementById("doctor").value;
             var startTime = document.getElementById("startTime").value;
            // var endTime = document.getElementById("endTime").value;
             var currentDate = new Date();
