@@ -3,26 +3,25 @@
     <super-navbar-title>
     	{{individualFamMemberName}}
     </super-navbar-title>
+    <super-navbar-button class="item-icon-right" side="right" ng-click="Searchbar = !Searchbar">
+     Search
+    </super-navbar-button>
   </super-navbar>
 
-    <div class="item item-thumbnail-left">
-      <img src="{{memberIcon}}">
-
+    <div ng-show = "Searchbar">
       <div class="list list-inset">
          <label class="item item-input">
             <i class="icon super-search placeholder-icon"></i>
             <input type="text" placeholder="Search" ng-model="keyword">
         </label>
-      </div>  
+        <br>
+      </div> 
+    </div>
+
+    <div class="item item-thumbnail-left">
+      <img src="{{memberIcon}}"> 
       
    </div>
-
-<!--
-     <button ng-click="showHistory = !showHistory" class="button button-full button-small button-stable">
-     <a ng-hide ="showHistory"> Show History</a>
-     <a ng-show ="showHistory"> Hide History</a>
-      </button>
--->
 
   <div class="item item-divider item-button-right" >
       <p> <font size="3"> Past Visits</font></p>
