@@ -13,29 +13,7 @@
      Add
     </super-navbar-button>
   </super-navbar>
-<!--
-	<script type="text/javascript">
-		setInterval(checkRefresh, 2000);
-		checkRefresh();
 
-		function checkRefresh(){
-     
-	        var refresh = localStorage.getItem('refresh');
-	        if (refresh == 1)
-	        {
-	          window.location.reload();
-	          refresh = 0;
-	          localStorage.setItem('refresh', refresh);
-	  		}
-
-    	}
-	</script>
-
-  <div style="text-align: center">
-    <button class="button icon-center super-loop button-clear button-assertive" ng-click="refresh()">
-    </button>
-  </div>
--->
     <div class="button-block button-clear refresh" ng-show="iconstatus"><i class="icon iconhide super-refreshing"></i></div>
     
 	<div ng-repeat="member in sorted" class="list card">
