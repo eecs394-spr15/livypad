@@ -12,14 +12,15 @@
 <form name="addGCalEventToLivypad" novalidate>
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Appointment Name</span>
-
-		<input type="text" value="{{eventSummary}}" id="summary" name = "summary" required=""/>
+		<input type="text" ng-model="eventSummary" id="summary" name = "summary" required=""/>
 	</label>
-
+	<!--<div ng-show="addGCalEventToLivypad.$submitted || addGCalEventToLivypad.summary.$touched">
+      <div ng-show="addGCalEventToLivypad.summary.$error.required">Tell us your name.</div>
+    </div>-->
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Location</span>
-		<input type="text" placeholder = "optional" value="{{eventLocation}}" id="Location"/>
+		<input type="text" placeholder = "optional" ng-model="eventLocation" id="Location"/>
 	</label>
 
 
@@ -49,9 +50,7 @@
 	</label>
 	
 
-
-
-	<input type = "submit" id="post" class="button button-block button-assertive" ng-click="addGCalEventToLivyPad()" value ="Add Google Calendar Event To LivyPad">
+	<button type = "submit" id="post" class="button button-block button-assertive" ng-click="addGCalEventToLivyPad()" ng-disabled="addGCalEventToLivypad.$invalid"> Add Google Calendar Event To LivyPad </button>
 		
 </form>
 

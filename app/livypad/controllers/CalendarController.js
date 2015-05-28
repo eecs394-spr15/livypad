@@ -329,7 +329,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
             }
             var location = "";
             var doctor = "";
-            var summary = document.getElementById("summary").value;
+            var summary = "";
+            summary = document.getElementById("summary").value;
             location = document.getElementById("Location").value;
             var dateTime = document.getElementById("date").value;
             doctor = document.getElementById("doctor").value;
