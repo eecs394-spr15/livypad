@@ -42,7 +42,7 @@
       </super-navigate>
     </div>  -->
     
-  <div class="item item-divider" style="text-align: center">
+    <div class="item item-divider" style="text-align: center">
       Recommended Visits
     </div>
     
@@ -59,9 +59,19 @@
 
         <div class="button-bar" width=400 height=500>
           <button ng-click="scheduleRecommendedAppointment(suggestedAppointment.nameOfAppointment, suggestedAppointment.famMember, suggestedAppointment.frequencyNum)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
-          
-          <button ng-click="ignoreReccomendation(suggestedAppointment.appointmentID, suggestedAppointment.famMember)" class="button icon-left super-close-round button-assertive"> Ignore </button>
+          <button ng-click="showIgnore = !showIgnore" class="button icon-left super-close-round button-assertive">Ignore</button>
         </div>
 
-    </div>
+        <div ng-show = "showIgnore">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Remind me in ___ months' time</span>
+            <input type="number" min="0" ng-model="ignoreTimeLength.getLength">
+          </label>
+          <div class="button-bar">
+            <button ng-click="ignoreReccomendation(suggestedAppointment.appointment, suggestedAppointment.famMember)" class="button button-full icon-left super-close-round button-assertive"> Confirm Ignore </button>
+          </div>
+        </div>
+
+  </div>
+
 </div>

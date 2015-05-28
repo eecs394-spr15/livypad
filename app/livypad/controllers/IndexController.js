@@ -461,7 +461,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 					var ignoredAppointmentMarker = -1;
 					
 					for(var j = 0; j < appointmentsToIgnore.length; j++) {
-					    if (appointmentsToIgnore[j].appointmentID === searchTermIgnore && appointmentsToIgnore[j].ignoredDate.getFullYear() >= currentDate.getFullYear()) {
+					    if (appointmentsToIgnore[j].appointmentID === searchTermIgnore && appointmentsToIgnore[j].dateAtWhichToUnignore > currentDate) {
 					        ignoredAppointmentMarker = 1;
 					        //alert(" here! " + searchTermIgnore);
 					        break;
@@ -563,6 +563,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 																frequencyNum: frequency,
 																recommendedNextDate : recommendation,
 																dateLastScheduled: dateLastScheduled,
+																appointment : famMemberSuggestedAppointment,
 															});
 
 						var famMemberSuggestedAppointmentRelation = famMember.relation("suggestedAppointments");
@@ -610,10 +611,37 @@ livypad.controller("IndexController", function($scope,supersonic){
 	}
 
 	//ignoring recommendation
-	$scope.ignoreReccomendation = function(appointmentID, famMember){
-		alert("ignored this appointment");
-		famMember.addUnique("ignoredAppointments", {appointmentID: appointmentID, ignoredDate: new Date()});
-		famMember.save();
+	//variable to toggle the ignore button
+	$scope.showIgnore = false;
+	$scope.ignoreTimeLength ={"getLength" : 12} ;
+	$scope.ignoreReccomendation = function(appointment, famMember){
+		
+		
+		var ignoreLengthInMonths = parseInt($scope.ignoreTimeLength.getLength , 10);
+		var dateAtWhichToUnignore = new Date();
+		dateAtWhichToUnignore.setMonth(dateAtWhichToUnignore.getMonth() + ignoreLengthInMonths);
+
+		var arrayOfIgnoredAppointments = famMember.get("ignoredAppointments");
+
+		var markerForExistingIgnoredAppointment = -1;
+		for(var i = 0; i < arrayOfIgnoredAppointments.length; i++) {
+		    if (arrayOfIgnoredAppointments[i].appointmentID == appointment.id) {
+		    	markerForExistingIgnoredAppointment = i;
+		    	arrayOfIgnoredAppointments[i].dateAtWhichToUnignore = dateAtWhichToUnignore;
+		        break;
+		    }
+		}
+
+		alert("ignored this appointment till " + dateAtWhichToUnignore.toDateString());
+
+		if (markerForExistingIgnoredAppointment == -1){
+			famMember.addUnique("ignoredAppointments", {appointmentID: appointment.id, dateAtWhichToUnignore: dateAtWhichToUnignore});
+			famMember.save();
+		} else {
+			famMember.set("ignoredAppointments",arrayOfIgnoredAppointments);
+			famMember.save();
+		}
+
 	}
 
 	//FUNCTIONS FOR ADDING CUSTOM RECOMMENDED VISIT ///////////////////////////////////////////////////////
