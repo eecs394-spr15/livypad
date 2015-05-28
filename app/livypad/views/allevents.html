@@ -37,7 +37,7 @@
             <h2> <b>Time:</b> {{pEvent.startTime}} to {{pEvent.endTime}} </h2>
         </div>
 
-        <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)">
+        <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(pEvent.summary, pEvent.location, pEvent.startTimeObject, pEvent.endTimeObject)">
         Add to LivyPad
         </button>
             <!--<super-navigate location="livypad#addGCalEventToLivyPad" data-params-id="{{pEvent}}">
@@ -64,7 +64,7 @@
              <h2> <b>Date: </b>{{uEvent.date}} </h2>
             <h2> <b>Time:</b> {{uEvent.startTime}} to {{uEvent.endTime}} </h2>
         </div>
-        <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(uEvent.summary, uEvent.location, uEvent.start.dateTime, uEvent.end.dateTime)">
+        <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(uEvent.summary, uEvent.location, uEvent.startTimeObject, uEvent.endTimeObject)">
         Add to LivyPad
         </button>
         <!--<div class="button-bar" width=400 height=500>

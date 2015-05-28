@@ -150,7 +150,9 @@ livypad.controller("CalendarController", function($scope,supersonic){
                                             location: events[i].location,
                                             date: dateOfEvent.toDateString(),
                                             startTime: startTime,
-                                            endTime: endTime}) ;
+                                            endTime: endTime,
+                                            startTimeObject : events[i].start.dateTime,
+                                            endTimeObject: events[i].end.dateTime}) ;
                 }
                 
             });
@@ -179,7 +181,9 @@ livypad.controller("CalendarController", function($scope,supersonic){
                                             location: events2[i].location,
                                             date: dateOfEvent.toDateString(),
                                             startTime: startTime,
-                                            endTime: endTime}) ;
+                                            endTime: endTime,
+                                            startTimeObject : events2[i].start.dateTime,
+                                            endTimeObject: events2[i].end.dateTime}) ;
                 }
 
             });
@@ -269,12 +273,11 @@ livypad.controller("CalendarController", function($scope,supersonic){
         $scope.loadGCalAppointment = function(summary, location, startDateTime, endDateTime){
             var myParams = {params: {eventSummary: summary, eventLocation: location, startTime:startDateTime, endTime:endDateTime}}; 
             
-	    var view = new supersonic.ui.View("livypad#addGCalEventToLivyPad");
+	        var view = new supersonic.ui.View("livypad#addGCalEventToLivyPad");
             supersonic.ui.layers.push(view,myParams);
         };
 
         $scope.addGCalEventToLivyPad = function(){
-            
             var summary = "";
             var doctor = "";
             var location = "";
@@ -288,7 +291,6 @@ livypad.controller("CalendarController", function($scope,supersonic){
             var offset = currentDate.getTimezoneOffset() / 60;
             var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
             var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
-            //alert(startDateTime);
             var dateObject = new Date(startDateTime);
             //alert("month: " +dateObject.getMonth());
             var recommendedNextDate = new Date(0);
@@ -301,7 +303,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 newAppointmentTwo.set("doctor", doctor);
                 newAppointmentTwo.set("location", location);
                 newAppointmentTwo.set("dateScheduled", dateObject);
-                newAppointment.set("recommendedNextDate", recommendedNextDate);
+                
+                newAppointmentTwo.set("recommendedNextDate", recommendedNextDate);
                 var scheduledAppointmentRelation = newAppointmentTwo.relation("familyMember");           
                 scheduledAppointmentRelation.add(famMember);
                 var famMemberScheduledAppointmentRelation = famMember.relation("scheduledAppointments");  

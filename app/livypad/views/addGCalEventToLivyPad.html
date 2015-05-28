@@ -9,15 +9,17 @@
 <!--	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
 	</script>
 -->
+<form name="addGCalEventToLivypad" novalidate>
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Appointment Name</span>
 
-		<input type="text" value="{{eventSummary}}" id="summary"/>
+		<input type="text" value="{{eventSummary}}" id="summary" name = "summary" required=""/>
 	</label>
+
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Location</span>
-		<input type="text" value="{{eventLocation}}" id="Location"/>
+		<input type="text" placeholder = "optional" value="{{eventLocation}}" id="Location"/>
 	</label>
 
 
@@ -34,24 +36,24 @@
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Date</span>
-		<input type="date" ng-model="eventDate" id="date"/> <!--try datetime-local ... doesn't work with gcal though -->
+		<input type="date" ng-model="eventDate" id="date" required=""/> <!--try datetime-local ... doesn't work with gcal though -->
 	</label>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Start Time</span>
-		<input ng-model="startTime" type="time" id="startTime"/>
+		<input ng-model="startTime" type="time" id="startTime" required =""/>
 	</label>
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">End Time</span>
-		<input ng-model="endTime" type="time" id="endTime"/>
+		<input ng-model="endTime" type="time" id="endTime" required=""/>
 	</label>
 	
 
 
 
-	<button id="post" class="button button-block button-assertive" ng-click="addGCalEventToLivyPad()">
-		Add Google Calendar Event To LivyPad
-	</button>
+	<input type = "submit" id="post" class="button button-block button-assertive" ng-click="addGCalEventToLivyPad()" value ="Add Google Calendar Event To LivyPad">
+		
+</form>
 
 
 
