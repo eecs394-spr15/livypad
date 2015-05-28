@@ -22,10 +22,11 @@
     </div>
 
 
-    <div class="item item-divider" style="text-align: center">
-      Past Events
-    </div>
-
+  <div class="item item-divider item-button-right" >
+      <p> <font size="3"> Past Events</font></p>
+      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showPastEvents = !showPastEvents"></button>
+  </div>
+ <div ng-show = "showPastEvents">
   <a ng-repeat="pEvent in pastEvents|filter: keyword" class="list card" >
       <div class="card">
 
@@ -44,14 +45,15 @@
 
       </div>
     </a>
+</div>
 
 
 
-
-    <div class="item item-divider" style="text-align: center">
-      Upcoming Events
+  <div class="item item-divider item-button-right" >
+      <p> <font size="3"> Upcoming Events</font></p>
+      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showUpcomingEvents = !showUpcomingEvents"></button>
   </div>
-
+ <div ng-show = "showUpcomingEvents">
   <a ng-repeat="uEvent in upcomingEvents|filter:keyword" class="list card" >
       <div class="card">
 
