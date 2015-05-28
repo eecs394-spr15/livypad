@@ -189,6 +189,8 @@ livypad.controller("CalendarController", function($scope,supersonic){
             });
         }
 
+        //initializing duration
+        $scope.newAppointmentToAddToGCalandLivypadDuration = 1;
         $scope.addEventToGCalAndLivyPad = function(){
             var summary = document.getElementById("summary").value;
             var location = document.getElementById("Location").value;
@@ -219,7 +221,6 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
             var dateObject = new Date(startDateTime);
             var recommendedNextDate = new Date(0);
-            //alert(startDateTime);
 
             //Adding to GCAL
             var resource = {
@@ -240,7 +241,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             request.execute(function(resp) {
                     alert("successfully added into your calendar!");
                     
-                    });
+            });
 
             //Adding to Parse
             var queryFamMemberToAddTo = new Parse.Query(FamilyMember);
