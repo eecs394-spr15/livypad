@@ -85,13 +85,15 @@
         </div>
 
         <div ng-show = "showIgnore">
+          <form name="confirmIgnoreForm" novalidate>
           <label class="item item-input item-stacked-label">
             <span class="input-label">Remind me in ___ months' time</span>
-            <input type="number" min="0" ng-model="ignoreTimeLength.getLength">
+            <input type="number" min="0" max="999" ng-model="ignoreTimeLength.getLength" required/>
           </label>
           <div class="button-bar">
-            <button ng-click="ignoreReccomendation(suggestedAppointment.appointment, suggestedAppointment.famMember) ; showIgnore = !showIgnore" class="button button-full icon-left super-close-round button-assertive"> Confirm Ignore </button>
+            <button type="submit" ng-click="ignoreReccomendation(suggestedAppointment.appointment, suggestedAppointment.famMember) ; showIgnore = !showIgnore" class="button button-full icon-left super-close-round button-assertive" ng-disabled="confirmIgnoreForm.$invalid"> Confirm Ignore </button>
           </div>
+          </form>
         </div>
 
   </div>
