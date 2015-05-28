@@ -68,7 +68,7 @@
             <input type="number" min="0" ng-model="ignoreTimeLength.getLength">
           </label>
           <div class="button-bar">
-            <button ng-click="ignoreReccomendation(suggestedAppointment.appointment, suggestedAppointment.famMember)" class="button button-full icon-left super-close-round button-assertive"> Confirm Ignore </button>
+            <button ng-click="ignoreReccomendation(suggestedAppointment.appointment, suggestedAppointment.famMember) ; showIgnore = !showIgnore" class="button button-full icon-left super-close-round button-assertive"> Confirm Ignore </button>
           </div>
         </div>
 
