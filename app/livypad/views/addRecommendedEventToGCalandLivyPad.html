@@ -9,15 +9,16 @@
 	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
 	</script>
 
+<form name="addRecommendedEventToGCalandLivypad" novalidate>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Appointment Name</span>
-		<input value="{{newAppointmentName}}"type="text" id="summary"/>
+		<input ng-model="newAppointmentName"type="text" id="summary" required/>
 	</label>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Location</span>
-		<input type="text" id="Location"/>
+		<input placeholder = "optional" type="text" id="Location"/>
 	</label>
 
 
@@ -29,17 +30,17 @@
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Doctor</span>
-		<input type="text" id="doctor"/>
+		<input placeholder = "optional" type="text" id="doctor"/>
 	</label>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Date</span>
-		<input type="date" id="date"/> <!--try datetime-local ... doesn't work with gcal though -->
+		<input ng-model = "addVisitFromSuggestedListDate" type="date" id="date" required/> <!--try datetime-local ... doesn't work with gcal though -->
 	</label>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Start Time</span>
-		<input type="time" value="12:00" step="900" id="startTime"/>
+		<input type="time" value="12:00" step="900" id="startTime" required/>
 	</label>
 	<!--<label class="item item-input item-stacked-label">
 		<span class="input-label">End Time</span>
@@ -47,17 +48,19 @@
 	</label>-->
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Duration (in hours)</span>
-		<input type="number" id="duration" min="0.5" max="24" step="0.5" value="1">
+		<input ng-model="defaultDuration" type="number" id="duration" min="0.5" max="24" step="0.5" required/>
 	</label>
 
 
-	<button id="post" class="button button-block button-assertive" ng-click="addRecommendedEventToGCalAndLivyPad()">
+	<button id="post" class="button button-block button-assertive" ng-click="addRecommendedEventToGCalAndLivyPad()" ng-disabled="addRecommendedEventToGCalandLivypad.$invalid">
 		Add New Appointment to GCal and LivyPad
 	</button>
 
 	<div ng-hide="cal">
 	       <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>
 	</div>
+
+</form>
 
 </div>
  	

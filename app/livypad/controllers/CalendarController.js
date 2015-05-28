@@ -190,7 +190,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
         }
 
         //initializing duration
-        $scope.newAppointmentToAddToGCalandLivypadDuration = 1;
+        $scope.defaultDuration = 1;
         $scope.addEventToGCalAndLivyPad = function(){
             var doctor = "";
             var summary = "";
