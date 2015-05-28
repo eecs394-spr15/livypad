@@ -1,4 +1,4 @@
-<div ng-controller="CalendarController">
+<div ng-controller="CalendarController" class="page" scroll>
 
 	<script src="https://apis.google.com/js/client.js" ng-init="handleClientLoad()"></script>
 
@@ -7,14 +7,18 @@
 			All Events from your google calendar
 		</super-navbar-title>
 	</super-navbar>
-
+    <div class="button-block button-clear refresh" ng-show="iconstatus"><i class="icon iconhide super-refreshing"></i></div>
+ 
     <div ng-hide="cal">
         <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>
     </div>
+ <!--  
   <div style="text-align: center">
     <button class="button icon-center super-loop button-clear button-assertive" ng-click="refresh()">
     </button>
   </div>
+-->
+  
     <div class="list list-inset">
        <label class="item item-input">
           <i class="icon super-search placeholder-icon"></i>
