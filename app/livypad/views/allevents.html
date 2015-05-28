@@ -33,8 +33,8 @@
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{pEvent.summary}}</h2>
             <h2> <b>Location: </b>{{pEvent.location}}</h2>
-             <h2> <b>Date: </b>{{pEvent.start.date}} </h2>
-            <h2> <b>Time:</b> {{pEvent.start.dateTime}} to {{pEvent.end.dateTime}} </h2>
+             <h2> <b>Date: </b>{{pEvent.date}} </h2>
+            <h2> <b>Time:</b> {{pEvent.startTime}} to {{pEvent.endTime}} </h2>
         </div>
 
         <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(pEvent.summary, pEvent.location, pEvent.start.dateTime, pEvent.end.dateTime)">
@@ -61,8 +61,8 @@
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{uEvent.summary}}</h2>
             <h2> <b>Location: </b>{{uEvent.location}}</h2>
-             <h2> <b>Date: </b>{{uEvent.start.date}} </h2>
-            <h2> <b>Time:</b> {{uEvent.start.dateTime}} to {{uEvent.end.dateTime}} </h2>
+             <h2> <b>Date: </b>{{uEvent.date}} </h2>
+            <h2> <b>Time:</b> {{uEvent.startTime}} to {{uEvent.endTime}} </h2>
         </div>
         <button id="post" class="button button-block super-checkmark-round button-assertive" ng-click="loadGCalAppointment(uEvent.summary, uEvent.location, uEvent.start.dateTime, uEvent.end.dateTime)">
         Add to LivyPad

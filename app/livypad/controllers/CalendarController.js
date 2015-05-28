@@ -127,6 +127,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
            	gapi.client.load('calendar', 'v3', loadUpcomingEvents);
         }
 
+        $scope.pastEvents = [];
         function loadPastEvents(){
             var request = gapi.client.calendar.events.list({
                 'calendarId': 'primary',
@@ -140,10 +141,21 @@ livypad.controller("CalendarController", function($scope,supersonic){
             request.execute(function(resp) {
                 supersonic.logger.log(resp);
                 var events = resp.items;
-                $scope.pastEvents = events;
+                for (var i = 0; i < events.length; i++){
+                    var dateOfEvent = new Date(events[i].start.dateTime);
+                    var startTime = dateOfEvent.toTimeString().split(' ')[0];
+                    var endingTimeDate = new Date(events[i].end.dateTime);
+                    var endTime = endingTimeDate.toTimeString().split(' ')[0];
+                    $scope.pastEvents.push({summary: events[i].summary,
+                                            location: events[i].location,
+                                            date: dateOfEvent.toDateString(),
+                                            startTime: startTime,
+                                            endTime: endTime}) ;
+                }
+                
             });
         }
-
+        $scope.upcomingEvents = [];
         function loadUpcomingEvents(){
             var request = gapi.client.calendar.events.list({
                 'calendarId': 'primary',
@@ -157,7 +169,19 @@ livypad.controller("CalendarController", function($scope,supersonic){
             request.execute(function(resp) {
                 supersonic.logger.log(resp);
                 var events2 = resp.items;
-                $scope.upcomingEvents = events2;
+
+                for (var i = 0; i < events2.length; i++){
+                    var dateOfEvent = new Date(events2[i].start.dateTime);
+                    var startTime = dateOfEvent.toTimeString().split(' ')[0];
+                    var endingTimeDate = new Date(events2[i].end.dateTime);
+                    var endTime = endingTimeDate.toTimeString().split(' ')[0];
+                    $scope.upcomingEvents.push({summary: events2[i].summary,
+                                            location: events2[i].location,
+                                            date: dateOfEvent.toDateString(),
+                                            startTime: startTime,
+                                            endTime: endTime}) ;
+                }
+
             });
         }
 
