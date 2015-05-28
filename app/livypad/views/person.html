@@ -17,17 +17,19 @@
       
    </div>
 
-
+<!--
      <button ng-click="showHistory = !showHistory" class="button button-full button-small button-stable">
      <a ng-hide ="showHistory"> Show History</a>
      <a ng-show ="showHistory"> Hide History</a>
       </button>
+-->
+
+  <div class="item item-divider item-button-right" >
+      <p> <font size="3"> Past Visits</font></p>
+      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showHistory = !showHistory"></button>
+  </div>
 
       <div ng-show = "showHistory">
-        <div class="item item-divider" style="text-align: center">
-               Past Visits
-            </div>
-
         <div ng-repeat="pastAppointment in allVisitHistory | filter: filterFunction" class="list card">
           
           <div class="item item-text-wrap">
@@ -42,11 +44,12 @@
       </div>
 
 
-    <div class="item item-divider" style="text-align: center">
-      Upcoming Visits
-    </div>
+  <div class="item item-divider item-button-right" >
+      <p> <font size="3"> Upcoming Visits</font></p>
+      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showUpcoming = !showUpcoming"></button>
+  </div>
     
-    
+  <div ng-show = "showUpcoming">    
     <div ng-repeat="scheduledAppointment in allScheduledAppointmentList | filter: filterFunction" class="list card">
         <div class="item item-text-wrap">
           <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
@@ -57,20 +60,15 @@
         </div>
 
     </div>
-<!--    <div class="list card">
-      <super-navigate location="" data-params-id="">
-        <div class="item">
-          <h2 style="text-align: center"></h2>
-            <p style="text-align: center">{{members.suggested}}</p>
-            <p style="text-align: center">Location: #####</p>
-        </div>
-      </super-navigate>
-    </div>  -->
-    
-    <div class="item item-divider" style="text-align: center">
-      Recommended Visits
-    </div>
-    
+  </div>
+
+
+  <div class="item item-divider item-button-right" >
+      <p> <font size="3"> Recommended Visits</font></p>
+      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showRecommended = !showRecommended"></button>
+  </div>
+
+  <div ng-show = "showRecommended">   
     <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: filterFunction" class="list card" >
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.nameOfAppointment}}</h2>
@@ -98,5 +96,6 @@
         </div>
 
   </div>
+</div>
 
 </div>
