@@ -5,12 +5,12 @@
   	    </super-navbar-title>
   </super-navbar>
 
-  <label class="item item-input item-stacked-label">
-      <span class="input-label">Visit Description: </span>
-      <input type="text" name = "newTitle" ng-model="newUserAddedRecommendation.newTitle" required/>
-  </label>
-  
-  <form>
+  <form name="addNewRecommendation" novalidate>
+	  <label class="item item-input item-stacked-label">
+	      <span class="input-label">Visit Description: </span>
+	      <input type="text" name = "newTitle" ng-model="newUserAddedRecommendation.newTitle" required/>
+	  </label>
+
   	<label class="item item-input item-stacked-label">
 	      <span class="input-label">Category:</span> 
 	      <div class="list">
@@ -56,7 +56,7 @@
 		  </label>
 		</div>
 	  	</label>
-	</form>
+
 
   <label class="item item-input item-stacked-label">
       <span class="input-label">Recommended Frequency (in years):</span>  
@@ -74,16 +74,16 @@
   </label>
 
   <label class="item item-input item-stacked-label">
-      <span class="input-label">Special age 1 (in years) - optional:</span>  
-      <input type="number" min="0" max="130" ng-model="newUserAddedRecommendation.specialOne"/>
+      <span class="input-label">Special age 1 (in years)</span>  
+      <input placeholder= "optional" type="number" min="0" max="130" ng-model="newUserAddedRecommendation.specialOne"/>
   </label>
 
   <label class="item item-input item-stacked-label">
-      <span class="input-label">Special age 2 (in years) - optional:</span>  
-      <input type="number" min="0" max="130" ng-model="newUserAddedRecommendation.specialTwo"/>
+      <span class="input-label">Special age 2 (in years)</span>  
+      <input placeholder= "optional" type="number" min="0" max="130" ng-model="newUserAddedRecommendation.specialTwo"/>
   </label>
 
-<form>
+
   <label class="item item-input item-stacked-label">
       <span class="input-label">Relevant Gender:</span>
 
@@ -122,13 +122,16 @@
 		  </label>
 		</div>
   </label>
-</form>
 
-  <br>
-  <div class="button-bar"  width=400 height=500>
-    <button ng-click="addNewRecommendedVisit()" class="button icon-left super-checkmark-round button-assertive">
+    <div class="button-bar"  width=400 height=500>
+    <button type = "submit" ng-click="addNewRecommendedVisit()" class="button icon-left super-checkmark-round button-assertive" ng-disabled="addNewRecommendation.$invalid">
         Add New Recommended Visit 
     </button>
   </div>
+
+</form>
+
+
+
 
 </div>	
