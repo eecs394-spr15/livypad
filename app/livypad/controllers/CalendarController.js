@@ -1,6 +1,6 @@
 livypad.controller("CalendarController", function($scope,supersonic){
         Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
-     
+        $scope.iconstatus = 0;
     	 
         //classes
         var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
@@ -424,4 +424,23 @@ livypad.controller("CalendarController", function($scope,supersonic){
         };
 
 
-});
+})
+
+
+    .directive("scroll", function ($window, $document,$timeout) {
+        return function(scope, element, attrs) {
+            angular.element($window).bind("scroll", function() {
+                var height = $document[0].body.offsetHeight - this.innerHeight;
+                if(this.pageYOffset <= 0){
+                    scope.iconstatus = 1;
+                    $timeout(function(){
+                        scope.iconstatus=0;
+                        $window.scrollBy(0,1);
+                    },1250);
+                    //scope.allFamilyMembers = [];
+                    //scope.loadFamilyData();
+                    scope.refresh();
+                };
+            });
+        };
+    });
