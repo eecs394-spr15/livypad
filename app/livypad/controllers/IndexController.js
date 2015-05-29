@@ -140,6 +140,53 @@ livypad.controller("IndexController", function($scope,supersonic){
 	
 	};
 
+
+	$scope.deleteUpcoming = function(visitID){
+		var queryDeleteVisit = new Parse.Query(ScheduledAppointment);
+		var options = {
+							message: "Do you really want to delete this upcoming visit.",
+							buttonLabels: ["Yes", "No"]
+						};
+		supersonic.ui.dialog.confirm("", options).then(function(index) {
+		  if (index == 0) {
+		    queryDeleteVisit.get(visitID, {
+			success: function(visitDelete){
+		
+				visitDelete.destroy({
+					success: function(myObject){
+						var options = {
+							message: "This upcoming visit has been deleted.",
+							buttonLable: "Close"
+						};
+						supersonic.ui.dialog.alert("Success!", options).then(function() {
+						  supersonic.logger.log("Alert closed.");
+						});
+						$scope.allScheduledAppointmentList = [];
+						loadFamilyData();
+					},
+					error: function(myObject, error){
+						var options = {
+							message: "This visit could not be deleted, try again later.",
+							buttonLable: "Close"
+						};
+						supersonic.ui.dialog.alert("Issue Encountered", options).then(function() {
+						  supersonic.logger.log("Alert closed.");
+						});
+					}
+				});
+			},
+			error: function(memberDelete, error){
+
+			}
+		});
+		  } else {
+		    supersonic.logger.log("Alert closed.");
+		  }
+		});
+
+	}
+
+
 	// Redundant Code to be deleted???? /////////////////
 	/*
 	$scope.members = [];
@@ -399,7 +446,8 @@ livypad.controller("IndexController", function($scope,supersonic){
 					if (dateLastScheduled >currentDate){
 						//filling in the all scheduled appointment list
 						counter ++;
-						$scope.allScheduledAppointmentList.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
+						$scope.allScheduledAppointmentList.push({ id: famMemberScheduledAppointment.id,
+														   nameOfAppointment : famMemberScheduledAppointment.get("name"),
 														   doctor : famMemberScheduledAppointment.get("doctor"),
 														   location : famMemberScheduledAppointment.get("location"),
 														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
