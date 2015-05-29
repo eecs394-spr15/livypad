@@ -73,7 +73,7 @@
         </div>
 
         <div class="button-bar" width=400 height=500>
-          <!-- <button  class="button icon-left super-edit button-assertive"> Edit </button> -->
+          <button ng-click="editScheduledAppointment(scheduledAppointment.id, scheduledAppointment.nameOfAppointment, scheduledAppointment.famMember, scheduledAppointment.doctor, scheduledAppointment.location, scheduledAppointment.dateScheduled)" class="button icon-left super-edit button-assertive"> Edit </button>
           <button ng-click="deleteUpcoming(scheduledAppointment.id)" class="button icon-left super-trash-a button-assertive">Delete</button>
         </div>
 
