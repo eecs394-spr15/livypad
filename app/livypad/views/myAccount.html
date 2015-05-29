@@ -69,35 +69,21 @@
 
       <div class="card" id="{{member.id}}">
 
-            <div class="item"> <!--item-avatar-->
+        <div class="item">
               <img src={{member.iconID}} align="left" style="width: 20%">
-              <p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>
-            </div>
 
-            <div class="item">
+            <div class="col col-right">
+              <p style="text-align: center"><h2><b>{{member.name}}</b></h2></p>          
               <h2><b>Birthdate:</b> {{member.dateOfBirth | date: "yyyy-MM-dd"}} </h2>
-              <h2><b>Gender:</b> {{member.gender}} <h2>
+              <h2><b>Gender:</b> {{member.gender}} <h2>            
             </div>
+        </div>
 
-            <div class="button-bar" width=400 height=500>
-            <!-- <super-navigate location="livypad#addScheduled" data-params-id="{{member.id}}">  
-              <button class="button icon-left super-plus-round button-assertive"> 
-                  Scheduled       
-              </button>
-            </super-navigate>
-
-            <super-navigate location="livypad#addDoctor" data-params-id="{{member.id}}"> 
-              <button class="button icon-left super-plus-round button-assertive"> 
-                  Doctors       
-              </button>
-            </super-navigate> -->
-
-      
+        <div class="button-bar" width=400 height=500>      
             <button class="button icon-left super-trash-a button-assertive" ng-click="deleteFamilyMember(member.id)">
               Delete
-            </button>
-        
-            </div>
+            </button>        
+        </div>
 
       </div>
   </a> 
