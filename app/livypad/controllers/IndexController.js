@@ -33,10 +33,36 @@ livypad.controller("IndexController", function($scope,supersonic){
 	function loadIndividualFamilyMember(){
 		var queryIndividualFamMember = new Parse.Query(FamilyMember);
 
+
 		queryIndividualFamMember.get($scope.individualFamMember, {
 		      success: function(famMember) {
+
+			    loadFamilyMemberExistingAppointments(famMember).then(function(result){ //NEED TO ensure this finishes populating before you call the next function! It won't break but it relies on this being filled to filter out appointments that don't exist yet.
+				
+			    	var numExistingAppointments = result;
+
+			    	//looking through all suggested appointments to find relevant ones
+			    	loadFamilyMemberSuggestedAppointments(famMember).then(function(result){
+			    		var numSuggestedAppointments = result;
+			    		var percentage = 0.0;
+						if ((numExistingAppointments + numSuggestedAppointments) != 0) {
+							percentage = Math.round(numExistingAppointments/(numSuggestedAppointments + numExistingAppointments)*100);
+						}
+		      			$scope.individualFamMemberSch = numExistingAppointments;
+		      			$scope.individualFamMemberRec = numSuggestedAppointments;
+		      			$scope.individualFamMemberPercent = percentage;
+
+  					});
+
+			    });
+
+
+
+
+
 		      	$scope.memberIcon = famMember.get("iconID");
 		      	$scope.individualFamMemberName = famMember.get("Name");
+
 		      },
 		      error: function(object, error) {
 		      	//alert("ERROR");
