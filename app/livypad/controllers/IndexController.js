@@ -354,6 +354,21 @@ livypad.controller("IndexController", function($scope,supersonic){
 		});
 	}
 
+
+	// edit scheduled
+	$scope.editScheduledAppointment = function(visitID, appointmentName, famMember, location, doctor, date){
+		//alert(appointmentName +" "+ famMember.get("Name")+ " " + location + " " + doctor + " " + date);
+		var famMemberID = famMember.id;
+		var editDateObject = new Date(date);
+		var extractTime = editDateObject.toTimeString().split(' ')[0]
+		var yyyy = editDateObject.getFullYear().toString();
+		var mm = (editDateObject.getMonth() + 1).toString();
+		var dd = editDateObject.getDate().toString();
+		var myParams = {params: {editVisitID: visitID, newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID, newAppointmentLocation: location, newAppointmentDoctor: doctor, newAppointmentDate: date}}; 
+		var view = new supersonic.ui.View("livypad#editUpcomingVisit");
+		supersonic.ui.layers.push(view,myParams);
+	}
+
 	//Add a doctor to particular family member
 	$scope.addDoctor = function(){
 		var queryMember = new Parse.Query(FamilyMember);
