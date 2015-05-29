@@ -62,6 +62,15 @@ livypad.controller("CalendarController", function($scope,supersonic){
             $scope.newAppointmentName = values.newAppointmentName;
             $scope.famMemberToAddToForRecommended = values.famMemberToAddToForRecommended;
             $scope.recommendedFrequency = values.recommendedFrequency;
+             //for edit a scheduled visit
+            $scope.newAppointmentLocation = values.newAppointmentLocation;
+            $scope.newAppointmentDoctor = values.newAppointmentDoctor;
+            $scope.newAppointmentDate = values.newAppointmentDate;
+            $scope.editVisitID = values.editVisitID;
+
+            var editDateObject = new Date($scope.newAppointmentDate);
+            $scope.newDate = editDateObject
+            
              //for when adding GCal event to Livypad
             $scope.eventSummary = values.eventSummary;
             $scope.eventLocation = values.eventLocation;
@@ -186,6 +195,86 @@ livypad.controller("CalendarController", function($scope,supersonic){
 
             });
         }
+
+
+
+        //edit scheduled visit
+        $scope.saveChangeToScheduledVisit = function(){
+            var options = {
+                            message: "This change will only be made in LivyPad. Do you still want to change this upcoming visit?",
+                            buttonLabels: ["Yes", "No"]
+                            };
+
+            supersonic.ui.dialog.confirm("", options).then(function(index) {
+                if (index == 0) {
+                    var doctor = "";
+                    var summary = "";
+                    var location = "";
+                    summary = document.getElementById("summary").value;
+                    location = document.getElementById("Location").value;
+                    var dateTime = document.getElementById("date").value;
+                    doctor = document.getElementById("doctor").value;
+                    var startTime = document.getElementById("startTime").value;
+                   // var endTime = document.getElementById("endTime").value;
+                    var currentDate = new Date();
+                    var offset = currentDate.getTimezoneOffset() / 60;
+                    /*alert(dateTime);
+                    alert(startTime);
+                    alert(endTime);
+                    alert("offset:" + offset);*/
+                    var startDateTime =dateTime+"T"+startTime + ":00.000-0"+offset+":00";
+                    //var endDateTime = dateTime+"T"+endTime + ":00.000-0"+offset+":00";
+
+                    //calculating end date object based on duration.
+                    var duration = parseInt(document.getElementById("duration").value);
+                    var endDateObject = new Date(startDateTime);
+                    endDateObject.setHours(endDateObject.getHours() + duration);
+                    var extractedEndingTime =  endDateObject.toTimeString().split(' ')[0];
+                    //getting the ending date in string yyyy-mm-dd format
+                    var yyyy = endDateObject.getFullYear().toString();
+                    var mm = (endDateObject.getMonth()+1).toString(); // getMonth() is zero-based
+                    var dd  = endDateObject.getDate().toString();
+                    var endDateString = yyyy + '-' + (mm[1]?mm:"0"+mm[0]) + '-' + (dd[1]?dd:"0"+dd[0]); // padding
+                    var endDateTime = endDateString+"T"+extractedEndingTime + ".000-0"+offset+":00";
+
+                    var dateObject = new Date(startDateTime);
+                    var recommendedNextDate = new Date(0);
+
+                    var queryEditVisit = new Parse.Query(ScheduledAppointment);
+                    queryEditVisit.get($scope.editVisitID,{
+                        success: function(editVisit){
+                            //alert(editVisit.get("name"));
+                            editVisit.set("name", summary);
+                            editVisit.set("doctor", doctor);
+                            editVisit.set("location", location);
+                            editVisit.set("dateScheduled", dateObject);
+                            editVisit.set("recommendedNextDate", recommendedNextDate);
+                            editVisit.save(null, {
+                                success: function(editVisit){
+                                    var options = {
+                                    message: "Changes have been successfully saved to LivyPad.",
+                                    buttonLabels: "Close"
+                                    };
+                                    supersonic.ui.dialog.alert("Success!", options).then(function() {
+                                      supersonic.logger.log("Alert closed.");
+                                    });
+                                    supersonic.ui.layers.pop();
+                                },
+                                error: function(editVisit,error){
+                                    alert("Save failed, try again later.");
+                                    supersonic.ui.layers.pop();
+                                }
+                            });
+                        },
+                    });
+                } else {
+                     supersonic.logger.log("Alert closed.");
+                     supersonic.ui.layers.pop();
+                }
+            });
+           
+        }
+
 
         //initializing duration
         $scope.defaultDuration = 1;

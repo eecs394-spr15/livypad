@@ -494,6 +494,7 @@ livypad.controller("IndexController", function($scope,supersonic){
 														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
 														   nameOfFamilyMember : famMember.get("Name"),
+														   famMember : famMember,
 														   famMemberID : famMember.id,
 														});
 					} else {
