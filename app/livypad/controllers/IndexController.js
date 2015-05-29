@@ -125,37 +125,49 @@ livypad.controller("IndexController", function($scope,supersonic){
 		
 		var queryDeleteMember = new Parse.Query(FamilyMember);
 		var allFamilyMemberRelations = currentUser.relation("familyMember");
-		queryDeleteMember.get(memberID, {
-			success: function(memberDelete){
-				allFamilyMemberRelations.remove(memberDelete);
-				currentUser.save();
-				memberDelete.destroy({
-					success: function(myObject){
-						var options = {
-							message: "This family member has been removed from your family.",
-							buttonLable: "Close"
+		var options = {
+							message: "Do you really want to delete this member from your account?",
+							buttonLabels: ["Yes", "No"]
 						};
-						supersonic.ui.dialog.alert("Success!", options).then(function() {
-						  supersonic.logger.log("Alert closed.");
+
+		supersonic.ui.dialog.confirm("", options).then(function(index) {
+		  if (index == 0) {
+		   		queryDeleteMember.get(memberID, {
+					success: function(memberDelete){
+						allFamilyMemberRelations.remove(memberDelete);
+						currentUser.save();
+						memberDelete.destroy({
+							success: function(myObject){
+								var options = {
+									message: "This family member has been removed from your family.",
+									buttonLable: "Close"
+								};
+								supersonic.ui.dialog.alert("Success!", options).then(function() {
+								  supersonic.logger.log("Alert closed.");
+								});
+								$scope.allFamilyMembers = [];
+								loadFamilyData();
+							},
+							error: function(myObject, error){
+								var options = {
+									message: "This member could not be removed from you family.",
+									buttonLable: "Close"
+								};
+								supersonic.ui.dialog.alert("Issue Encountered", options).then(function() {
+								  supersonic.logger.log("Alert closed.");
+								});
+							}
 						});
-						$scope.allFamilyMembers = [];
-						loadFamilyData();
 					},
-					error: function(myObject, error){
-						var options = {
-							message: "This member could not be removed from you family.",
-							buttonLable: "Close"
-						};
-						supersonic.ui.dialog.alert("Issue Encountered", options).then(function() {
-						  supersonic.logger.log("Alert closed.");
-						});
+					error: function(memberDelete, error){
+
 					}
 				});
-			},
-			error: function(memberDelete, error){
-
-			}
+		  } else {
+		    supersonic.logger.log("Alert closed.");
+		  }
 		});
+		
 	}
 
 
