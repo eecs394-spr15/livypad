@@ -29,8 +29,8 @@
        <br> -->
        <a ng-repeat="icon in icons" class="list" >
           <button ng-class="{'button': true,
-                       'hidden': true,
-                       'button-assertive': $index ==selectedRow}" 
+                             'button-clear': true,
+                             'button-outline': $index ==selectedRow}" 
                   ng-click="getIconTitle(icon.url,$index)">
             <img src={{icon.url}} style="width: 120%"> <!--  align="left"  -->
           </button>
