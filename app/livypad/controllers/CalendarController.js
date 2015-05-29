@@ -30,29 +30,27 @@ livypad.controller("CalendarController", function($scope,supersonic){
        };
        $scope.defineEvents("20120520", "test");
 
-       $scope.refreshCalendar = function(){
-	var scheduledQuery = new Parse.Query(ScheduledAppointment);
-	scheduledQuery.find().then(function (results){
-			results.forEach(function(result){
-			   //alert(result.get("dateScheduled").toISOString());
-			   var dateScheduled = result.get("dateScheduled").toISOString();
-
-			   var newdateScheduled = dateScheduled.substring(0,4) + dateScheduled.substring(5,7) + dateScheduled.substring(8,10);
-			   //alert(newdateScheduled);
-			   var nameQuery = result.relation("familyMember");
-			   var myname = "David";
-			   nameQuery.query().find().then(function(fam){
-			   	myname = fam[0].get("Name");
-			        //alert($scope.myname);
+       
+	$scope.refreshCalendar = function(){
+	var allFamilyMemberRelations = Parse.User.current().relation("familyMember");
+	allFamilyMemberRelations.query().find().then(function(familyMembers){
+		familyMembers.forEach(function(familyMember){
+			var myname = familyMember.get("Name");
+			var visits = familyMember.relation("scheduledAppointments");
+			visits.query().find().then(function(visittt){
+				visittt.forEach(function(visit){
+					var dateScheduled = visit.get("dateScheduled").toISOString();
+					var newdateScheduled = dateScheduled.substring(0,4) + dateScheduled.substring(5,7) + dateScheduled.substring(8,10);
+					$scope.defineEvents(newdateScheduled, myname);
 				
-			   });
-			   $scope.defineEvents(newdateScheduled, result.get("name"));
-
-			   });
-                           $scope.myCalendar.showCalendar();
-
+				});
+			$scope.myCalendar.showCalendar();
+			});
+		});
 	});
 	};
+
+	
 	//getting list of family members
         var currentUser = Parse.User.current();
         $scope.refreshCalendar();
