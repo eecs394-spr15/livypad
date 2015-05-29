@@ -395,7 +395,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                     'resource': resource
                     });
             request.execute(function(resp) {
-                    alert("successfully added into your calendar!");
+                    // alert("successfully added into your calendar!");
                     
                     });
 
@@ -418,6 +418,16 @@ livypad.controller("CalendarController", function($scope,supersonic){
                     famMemberScheduledAppointmentRelation.add(newAppointment);
                     famMember.save();
                 });
+
+                var options = {
+                  message: "New visit has been successfully added.",
+                  buttonLabel: "Close"
+                };
+
+                supersonic.ui.dialog.alert("Success!", options).then(function() {
+                  supersonic.logger.log("Alert closed.");
+                });
+                supersonic.ui.layers.pop();
               },
               error: function(object, error) {
                 alert("Could not add this to Livypad database");
