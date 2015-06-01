@@ -1,4 +1,4 @@
-<div ng-controller="IndexController">
+<div ng-controller="IndexController" class="page" scroll>
   <super-navbar>
     <super-navbar-title>
     	{{individualFamMemberName}}
@@ -7,6 +7,8 @@
      Search
     </super-navbar-button>
   </super-navbar>
+
+    <div class="button-block button-clear refresh" ng-show="iconstatus"><i class="icon iconhide super-refreshing"></i></div>
 
     <div ng-show = "Searchbar">
       <div class="list list-inset">
