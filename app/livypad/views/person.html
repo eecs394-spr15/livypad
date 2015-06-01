@@ -22,10 +22,10 @@
       <img src="{{memberIcon}}" align="left"> 
           <div class="row">
             <div class="col col-67 col-center">
-              <h><b>Scheduled:</b> {{individualFamMemberSch}}</h>
+              <h><b>Scheduled Vists:</b> {{individualFamMemberSch}}</h>
               <br>
               <br>
-              <h><b>Recomended:</b> {{individualFamMemberRec}}</h>
+              <h><b>Recomended Vists:</b> {{individualFamMemberRec}}</h>
 
             </div>
 
@@ -85,8 +85,7 @@
       <p> <font size="3"> Recommended Visits</font></p>
       <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showRecommended = !showRecommended"></button>
   </div>
-
-  <div ng-show = "showRecommended">   
+  
     <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: filterFunction" class="list card" >
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.nameOfAppointment}}</h2>
@@ -116,6 +115,6 @@
         </div>
 
   </div>
-</div>
+
 
 </div>
