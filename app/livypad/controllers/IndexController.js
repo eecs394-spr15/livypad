@@ -789,7 +789,7 @@ pushNotification.register(
 	//FUNCTIONS FOR ADDING CUSTOM RECOMMENDED VISIT ///////////////////////////////////////////////////////
 
 	//initializing
-	$scope.newUserAddedRecommendation= {"newTitle": "", "category":"screen", "frequency" : 0, "lower":0, "upper":130, "specialOne":0, "specialTwo":0,"relevantGender":"male"} ;
+	$scope.newUserAddedRecommendation= {"newTitle": "", "category":"screen", "frequency" : 0, "lower":0, "upper":130, "specialOne":0, "specialTwo":0,"relevantGender":"all"} ;
 
 	$scope.addNewRecommendedVisit = function (){
 		var arrayOfSpecialAges = [];
