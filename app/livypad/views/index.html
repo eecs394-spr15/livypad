@@ -20,10 +20,10 @@
 	<div ng-repeat="row in chunkedMembers" class="row">
 		<super-navigate ng-repeat="member in row" location="livypad#person" data-params-id="{{member.id}}">
 	    	<div style="margin-left: {{20*($index+1)}}%; margin-right: 20%;"class="col">
-	    		<div class="numberCircle">
-   				<div class="height_fix"></div>
-    			<div class="content">{{member.percent}}</div>
-			</div>
+	    		<div ng-if="member.suggested > 0" class="numberCircle">
+   				<div ng-if="member.suggested > 0" class="height_fix"></div> 
+    			<div ng-if="member.suggested > 0" class="content">{{member.suggested}}</div>
+				</div>
 	    		<img style="margin-top: -30px" src={{member.iconID}} align="center">
 	    		<h4 style="text-align: center; font-size:18px; margin-top: -18px;"><b>{{member.name}}</b></h4>
 	    	</div>
