@@ -48,9 +48,12 @@
             </div> -->
 
             <div class="col item-text-wrap">
-              <p style="text-align: left; font-size:24px;"><font color="#F75D59"><span ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}">
+              <p style="text-align: left; font-size:24px;"><font color="#F75D59"><span ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}" ng-if="person.percent < 100">
                   {{person.percent}}%
                 </span></font></p>  
+                <p style="text-align: left; margin-left: -14px; font-size:24px;"><font color="#F75D59"><span ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}" ng-if="person.percent == 100">
+                  {{person.percent}}%
+                </span></font></p>
               <p style="text-align: left; margin-left:-5px;"><h><font color="#F75D59">livyscore</font></h> </p>            
             </div>
             <!--
