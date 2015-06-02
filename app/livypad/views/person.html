@@ -24,15 +24,25 @@
       <img src="{{memberIcon}}" align="left"> 
           <div class="row">
             <div class="col col-75 col-center">
-              <h><b>Scheduled Vists:</b> {{individualFamMemberSch}}</h>
+              <h><b>Upcoming Vists:</b> 
+                <span ng-repeat="person in sorted | filter: {id: individualFamMember}">
+                  {{person.numExistingAppointments}}
+                </span>
+              </h>
               <br>
               <br>
-              <h><b>Recomend Vists:</b> {{individualFamMemberRec}}</h>
+              <h><b>Recommended Vists:</b> 
+                <span ng-repeat="person in sorted | filter: {id: individualFamMember}">
+                  {{person.numSuggestedAppointments}}
+                </span>
+              </h>
 
             </div>
 
             <div class="col">
-              <p style="text-align: right"><h2><font color="#F75D59" size="28"><b>{{individualFamMemberPercent}} </font></h2></p>
+              <p style="text-align: right"><h2><font color="#F75D59" size="28"><b><span ng-repeat="person in sorted | filter: {id: individualFamMember}">
+                  {{person.percent}}
+                </span></font></h2></p>
                <p style="text-align: center"><h><font color="#F75D59">score</h> 
               </p>
             </div>
