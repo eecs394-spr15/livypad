@@ -8,31 +8,6 @@
 
   </super-navbar>
 
-  <html>
-  <head>
-  <script type="text/javascript">
-    setInterval(checkRefresh, 2000);
-    checkRefresh();
-
-    function checkRefresh(){
-     
-          var refresh = localStorage.getItem('refresh');
-          if (refresh == 1)
-          {
-            window.location.reload();
-            refresh = 0;
-            localStorage.setItem('refresh', refresh);
-        }
-
-      }
-  </script>
-</head>
-<body>
-
- <!--  <div style="text-align: center">
-    <button class="button icon-left super-loop button-clear button-assertive" ng-click="refresh()">
-    </button>
-  </div> -->
 
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
   <div ng-hide="showSpinner">
@@ -87,9 +62,6 @@
 
       </div>
   </a> 
- 
 
-</body>
-</html>
 </div>
 
