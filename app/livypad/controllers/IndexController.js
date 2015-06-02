@@ -789,8 +789,8 @@ pushNotification.register(
 	//FUNCTIONS FOR ADDING CUSTOM RECOMMENDED VISIT ///////////////////////////////////////////////////////
 
 	//initializing
-	$scope.newUserAddedRecommendation= {"newTitle": "", "category":"screen", "frequency" : 0, "lower":0, "upper":130, "specialOne":0, "specialTwo":0,"relevantGender":"all"} ;
-
+	$scope.newUserAddedRecommendation= {"newTitle": "", "category":"screen", "frequency" : 0, "lower":0, "upper":130, "specialOne":0, "specialTwo":0,"relevantGender":"all","timeUnit":"years"} ;
+	$scope.timeUnitArray = ["years", "months"];
 	$scope.addNewRecommendedVisit = function (){
 		var arrayOfSpecialAges = [];
 		if ($scope.newUserAddedRecommendation.specialOne != 0){
@@ -799,7 +799,10 @@ pushNotification.register(
 		if ($scope.newUserAddedRecommendation.specialTwo != 0){
 			arrayOfSpecialAges.push($scope.newUserAddedRecommendation.specialTwo * 12);
 		}
-		var suggestedFrequency = $scope.newUserAddedRecommendation.frequency * 12;
+		var suggestedFrequency = $scope.newUserAddedRecommendation.frequency;
+		if($scope.newUserAddedRecommendation.timeUnit == "years"){
+			var suggestedFrequency = suggestedFrequency * 12;
+		}
 		var lowerBoundMonths = $scope.newUserAddedRecommendation.lower * 12;
 		var upperBoundMonths = $scope.newUserAddedRecommendation.upper * 12;
 

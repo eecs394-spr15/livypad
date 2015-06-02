@@ -59,9 +59,13 @@
 
 
   <label class="item item-input item-stacked-label">
-      <span class="input-label">Recommended Frequency (in years):</span>  
+      <span class="input-label">Recommended Frequency:</span>  
       <input type="number" min="0" max="130" ng-model="newUserAddedRecommendation.frequency" required/>
+
   </label>
+  <label class="item item-input item-stacked-label">
+  <select ng-model="newUserAddedRecommendation.timeUnit" ng-options="timeUnit as timeUnit for timeUnit in timeUnitArray"></select>
+	</label>
 <!--
   <label class="item item-input item-stacked-label">
       <span class="input-label">Lower bound of age range (in years):</span>  
