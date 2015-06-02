@@ -722,7 +722,19 @@ pushNotification.register(
 	//FUNCTIONS FOR RECOMMENDED VISITS ///////////////////////////////////////////////////////
 
 	//variable for showing history:
+
 	$scope.showHistory = false;
+
+	$scope.showRecommended = false;
+
+	$scope.showUpcoming = true;
+
+    $scope.gotoBottom = function() {
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+		$scope.showRecommended = !$scope.showRecommended;
+		
+    };
 
 
 	//Scheduling new recommended appointment 

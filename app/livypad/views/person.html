@@ -39,12 +39,19 @@
 
             </div>
 
-            <div class="col">
+            <!-- <div class="col">
               <p style="text-align: right"><h2><font color="#F75D59" size="28"><b><span ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}">
                   {{person.percent}}
                 </span></font></h2></p>
                <p style="text-align: center"><h><font color="#F75D59">score</h> 
               </p>
+            </div> -->
+
+            <div class="col item-text-wrap">
+              <p style="text-align: left; font-size:24px;"><font color="#F75D59"><span ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}">
+                  {{person.percent}}%
+                </span></font></p>  
+              <p style="text-align: left; margin-left:-5px;"><h><font color="#F75D59">livyscore</font></h> </p>            
             </div>
             <!--
             <div class="col">
@@ -55,27 +62,7 @@
           </div>      
    </div>
 
-  <div class="item item-divider item-button-right" >
-      <p> <font size="3"> Past Visits</font></p>
-      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showHistory = !showHistory"></button>
-  </div>
-
-      <div ng-show = "showHistory">
-        <div ng-repeat="pastAppointment in allVisitHistory | filter: filterFunction" class="list card">
-          
-          <div class="item item-text-wrap">
-            <h2> <b>Description: </b>{{pastAppointment.nameOfAppointment}}</h2>
-            <h2> <b>For: </b>{{pastAppointment.nameOfFamilyMember}}</h2>
-            <h2> <b>Doctor: </b>{{pastAppointment.doctor}}</h2>
-            <h2> <b>Location: </b>{{pastAppointment.location}}</h2>
-            <h2> <b>Date: </b>{{pastAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
-          </div>
-
-        </div>
-      </div>
-
-
-  <div class="item item-divider item-button-right" >
+<div class="item item-divider item-button-right" >
       <p> <font size="3"> Upcoming Visits</font></p>
       <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showUpcoming = !showUpcoming"></button>
   </div>
@@ -99,17 +86,19 @@
   </div>
 
 
+
   <div class="item item-divider item-button-right" >
       <p> <font size="3"> Recommended Visits</font></p>
       <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showRecommended = !showRecommended"></button>
   </div>
-  
+
+  <div ng-show = "showRecommended"> 
     <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: filterFunction" class="list card" >
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.nameOfAppointment}}</h2>
-<!--            <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
+            <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
             <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
-            <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   -->
+            <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
             <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2> 
             <h2> <b>Last Visit: </b>{{suggestedAppointment.dateLastScheduled}}</h2>
             <h2> <b>Recommendation: </b>{{suggestedAppointment.recommendedNextDate}}</h2>  
@@ -132,7 +121,27 @@
           </form>
         </div>
 
+  </div> 
   </div>
+
+  <div class="item item-divider item-button-right" >
+      <p> <font size="3"> Past Visits</font></p>
+      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showHistory = !showHistory"></button>
+  </div>
+
+      <div ng-show = "showHistory">
+        <div ng-repeat="pastAppointment in allVisitHistory | filter: filterFunction" class="list card">
+          
+          <div class="item item-text-wrap">
+            <h2> <b>Description: </b>{{pastAppointment.nameOfAppointment}}</h2>
+            <h2> <b>For: </b>{{pastAppointment.nameOfFamilyMember}}</h2>
+            <h2> <b>Doctor: </b>{{pastAppointment.doctor}}</h2>
+            <h2> <b>Location: </b>{{pastAppointment.location}}</h2>
+            <h2> <b>Date: </b>{{pastAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
+          </div>
+
+        </div>
+      </div>
 
 
 </div>
