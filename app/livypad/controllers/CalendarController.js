@@ -247,7 +247,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                             editVisit.set("name", summary);
                             editVisit.set("doctor", doctor);
                             editVisit.set("location", location);
-                            editVisit.set("dateScheduled", dateObject);
+                            editVisit.set("dateScheduled", $scope.newDate);
                             editVisit.set("recommendedNextDate", recommendedNextDate);
                             editVisit.save(null, {
                                 success: function(editVisit){
