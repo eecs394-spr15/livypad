@@ -11,7 +11,7 @@ function errorHandler (error) {
 }
 
 function registrationHandler (deviceToken) {
-    alert('deviceToken = ' + deviceToken);
+   // alert('deviceToken = ' + deviceToken);
     //save the deviceToken / registration ID to your Push Notification Server
 
 }
@@ -445,7 +445,8 @@ pushNotification.register(
 	$scope.suggestedAppointmentList = [];
 	$scope.allScheduledAppointmentList = [];
 	$scope.allFamilyMembers = [];
-	$scope.sorted = [];
+	var sorted = [];
+	$scope.chunkedMembers = [];
 
 	loadFamilyData();
 	function loadFamilyData(){	
@@ -477,7 +478,8 @@ pushNotification.register(
 										  percent: percentage,
 
 										});
-			    		$scope.sorted = $scope.allFamilyMembers.sort(compare);
+			    		sorted = $scope.allFamilyMembers.sort(compare);
+			    		$scope.chunkedMembers = chunk(sorted, 2);
   					});
 
 			    });
@@ -495,6 +497,15 @@ pushNotification.register(
 	    return 1;
 	  return 0;
 	}
+
+	function chunk(arr, size) {
+	  var newArr = [];
+	  for (var i=0; i<arr.length; i+=size) {
+	    newArr.push(arr.slice(i, i+size));
+	  }
+	  return newArr;
+	}
+
 
 	$scope.allScheduledAppointmentWithHistory = [];
 	$scope.allVisitHistory = [];
