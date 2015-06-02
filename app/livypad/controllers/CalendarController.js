@@ -201,7 +201,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
         //edit scheduled visit
         $scope.saveChangeToScheduledVisit = function(){
             var options = {
-                            message: "This change will only be made in LivyPad. Do you still want to change this upcoming visit?",
+                            message: "This change will only be made in Livypad. Do you still want to change this upcoming visit?",
                             buttonLabels: ["Yes", "No"]
                             };
 
@@ -252,7 +252,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                             editVisit.save(null, {
                                 success: function(editVisit){
                                     var options = {
-                                    message: "Changes have been successfully saved to LivyPad.",
+                                    message: "Changes have been successfully saved to Livypad.",
                                     buttonLabels: "Close"
                                     };
                                     supersonic.ui.dialog.alert("Success!", options).then(function() {
@@ -402,7 +402,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 newAppointmentTwo.save().then(function(newAppointmentTwo) {
                     famMemberScheduledAppointmentRelation.add(newAppointmentTwo);
                     famMember.save();
-                    alert("successfully added Event to LivyPad");
+                    alert("successfully added Event to Livypad");
                 });
               },
               error: function(object, error) {
