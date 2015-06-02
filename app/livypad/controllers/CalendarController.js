@@ -18,17 +18,22 @@ livypad.controller("CalendarController", function($scope,supersonic){
 		lastMonth: 201605
     	 });
      
-        $scope.defineEvents = function(date, description){
+        $scope.defineEvents = function(date, description, myID, icon){
        	$scope.myCalendar.defineEvents([
 	{
 		eventDate: date,
-		eventDescription: description
-		
+		eventDescription: description,
+        eventLink: 'livypad#person', 
+        linkData: myID,
+        image: icon,
+        imageWidth: 25,
+        imageHeight: 25
+	
 	}
 	]);
        
        };
-       $scope.defineEvents("20120520", "test");
+       $scope.defineEvents("20120520", "test", "WX2u5JqObs", "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Girl.png");
 
        
 	$scope.refreshCalendar = function(){
@@ -36,12 +41,14 @@ livypad.controller("CalendarController", function($scope,supersonic){
 	allFamilyMemberRelations.query().find().then(function(familyMembers){
 		familyMembers.forEach(function(familyMember){
 			var myname = familyMember.get("Name");
+            var myID = familyMember.id;
+            var icon = familyMember.get("iconID");
 			var visits = familyMember.relation("scheduledAppointments");
 			visits.query().find().then(function(visittt){
 				visittt.forEach(function(visit){
 					var dateScheduled = visit.get("dateScheduled").toISOString();
 					var newdateScheduled = dateScheduled.substring(0,4) + dateScheduled.substring(5,7) + dateScheduled.substring(8,10);
-					$scope.defineEvents(newdateScheduled, myname);
+					$scope.defineEvents(newdateScheduled, myname, myID, icon);
 				
 				});
 			$scope.myCalendar.showCalendar();

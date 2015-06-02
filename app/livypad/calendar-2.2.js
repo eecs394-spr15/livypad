@@ -448,8 +448,8 @@
         elEventBlock.appendChild(elImg);
       }
       if (eventLink && eventLink != '') {
-        var elA = document.createElement('a');
-        elA.setAttribute('href', eventLink);
+        var elA = document.createElement('super-navigate');
+        elA.setAttribute('location', eventLink);
         if (_linkNewWindow)
           elA.setAttribute('target', '_blank');
         elA.innerHTML = eventDescription;
