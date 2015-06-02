@@ -20,6 +20,10 @@
 	<div ng-repeat="row in chunkedMembers" class="row">
 		<super-navigate ng-repeat="member in row" location="livypad#person" data-params-id="{{member.id}}">
 	    	<div style="margin-left: {{20*($index+1)}}%; margin-right: 20%;"class="col">
+	    		<div ng-if="member.suggested == 0" class="checkCircle">
+	    		<div class="height_fix"></div> 
+    			<div class="check">&#x2713;</div>
+	    		</div>
 	    		<div ng-if="member.suggested > 0" class="numberCircle">
    				<div ng-if="member.suggested > 0" class="height_fix"></div> 
     			<div ng-if="member.suggested > 0" class="content">{{member.suggested}}</div>
@@ -93,5 +97,34 @@
 	    text-align: center;
 	    margin-top: -11px; /* Note, this must be half the font size */
 	    color:#fff;
+	}
+
+	 .checkCircle {
+	    -webkit-border-radius: 50%;
+	    -moz-border-radius: 50%;
+	    border-radius: 50%;
+	    width: 26px;
+	    padding: 8px;
+	    font-size: 22px;
+	    border: 1px solid #fff;
+	    position: relative;
+	    background:#84F07A;
+	    margin-top:12px;
+	    margin-left:8px;
+
+	}
+	.checkCircle .height_fix {
+	    margin-top: 100%;
+
+	}
+	.checkCircle .check {
+	    position: absolute;
+	    left: 0;
+	    top: 50%;
+	    height: 100%;
+	    width: 100%;
+	    text-align: center;
+	    margin-top: -11px; /* Note, this must be half the font size */
+	    color:#FFFFFF;
 	}
 	  </style>
