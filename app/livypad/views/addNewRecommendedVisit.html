@@ -123,6 +123,26 @@
 		</div>
   </label>
 
+ 	<label class="item item-input item-stacked-label">
+		<div class="input-label">For Family Members (optional):</div>
+	</label>
+	<div>
+			<label ng-repeat="famMember in allFamilyMembers">
+			  &emsp;
+			  	<input
+			    type="checkbox"
+			    name="selectedFamilyMembersToAddRecommendationFor[]"
+			    value="{{famMember.id}}"
+			    ng-checked="selectedFamilyMembersToAddRecommendationFor.indexOf(famMember.id) > -1"
+			    ng-click="toggleSelection(famMember.id)"> 
+			    {{famMember.name}} 
+			    <br>
+			</label>
+		<br>
+	</div>
+
+	
+
     <div class="button-bar"  width=400 height=500>
     <button type = "submit" ng-click="addNewRecommendedVisit()" class="button icon-left super-checkmark-round button-assertive" ng-disabled="addNewRecommendation.$invalid">
         Add New Recommended Visit 

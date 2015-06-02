@@ -565,7 +565,7 @@ pushNotification.register(
 				  	var nameOfSuggestedAppointment = famMemberSuggestedAppointment.get("name");
 				  	var frequency = famMemberSuggestedAppointment.get("frequency");
 				  	var specialAgeArray = famMemberSuggestedAppointment.get("specialAges");
-					
+					var specificFamMemberArray = famMemberSuggestedAppointment.get("SpecificMembers");
 
 					var padding = 2; //adding padding to the months
 					lowerBound = Math.max(0,lowerBound); //ruling out negative numbers
@@ -639,13 +639,19 @@ pushNotification.register(
 						recommendation = "schedule it now!";
 					}
 
+					//test to see if recommended for specific fam member;
+					var specificMemberMarker = specificFamMemberArray.indexOf(famMember.id);
+					if (specificFamMemberArray.length ==0){
+						specificMemberMarker = 1;
+					}
 
 					//test for relevant appointments, maybe check if days left < 30? for more pressing appointments...
 				  	if ( ((ageInMonths >= lowerBound - padding && ageInMonths <=upperBound + padding) || specialAgeMarker > -1)
-				  		&& (gender==relevantGender || relevantGender == "all")
+				  		&& (gender.toLowerCase()==relevantGender.toLowerCase() || relevantGender == "all")
 				  		&& (existingAppointmentMarker == -1 || mostRecentScheduledDate < currentDate) //the appointment does not exist and the most recent existing appointment has passed //
 				  		&& ignoredAppointmentMarker == -1
-				  		&& daysLeft <= 180) //the days left test ensures that only suggested appointments in the next 180 days show up...
+				  		&& daysLeft <= 180
+				  		&& specificMemberMarker != -1) //the days left test ensures that only suggested appointments in the next 180 days show up...
 				  	{
 				  		counter += 1; //keeping track of number, for later use.
 				  		//Formatting Relevant Strings
@@ -805,6 +811,8 @@ pushNotification.register(
         newSuggestedAppointment.set("specialAges", arrayOfSpecialAges);
         newSuggestedAppointment.set("relevantGender", $scope.newUserAddedRecommendation.relevantGender);
     	newSuggestedAppointment.set("author", currentUser.id);
+    	newSuggestedAppointment.set("SpecificMembers", $scope.selectedFamilyMembersToAddRecommendationFor);
+    	newSuggestedAppointment.set("doctorType", "");
 
         newSuggestedAppointment.save(null, {
 		  success: function(newSuggestedAppointment) {
@@ -816,6 +824,23 @@ pushNotification.register(
 		});
      
 	}
+
+	//adding specific members to the new recommended visit.
+	$scope.selectedFamilyMembersToAddRecommendationFor = [];
+
+	$scope.toggleSelection = function (famMemberID) {
+	    var idx = $scope.selectedFamilyMembersToAddRecommendationFor.indexOf(famMemberID);
+
+	    // is currently selected, remove item from array.
+	    if (idx > -1) {
+	      $scope.selectedFamilyMembersToAddRecommendationFor.splice(idx, 1);
+	    }
+	    // is newly selected
+	    else {
+	      $scope.selectedFamilyMembersToAddRecommendationFor.push(famMemberID);
+	    }
+	 };
+
 
 })
 
