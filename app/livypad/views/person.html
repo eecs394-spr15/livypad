@@ -88,12 +88,17 @@
     </div>
   </div>
 
-
-
-  <div class="item item-divider item-button-right" >
-      <p> <font size="3"> Recommended Visits</font></p>
+  <div ng-init="showRecommended =  false" ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}" ng-if="person.numSuggestedAppointments !=0">
+  <div class="item item-divider item-button-right">
+      <p><font size="3" color="#F75D59"><b>{{person.numSuggestedAppointments}}</b> Recommended Visits</font></p>   
       <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showRecommended = !showRecommended"></button>
   </div>
+
+
+  <!-- <div class="item item-divider item-button-right" >
+      <p><font size="3"> Recommended Visits</font></p> 
+      <button  class="button button-small icon-left super-ios7-arrow-down button-clear" ng-click="showRecommended = !showRecommended"></button>
+  </div> -->
 
   <div ng-show = "showRecommended"> 
     <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: filterFunction" class="list card" >
@@ -126,6 +131,7 @@
         </div>
 
   </div> 
+  </div>
   </div>
 
   <div class="item item-divider item-button-right" >
