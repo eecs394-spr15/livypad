@@ -76,12 +76,13 @@
           <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
           <h2> <b>For: </b>{{scheduledAppointment.nameOfFamilyMember}}</h2>
           <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
+          <h2> <b>Doctor Type: </b>{{scheduledAppointment.doctorType}}</h2>
           <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
           <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
         </div>
 
         <div class="button-bar" width=400 height=500>
-          <button ng-click="editScheduledAppointment(scheduledAppointment.id, scheduledAppointment.nameOfAppointment, scheduledAppointment.famMember, scheduledAppointment.doctor, scheduledAppointment.location, scheduledAppointment.dateScheduled)" class="button icon-left super-edit button-assertive"> Edit </button>
+          <button ng-click="editScheduledAppointment(scheduledAppointment.id, scheduledAppointment.nameOfAppointment, scheduledAppointment.famMember, scheduledAppointment.doctor, scheduledAppointment.location, scheduledAppointment.dateScheduled, scheduledAppointment.doctorType)" class="button icon-left super-edit button-assertive"> Edit </button>
           <button ng-click="deleteUpcoming(scheduledAppointment.id)" class="button icon-left super-trash-a button-assertive">Delete</button>
         </div>
 
@@ -99,16 +100,17 @@
     <div ng-repeat="suggestedAppointment in suggestedAppointmentList | filter: filterFunction" class="list card" >
         <div class="item item-text-wrap">
             <h2> <b>Description: </b>{{suggestedAppointment.nameOfAppointment}}</h2>
-            <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
+            <h2> <b>Doctor Type: </b>{{suggestedAppointment.doctorType}}</h2>
+<!--        <h2> <b>Recommended For: </b>{{suggestedAppointment.famMemberName}}</h2>
             <h2> <b>Recommended For Ages </b>: {{suggestedAppointment.lowerBound}} to {{suggestedAppointment.upperBound}} </h2>
-            <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>   
+            <h2> <b>Key ages: </b>{{suggestedAppointment.keyAges}}</h2>  -->  
             <h2> <b>Frequency: </b>{{suggestedAppointment.frequency}}</h2> 
             <h2> <b>Last Visit: </b>{{suggestedAppointment.dateLastScheduled}}</h2>
             <h2> <b>Recommendation: </b>{{suggestedAppointment.recommendedNextDate}}</h2>  
         </div>
 
         <div class="button-bar" width=400 height=500>
-          <button ng-click="scheduleRecommendedAppointment(suggestedAppointment.nameOfAppointment, suggestedAppointment.famMember, suggestedAppointment.frequencyNum)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
+          <button ng-click="scheduleRecommendedAppointment(suggestedAppointment.nameOfAppointment, suggestedAppointment.famMember, suggestedAppointment.frequencyNum,suggestedAppointment.doctorType)" class="button icon-left super-checkmark-round button-assertive"> Schedule </button>
           <button ng-click="showIgnore = !showIgnore" class="button icon-left super-close-round button-assertive">Ignore</button>
         </div>
 

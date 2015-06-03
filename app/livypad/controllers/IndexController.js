@@ -364,7 +364,7 @@ pushNotification.register(
 
 
 	// edit scheduled
-	$scope.editScheduledAppointment = function(visitID, appointmentName, famMember, location, doctor, date){
+	$scope.editScheduledAppointment = function(visitID, appointmentName, famMember, location, doctor, date, typeDoc){
 		//alert(appointmentName +" "+ famMember.get("Name")+ " " + location + " " + doctor + " " + date);
 		var famMemberID = famMember.id;
 		var editDateObject = new Date(date);
@@ -372,7 +372,7 @@ pushNotification.register(
 		var yyyy = editDateObject.getFullYear().toString();
 		var mm = (editDateObject.getMonth() + 1).toString();
 		var dd = editDateObject.getDate().toString();
-		var myParams = {params: {editVisitID: visitID, newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID, newAppointmentLocation: location, newAppointmentDoctor: doctor, newAppointmentDate: date}}; 
+		var myParams = {params: {editVisitID: visitID, newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID, newAppointmentLocation: location, newAppointmentDoctor: doctor, newAppointmentDate: date, docType: typeDoc}};
 		var view = new supersonic.ui.View("livypad#editUpcomingVisit");
 		supersonic.ui.layers.push(view,myParams);
 	}
@@ -497,6 +497,7 @@ pushNotification.register(
 					
 					$scope.allScheduledAppointmentWithHistory.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 														   doctor : famMemberScheduledAppointment.get("doctor"),
+														   doctorType : famMemberScheduledAppointment.get("doctorType"),
 														   location : famMemberScheduledAppointment.get("location"),
 														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
@@ -510,6 +511,7 @@ pushNotification.register(
 						$scope.allScheduledAppointmentList.push({ id: famMemberScheduledAppointment.id,
 														   nameOfAppointment : famMemberScheduledAppointment.get("name"),
 														   doctor : famMemberScheduledAppointment.get("doctor"),
+														   doctorType : famMemberScheduledAppointment.get("doctorType"),
 														   location : famMemberScheduledAppointment.get("location"),
 														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
@@ -520,6 +522,7 @@ pushNotification.register(
 					} else {
 						$scope.allVisitHistory.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
 														   doctor : famMemberScheduledAppointment.get("doctor"),
+														   doctorType : famMemberScheduledAppointment.get("doctorType"),
 														   location : famMemberScheduledAppointment.get("location"),
 														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
@@ -682,6 +685,7 @@ pushNotification.register(
 				  												famMemberID: famMember.id,
 				  												famMemberName: famMember.get("Name"), 
 															 	nameOfAppointment: famMemberSuggestedAppointment.get("name"),
+															 	doctorType : famMemberSuggestedAppointment.get("doctorType"),
 															 	lowerBound : lowerBoundAgeString,
 															 	upperBound : upperBoundAgeString,
 																keyAges: keyAgeString,
@@ -744,10 +748,10 @@ pushNotification.register(
 
 
 	//Scheduling new recommended appointment 
-	$scope.scheduleRecommendedAppointment = function(appointmentName,famMember,frequency){
+	$scope.scheduleRecommendedAppointment = function(appointmentName,famMember,frequency,doctorType){
 		//alert("scheduled " + appointmentName + " appointment for " + famMember.get("Name"));
 		var famMemberID = famMember.id;
-		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID, recommendedFrequency:frequency}}; 
+		var myParams = {params: {newAppointmentName: appointmentName, famMemberToAddToForRecommended: famMemberID, recommendedFrequency:frequency, typeOfDoctor:doctorType}};
 		var view = new supersonic.ui.View("livypad#addRecommendedEventToGCalandLivyPad");
 		supersonic.ui.layers.push(view,myParams);
 	}
@@ -792,6 +796,10 @@ pushNotification.register(
 	$scope.newUserAddedRecommendation= {"newTitle": "", "category":"screen", "frequency" : 0, "lower":0, "upper":130, "specialOne":0, "specialTwo":0,"relevantGender":"all","timeUnit":"years"} ;
 	$scope.timeUnitArray = ["years", "months"];
 	$scope.addNewRecommendedVisit = function (){
+		var doctor = "";
+		var doctorType = "";
+		doctor = document.getElementById("doctor").value;
+        doctorType = document.getElementById("doctorType").value;
 		var arrayOfSpecialAges = [];
 		if ($scope.newUserAddedRecommendation.specialOne != 0){
 			arrayOfSpecialAges.push($scope.newUserAddedRecommendation.specialOne * 12);
@@ -808,6 +816,8 @@ pushNotification.register(
 
 		var newSuggestedAppointment = new SuggestedAppointment();
         newSuggestedAppointment.set("name", $scope.newUserAddedRecommendation.newTitle);
+		newSuggestedAppointment.set("doctor", doctor);
+		newSuggestedAppointment.set("doctorType", doctorType);
         newSuggestedAppointment.set("type", $scope.newUserAddedRecommendation.category);
         newSuggestedAppointment.set("frequency", suggestedFrequency);
         newSuggestedAppointment.set("relevantAgeGroup", [lowerBoundMonths,upperBoundMonths]);
@@ -815,7 +825,6 @@ pushNotification.register(
         newSuggestedAppointment.set("relevantGender", $scope.newUserAddedRecommendation.relevantGender);
     	newSuggestedAppointment.set("author", currentUser.id);
     	newSuggestedAppointment.set("SpecificMembers", $scope.selectedFamilyMembersToAddRecommendationFor);
-    	newSuggestedAppointment.set("doctorType", "");
 
         newSuggestedAppointment.save(null, {
 		  success: function(newSuggestedAppointment) {

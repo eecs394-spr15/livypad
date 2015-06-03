@@ -69,12 +69,14 @@ livypad.controller("CalendarController", function($scope,supersonic){
             $scope.newAppointmentName = values.newAppointmentName;
             $scope.famMemberToAddToForRecommended = values.famMemberToAddToForRecommended;
             $scope.recommendedFrequency = values.recommendedFrequency;
+            $scope.typeOfDoctor = values.typeOfDoctor;
              //for edit a scheduled visit
             $scope.newAppointmentLocation = values.newAppointmentLocation;
             $scope.newAppointmentDoctor = values.newAppointmentDoctor;
             $scope.newAppointmentDate = values.newAppointmentDate;
             $scope.editVisitID = values.editVisitID;
-
+			$scope.docType = values.docType;
+			
             var editDateObject = new Date($scope.newAppointmentDate);
             $scope.newDate = editDateObject
             
@@ -215,12 +217,14 @@ livypad.controller("CalendarController", function($scope,supersonic){
             supersonic.ui.dialog.confirm("", options).then(function(index) {
                 if (index == 0) {
                     var doctor = "";
+                    var doctorType = "";
                     var summary = "";
                     var location = "";
                     summary = document.getElementById("summary").value;
                     location = document.getElementById("Location").value;
                     var dateTime = document.getElementById("date").value;
                     doctor = document.getElementById("doctor").value;
+                    doctorType = document.getElementById("typeDoc").value;
                     var startTime = document.getElementById("startTime").value;
                    // var endTime = document.getElementById("endTime").value;
                     var currentDate = new Date();
@@ -253,6 +257,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                             //alert(editVisit.get("name"));
                             editVisit.set("name", summary);
                             editVisit.set("doctor", doctor);
+                            editVisit.set("doctorType", doctorType);
                             editVisit.set("location", location);
                             editVisit.set("dateScheduled", $scope.newDate);
                             editVisit.set("recommendedNextDate", recommendedNextDate);
@@ -287,12 +292,14 @@ livypad.controller("CalendarController", function($scope,supersonic){
         $scope.defaultDuration = 1;
         $scope.addEventToGCalAndLivyPad = function(){
             var doctor = "";
+            var doctorType = "";
             var summary = "";
             var location = "";
             summary = document.getElementById("summary").value;
             location = document.getElementById("Location").value;
             var dateTime = document.getElementById("date").value;
             doctor = document.getElementById("doctor").value;
+            doctorType = document.getElementById("doctorType").value;
             var startTime = document.getElementById("startTime").value;
            // var endTime = document.getElementById("endTime").value;
             var currentDate = new Date();
@@ -348,6 +355,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 var newAppointment = new ScheduledAppointment();
                 newAppointment.set("name", summary);
                 newAppointment.set("doctor", doctor);
+                newAppointment.set("doctorType", doctorType);
                 newAppointment.set("location", location);
                 newAppointment.set("dateScheduled", dateObject);
                 newAppointment.set("recommendedNextDate", recommendedNextDate);
@@ -378,11 +386,16 @@ livypad.controller("CalendarController", function($scope,supersonic){
         $scope.addGCalEventToLivyPad = function(){
             var summary = "";
             var doctor = "";
+            var doctorType = "";
             var location = "";
             summary = document.getElementById("summary").value;
             location = document.getElementById("Location").value;
+            if (location == "undefined") {
+            	location = "";
+            }
             var dateTime = document.getElementById("date").value;
             doctor = document.getElementById("doctor").value;
+            doctorType = document.getElementById("doctorType").value;
             var startTime = (document.getElementById("startTime").value).slice(0,5);
             var endTime = (document.getElementById("endTime").value).slice(0,5);
             var currentDate = new Date();
@@ -399,6 +412,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 var newAppointmentTwo = new ScheduledAppointment();
                 newAppointmentTwo.set("name", summary);
                 newAppointmentTwo.set("doctor", doctor);
+                newAppointmentTwo.set("doctorType",doctorType);
                 newAppointmentTwo.set("location", location);
                 newAppointmentTwo.set("dateScheduled", dateObject);
                 
@@ -432,6 +446,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
             location = document.getElementById("Location").value;
             var dateTime = document.getElementById("date").value;
             doctor = document.getElementById("doctor").value;
+            docType = document.getElementById("docType").value;
             var startTime = document.getElementById("startTime").value;
             //var endTime = document.getElementById("endTime").value;
             var currentDate = new Date();
@@ -504,6 +519,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 var newAppointment = new ScheduledAppointment();
                 newAppointment.set("name", summary);
                 newAppointment.set("doctor", doctor);
+                newAppointment.set("doctorType", docType);
                 newAppointment.set("location", location);
                 newAppointment.set("dateScheduled", startDateObject);
                 newAppointment.set("recommendedNextDate", recommendedNextDate);
