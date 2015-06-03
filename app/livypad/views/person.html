@@ -74,11 +74,10 @@
     <div ng-repeat="scheduledAppointment in allScheduledAppointmentList | filter: filterFunction" class="list card">
         <div class="item item-text-wrap">
           <h2> <b>Description: </b>{{scheduledAppointment.nameOfAppointment}}</h2>
-          <h2> <b>For: </b>{{scheduledAppointment.nameOfFamilyMember}}</h2>
-          <h2> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
-          <h2> <b>Doctor Type: </b>{{scheduledAppointment.doctorType}}</h2>
-          <h2> <b>Location: </b>{{scheduledAppointment.location}}</h2>
-          <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "yyyy-MM-dd"}}</h2>
+          <h2> <b>Date: </b>{{scheduledAppointment.dateScheduled | date: "MM-dd-yyyy"}}</h2>
+          <h2> <b>Time: </b>{{scheduledAppointment.dateScheduled | date: "h:mm a"}} </h2>
+          <h2 ng-if="scheduledAppointment.doctor"> <b>Doctor: </b>{{scheduledAppointment.doctor}}</h2>
+          <h2 ng-if="scheduledAppointment.location"> <b>Location: </b>{{scheduledAppointment.location}}</h2>
         </div>
 
         <div class="button-bar" width=400 height=500>

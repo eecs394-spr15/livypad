@@ -532,11 +532,20 @@ pushNotification.register(
 					}
 				});
 				resolve(counter);
+				$scope.allScheduledAppointmentListSorted = $scope.allScheduledAppointmentList.sort(dateOrder);
 			});
 			
 		});
 
   	};
+  	function dateOrder(a,b) {
+	  if (a.dateScheduled < b.dateScheduled)
+	    return -1;
+	  if (a.dateScheduled > b.dateScheduled)
+	    return 1;
+	  return 0;
+	}
+
 
 	function loadFamilyMemberSuggestedAppointments(famMember){
 		return new Promise(function(resolve, reject) {
