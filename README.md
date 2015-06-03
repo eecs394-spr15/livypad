@@ -21,8 +21,8 @@ Cloud deployment allows you to share your work with others, without the need for
 3.  Click "Open Cloud Share Page"
 4.  You can use this url to share with others.  The user must have the appgyver scanner iOS app in order to scan the QR code and use your app.
 
-# Google API Access
+## Google API Access
 
-# Using the Parse.com Backend
+## Using the Parse.com Backend
 
-#Known Bugs and Limitations
+## Known Bugs and Limitations
