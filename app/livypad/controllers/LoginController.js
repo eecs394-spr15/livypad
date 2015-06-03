@@ -52,7 +52,6 @@ livypad.controller("LoginController", function($scope,supersonic){
 				success: function(user) {
 					user.save(null, {
 						success: function(user) {
-						supersonic.ui.dialog.alert("Welcome to livypad, " + $scope.existingUser.username + "!");
 						supersonic.ui.initialView.dismiss();
 						}
 					});
@@ -72,7 +71,6 @@ livypad.controller("LoginController", function($scope,supersonic){
 
 
 	$scope.skiplogin = function (){
-		supersonic.ui.dialog.alert("Welcome, guest!");
 		supersonic.ui.initialView.dismiss();
 	};
 
