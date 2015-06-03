@@ -820,6 +820,7 @@ pushNotification.register(
         newSuggestedAppointment.save(null, {
 		  success: function(newSuggestedAppointment) {
 		    alert('Successfully created custom recommended visit!');
+		    supersonic.ui.layers.pop();
 		  },
 		  error: function(newSuggestedAppointment, error) {
 		    alert('Failed to create new custom recommended visit, with error code: ' + error.message);
