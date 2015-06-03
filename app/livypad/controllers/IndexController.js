@@ -195,8 +195,16 @@ pushNotification.register(
 						supersonic.ui.dialog.alert("Success!", options).then(function() {
 						  supersonic.logger.log("Alert closed.");
 						});
-						$scope.allScheduledAppointmentList = [];
-						loadFamilyData();
+						$scope.$apply(function(){
+				  			$scope.suggestedAppointmentList = [];
+							$scope.allScheduledAppointmentList = [];
+							$scope.allFamilyMembers = [];
+							$scope.chunkedMembers = [];
+							$scope.allScheduledAppointmentWithHistory = [];
+							$scope.allVisitHistory = [];
+							$scope.selectedFamilyMembersToAddRecommendationFor = [];
+							loadFamilyData();
+				  		});
 					},
 					error: function(myObject, error){
 						var options = {
@@ -846,6 +854,19 @@ pushNotification.register(
 		});
      
 	}
+
+	supersonic.ui.views.current.whenVisible(function(){
+  		$scope.$apply(function(){
+  			$scope.suggestedAppointmentList = [];
+			$scope.allScheduledAppointmentList = [];
+			$scope.allFamilyMembers = [];
+			$scope.chunkedMembers = [];
+			$scope.allScheduledAppointmentWithHistory = [];
+			$scope.allVisitHistory = [];
+			$scope.selectedFamilyMembersToAddRecommendationFor = [];
+			loadFamilyData();
+  		});
+	});
 
 	//adding specific members to the new recommended visit.
 	$scope.selectedFamilyMembersToAddRecommendationFor = [];
