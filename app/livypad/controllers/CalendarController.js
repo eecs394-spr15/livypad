@@ -22,6 +22,12 @@ livypad.controller("CalendarController", function($scope,supersonic){
         var FamilyMember = Parse.Object.extend("FamilyMember");
         var Doctor = Parse.Object.extend("Doctor");
 
+		supersonic.ui.views.current.whenVisible(function(){
+  			$scope.$apply(function(){
+  				$scope.refresh();
+  			});
+		});
+
         // for search
         $scope.keyword = "";
         
@@ -571,7 +577,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
 })
 
 
-    .directive("scroll", function ($window, $document,$timeout) {
+/*    .directive("scroll", function ($window, $document,$timeout) {
         return function(scope, element, attrs) {
             angular.element($window).bind("scroll", function() {
                 var height = $document[0].body.offsetHeight - this.innerHeight;
@@ -587,4 +593,4 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 };
             });
         };
-    });
+    });  */

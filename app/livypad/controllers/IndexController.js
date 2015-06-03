@@ -895,7 +895,7 @@ pushNotification.register(
 
 })
 
-    .directive("scroll", function ($window, $document,$timeout) {
+/*    .directive("scroll", function ($window, $document,$timeout) {
         return function(scope, element, attrs) {
             angular.element($window).bind("scroll", function() {
                 var height = $document[0].body.offsetHeight - this.innerHeight;
@@ -911,7 +911,7 @@ pushNotification.register(
                 };
             });
         };
-    });
+    }); */
 
 
 
