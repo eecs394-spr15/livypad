@@ -1,5 +1,19 @@
 livypad.controller("CalendarController", function($scope,supersonic){
         Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
+        
+        //auto refresh functions
+        supersonic.ui.views.current.whenVisible(function(){
+            reloadAllData();
+        });
+
+        function reloadAllData(){
+            $scope.$apply(function(){
+                 $scope.refresh();
+                 //$scope.refreshCalendar();
+            });
+        }
+
+
         $scope.iconstatus = 0;
     	 
         //classes
@@ -12,7 +26,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
         $scope.keyword = "";
         
         $scope.ScheduledAppointment = [];
-	$scope.myCalendar = new JEC('myCalendarContainer',{
+	     $scope.myCalendar = new JEC('myCalendarContainer',{
      		tableClass: 'styledCalendar',
     		firstMonth: 201205,
 		lastMonth: 201605
@@ -20,22 +34,22 @@ livypad.controller("CalendarController", function($scope,supersonic){
      
         $scope.defineEvents = function(date, description, myID, icon){
        	$scope.myCalendar.defineEvents([
-	{
-		eventDate: date,
-		eventDescription: description,
-        eventLink: 'livypad#person', 
-        linkData: myID,
-        image: icon,
-        imageWidth: 25,
-        imageHeight: 25
-	
-	}
-	]);
+    	{
+    		eventDate: date,
+    		eventDescription: description,
+            eventLink: 'livypad#person', 
+            linkData: myID,
+            image: icon,
+            imageWidth: 25,
+            imageHeight: 25
+    	
+    	}
+    	]);
        
        };
        $scope.defineEvents("20120520", "test", "WX2u5JqObs", "https://raw.githubusercontent.com/eecs394-spr15/livypad/master/app/livypad/images/Girl.png");
 
-       
+          
 	$scope.refreshCalendar = function(){
 	var allFamilyMemberRelations = Parse.User.current().relation("familyMember");
 	allFamilyMemberRelations.query().find().then(function(familyMembers){
@@ -61,7 +75,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
 	//getting list of family members
         var currentUser = Parse.User.current();
         $scope.refreshCalendar();
-	$scope.familyMembersList = [];   
+	   $scope.familyMembersList = [];   
         var allFamilyMemberRelations = currentUser.relation("familyMember");
 
         supersonic.ui.views.current.params.onValue(function(values){
@@ -365,6 +379,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                 newAppointment.save().then(function(newAppointment) {
                     famMemberScheduledAppointmentRelation.add(newAppointment);
                     famMember.save();
+                    supersonic.ui.layers.pop();
                 });
               },
               error: function(object, error) {
@@ -424,6 +439,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
                     famMemberScheduledAppointmentRelation.add(newAppointmentTwo);
                     famMember.save();
                     alert("successfully added Event to Livypad");
+                    supersonic.ui.layers.pop();
                 });
               },
               error: function(object, error) {

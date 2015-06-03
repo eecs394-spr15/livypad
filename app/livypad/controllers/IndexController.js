@@ -141,8 +141,7 @@ pushNotification.register(
 								supersonic.ui.dialog.alert("Success!", options).then(function() {
 								  supersonic.logger.log("Alert closed.");
 								});
-								$scope.allFamilyMembers = [];
-								loadFamilyData();
+								reloadAllData();
 							},
 							error: function(myObject, error){
 								var options = {
@@ -195,16 +194,7 @@ pushNotification.register(
 						supersonic.ui.dialog.alert("Success!", options).then(function() {
 						  supersonic.logger.log("Alert closed.");
 						});
-						$scope.$apply(function(){
-				  			$scope.suggestedAppointmentList = [];
-							$scope.allScheduledAppointmentList = [];
-							$scope.allFamilyMembers = [];
-							$scope.chunkedMembers = [];
-							$scope.allScheduledAppointmentWithHistory = [];
-							$scope.allVisitHistory = [];
-							$scope.selectedFamilyMembersToAddRecommendationFor = [];
-							loadFamilyData();
-				  		});
+						reloadAllData();
 					},
 					error: function(myObject, error){
 						var options = {
@@ -316,14 +306,13 @@ pushNotification.register(
 				  message: $scope.newMember.name +  " has been added to your family",
 				  buttonLabel: "Close"
 				};
-				$scope.allFamilyMembers = [];
-				loadFamilyData();
+				reloadAllData();
 
 				supersonic.ui.dialog.alert("Success!", options).then(function() {
 				  supersonic.logger.log("Alert closed.");
 				});
 				supersonic.ui.layers.pop();
-				location.reload();
+				//location.reload();
 				}, function(error) {
 					alert("Member save failed");
 				// the save failed.
@@ -332,7 +321,8 @@ pushNotification.register(
 	};
 	
 
-	//Add a past scheduled event
+	//Add a past scheduled event - I DON'T THINK THIS IS ANYWHERE.
+	/*
 	$scope.addScheduled = function(){
 		var queryMember = new Parse.Query(FamilyMember);
 		queryMember.get($scope.previewId, {
@@ -368,7 +358,7 @@ pushNotification.register(
 		  	alert("could not add family member");
 		  }
 		});
-	}
+	}*/
 
 
 	// edit scheduled
@@ -799,12 +789,27 @@ pushNotification.register(
 
 		if (markerForExistingIgnoredAppointment == -1){
 			famMember.addUnique("ignoredAppointments", {appointmentID: appointment.id, dateAtWhichToUnignore: dateAtWhichToUnignore});
-			famMember.save();
+			famMember.save(null, {
+			  success: function(newSuggestedAppointment) {
+			    //alert('Successfully saved!');
+			    reloadAllData();
+			  },
+			  error: function(newSuggestedAppointment, error) {
+			    
+			  }
+			});
 		} else {
 			famMember.set("ignoredAppointments",arrayOfIgnoredAppointments);
-			famMember.save();
+			famMember.save(null, {
+			  success: function(newSuggestedAppointment) {
+			    //alert('Successfully saved!');
+			    reloadAllData();
+			  },
+			  error: function(newSuggestedAppointment, error) {
+			  }
+			});
 		}
-
+		
 	}
 
 	//FUNCTIONS FOR ADDING CUSTOM RECOMMENDED VISIT ///////////////////////////////////////////////////////
@@ -856,7 +861,11 @@ pushNotification.register(
 	}
 
 	supersonic.ui.views.current.whenVisible(function(){
-  		$scope.$apply(function(){
+  		reloadAllData();
+	});
+
+	function reloadAllData(){
+		$scope.$apply(function(){
   			$scope.suggestedAppointmentList = [];
 			$scope.allScheduledAppointmentList = [];
 			$scope.allFamilyMembers = [];
@@ -866,8 +875,7 @@ pushNotification.register(
 			$scope.selectedFamilyMembersToAddRecommendationFor = [];
 			loadFamilyData();
   		});
-	});
-
+	}
 	//adding specific members to the new recommended visit.
 	$scope.selectedFamilyMembersToAddRecommendationFor = [];
 
