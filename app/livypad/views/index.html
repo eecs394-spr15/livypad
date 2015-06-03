@@ -1,5 +1,5 @@
 
-<div ng-controller="IndexController"  class="page" scroll>
+<div ng-controller="IndexController">
   <super-navbar>
     <super-navbar-title>
       livypad
@@ -13,8 +13,6 @@
      +Visit
     </super-navbar-button>
   </super-navbar>
-
-    <div class="button-block button-clear refresh" ng-show="iconstatus"><i class="icon iconhide super-refreshing"></i></div>
     
 
 	<div ng-repeat="row in chunkedMembers" class="row">
@@ -33,39 +31,7 @@
 	    	</div>
 	    </super-navigate>
 	</div>
-	<!-- <div ng-repeat="memberz in sorted" ng-if="$index%2==0" class="row">
-		<super-navigate location="livypad#person" data-params-id="{{memberz.id}}">
-	    	<div style="margin-left: 20%;"class="col">
-	    		<div class="numberCircle">
-   				<div class="height_fix"></div>
-    			<div class="content">{{memberz.percent}}</div>
-			</div>
-	    		<img style="margin-top: -30px" src={{memberz.iconID}} align="center">
-	    		<h4 style="text-align: center; font-size:18px; margin-top: -18px;"><b>{{memberz.name}}</b></h4>
-	    	
-	    	</div>
-	    </super-navigate>
-	   <div ng-init="member = sorted[$index + 1]" ng-if="sorted[$index + 1]">
-	    <super-navigate location="livypad#person" data-params-id="{{member.id}}">
-	    	<div style= "margin-left: 40%;" class="col">
-	    		<div class="numberCircle">
-   				<div class="height_fix"></div>
-    			<div class="content">{{member.percent}}</div>
-			</div>
-	    		<img style="margin-top: -30px" src={{member.iconID}} align="center">
-	    		<h4 style="text-align: center; font-size:18px; margin-top: -18px;"><b>{{member.name}}</b> </h4>
-	    	</div>	    
-	    </super-navigate>
-	   </div>
-	</div> -->
-	    		<!-- <div class="row">
-	    			<div class="col col-67 col-center">
-	    				<h2 style="font-size:30px;"><b>{{member.name}}</b></h2>
-	    			</div>
-	    			<div class="col">
-	    				<p style="text-align: right"><h2><font color="#F75D59" size="28"><b>{{member.percent}}</b></font></h2></p>
-	    			</div>
-	    		</div> -->
+
 	  </div>
 
 	  <style>

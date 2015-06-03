@@ -1,4 +1,4 @@
-<div ng-controller="CalendarController" class="page" scroll>
+<div ng-controller="CalendarController">
 
 	<script src="https://apis.google.com/js/client.js" ng-init="handleClientLoad()"></script>
 
@@ -10,7 +10,7 @@
      Search
     </super-navbar-button>
 	</super-navbar>
-    <div class="button-block button-clear refresh" ng-show="iconstatus"><i class="icon iconhide super-refreshing"></i></div>
+
  
     <div ng-hide="cal">
         <button id="authorize-button" class="button button-block button-stable" ng-click="handleClientLoad()">Authorize</button>

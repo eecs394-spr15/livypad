@@ -899,7 +899,7 @@ pushNotification.register(
         return function(scope, element, attrs) {
             angular.element($window).bind("scroll", function() {
                 var height = $document[0].body.offsetHeight - this.innerHeight;
-                if(this.pageYOffset <= 0){
+                if(this.pageYOffset >= 300000000){
                     scope.iconstatus = 1;
                     $timeout(function(){
                         scope.iconstatus=0;
