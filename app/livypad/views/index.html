@@ -16,17 +16,17 @@
     
 
 	<div ng-repeat="row in chunkedMembers" class="row">
-		<super-navigate ng-repeat="member in row" location="livypad#person" data-params-id="{{member.id}}">
-	    	<div style="margin-left: {{20*($index+1)}}%; margin-right: 20%;"class="col">
-	    		<div ng-if="member.suggested == 0" class="checkCircle">
+		<super-navigate ng-repeat="member in row" location="livypad#person" data-params-id="{{member.id}}" style="width:50%; text-align:center;display:inline-block">
+	    	<div style=""class="col">
+	    		<div ng-if="member.suggested == 0" class="checkCircle" style="position:relative;width:15%; height:15%;margin-top:10%;left:15%">
 	    		<div class="height_fix"></div> 
     			<div class="check">&#x2713;</div>
 	    		</div>
-	    		<div ng-if="member.suggested > 0" class="numberCircle">
+	    		<div ng-if="member.suggested > 0" class="numberCircle" style="position:relative;width:15%; height:15%;margin-top:10%;left:15%">
    				<div ng-if="member.suggested > 0" class="height_fix"></div> 
     			<div ng-if="member.suggested > 0" class="content">{{member.suggested}}</div>
 				</div>
-	    		<img style="margin-top: -30px" src={{member.iconID}} align="center">
+	    		<img style="margin-top: -20%; width:100%" src={{member.iconID}} align="center">
 	    		<h4 style="text-align: center; font-size:18px; margin-top: -18px;"><b>{{member.name}}</b></h4>
 	    	</div>
 	    </super-navigate>
