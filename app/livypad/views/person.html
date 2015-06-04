@@ -23,14 +23,14 @@
       <img src="{{memberIcon}}" align="left"> 
           <div class="row">
             <div class="col col-75 col-center">
-              <h><b>Upcoming Vists:</b> 
+              <h><b>Upcoming Visits:</b> 
                 <span ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}">
                   {{person.numExistingAppointments}}
                 </span>
               </h>
               <br>
               <br>
-              <h><b>Recommended Vists:</b> 
+              <h><b>Recommended Visits:</b> 
                 <span ng-repeat="person in allFamilyMembers | filter: {id: individualFamMember}">
                   {{person.numSuggestedAppointments}}
                 </span>
