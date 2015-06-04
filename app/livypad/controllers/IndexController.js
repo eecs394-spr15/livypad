@@ -1,31 +1,40 @@
 livypad.controller("IndexController", function($scope,supersonic){
 
-//Initialize Parse with Javascript Key
-var pushNotification;
-document.addEventListener("deviceready", function() {
-  pushNotification = window.plugins.pushNotification;
-
-// the result contains any error description text returned from the plugin call
-function errorHandler (error) {
-    alert('error = ' + error);
-}
-
-function registrationHandler (deviceToken) {
-   // alert('deviceToken = ' + deviceToken);
-    //save the deviceToken / registration ID to your Push Notification Server
-
-}
-
-pushNotification.register(
-    registrationHandler,
-    errorHandler, {
-        "badge":"true",
-        "sound":"true",
-        "alert":"true"
-        });
-});
-	 	 
+	//Initialize Parse with Javascript Key
 	Parse.initialize("1NREN2oBv02mpf2qMWSJMDdjxrlAFXklHLhMvaWo", "2pG9AFjrxmusIhuWDZcjUSsG8Rp4DueWQQNOVE1a");
+
+	//classes
+	var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
+	var SuggestedAppointment = Parse.Object.extend("SuggestedAppointments");
+	var FamilyMember = Parse.Object.extend("FamilyMember");
+	var Doctor = Parse.Object.extend("Doctor");
+	
+	//push notifications	
+	var pushNotification;
+	document.addEventListener("deviceready", function() {
+	  pushNotification = window.plugins.pushNotification;
+
+	// the result contains any error description text returned from the plugin call
+	function errorHandler (error) {
+	    alert('error = ' + error);
+	}
+
+	function registrationHandler (deviceToken) {
+	   // alert('deviceToken = ' + deviceToken);
+	    //save the deviceToken / registration ID to your Push Notification Server
+
+	}
+
+	pushNotification.register(
+	    registrationHandler,
+	    errorHandler, {
+	        "badge":"true",
+	        "sound":"true",
+	        "alert":"true"
+	        });
+	});
+	 	 
+	
 	$scope.iconstatus = 0;
 	//used for icon select ui
 	$scope.selectedRow=null;
@@ -33,12 +42,7 @@ pushNotification.register(
 	//for search
 	$scope.keyword = "";
 
-	//classes
 	
-	var ScheduledAppointment = Parse.Object.extend("ScheduledAppointments");
-	var SuggestedAppointment = Parse.Object.extend("SuggestedAppointments");
-	var FamilyMember = Parse.Object.extend("FamilyMember");
-	var Doctor = Parse.Object.extend("Doctor");
 
 	//get the the parameter pased by previous page
 	supersonic.ui.views.current.params.onValue(function(values){
