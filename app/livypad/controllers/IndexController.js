@@ -174,10 +174,10 @@ pushNotification.register(
 	};
 
 
-	$scope.deleteUpcoming = function(visitID){
+	$scope.deleteVisit = function(visitID){
 		var queryDeleteVisit = new Parse.Query(ScheduledAppointment);
 		var options = {
-							message: "Do you really want to delete this upcoming visit.",
+							message: "Do you really want to delete this visit.",
 							buttonLabels: ["Yes", "No"]
 						};
 		supersonic.ui.dialog.confirm("", options).then(function(index) {
@@ -188,7 +188,7 @@ pushNotification.register(
 				visitDelete.destroy({
 					success: function(myObject){
 						var options = {
-							message: "This upcoming visit has been deleted.",
+							message: "This visit has been deleted.",
 							buttonLable: "Close"
 						};
 						supersonic.ui.dialog.alert("Success!", options).then(function() {
@@ -518,13 +518,15 @@ pushNotification.register(
 														   famMemberID : famMember.id,
 														});
 					} else {
-						$scope.allVisitHistory.push({ nameOfAppointment : famMemberScheduledAppointment.get("name"),
+						$scope.allVisitHistory.push({ 	   id: famMemberScheduledAppointment.id,
+														   nameOfAppointment : famMemberScheduledAppointment.get("name"),
 														   doctor : famMemberScheduledAppointment.get("doctor"),
 														   doctorType : famMemberScheduledAppointment.get("doctorType"),
 														   location : famMemberScheduledAppointment.get("location"),
 														   dateScheduled : famMemberScheduledAppointment.get("dateScheduled"),
 														   recommendedNextDate : famMemberScheduledAppointment.get("recommendedNextDate"),
 														   nameOfFamilyMember : famMember.get("Name"),
+														   famMember : famMember,
 														   famMemberID : famMember.id,
 														});
 					}

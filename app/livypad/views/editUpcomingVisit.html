@@ -1,7 +1,7 @@
 <div ng-controller="CalendarController">
 	<super-navbar>
 		<super-navbar-title>
-			Edit Upcoming Visit
+			Edit Visit
 		</super-navbar-title>
 	</super-navbar>
 
@@ -9,7 +9,7 @@
 	<script src="https://apis.google.com/js/client.js?onload=checkAuth">
 	</script>
 
-<form name="addRecommendedEventToGCalandLivypad" novalidate>
+<form name="editVisitForm" novalidate>
 
 	<label class="item item-input item-stacked-label">
 		<span class="input-label">Appointment Name</span>
@@ -57,7 +57,7 @@
 	</label>
 
 
-	<button id="post" class="button button-block button-assertive" ng-click="saveChangeToScheduledVisit()">
+	<button type = "submit" id="post" class="button button-block button-assertive" ng-click="saveChangeToScheduledVisit()" ng-disabled="editVisitForm.$invalid">
 		Save Changes to Livypad
 	</button>
 

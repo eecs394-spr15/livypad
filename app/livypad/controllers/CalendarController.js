@@ -235,7 +235,7 @@ livypad.controller("CalendarController", function($scope,supersonic){
         //edit scheduled visit
         $scope.saveChangeToScheduledVisit = function(){
             var options = {
-                            message: "This change will only be made in Livypad. Do you still want to change this upcoming visit?",
+                            message: "This change will only be made in Livypad. Do you still want to change this visit?",
                             buttonLabels: ["Yes", "No"]
                             };
 
