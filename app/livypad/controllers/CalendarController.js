@@ -66,8 +66,13 @@ livypad.controller("CalendarController", function($scope,supersonic){
 			var visits = familyMember.relation("scheduledAppointments");
 			visits.query().find().then(function(visittt){
 				visittt.forEach(function(visit){
-					var dateScheduled = visit.get("dateScheduled").toISOString();
-					var newdateScheduled = dateScheduled.substring(0,4) + dateScheduled.substring(5,7) + dateScheduled.substring(8,10);
+                    var dateScheduled = visit.get("dateScheduled");
+                    var yyyy = dateScheduled.getFullYear().toString();
+                    var mm = (dateScheduled.getMonth()+1).toString(); // getMonth() is zero-based
+                    var dd  = dateScheduled.getDate().toString();
+
+					var newdateScheduled = yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]);
+                    
 					$scope.defineEvents(newdateScheduled, myname, myID, icon);
 				
 				});
