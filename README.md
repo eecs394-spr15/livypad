@@ -59,3 +59,4 @@ Cloud deployment allows you to share your work with others, without the need for
 *  Sharing appointments directly to the app through Google Calendar
 *  Scraping of Google Calendar to find past medical visits, using natural language processing
 *  Auto-completion of medical appointment names
+*  Updating Google Calendar when a visit is updated on Livypad
