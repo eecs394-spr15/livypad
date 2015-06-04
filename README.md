@@ -16,7 +16,7 @@ Livypad is a medical reminder system that is synched to your Google calendar. It
 3.  Open your command line (terminal on Mac OS, cmd on Windows) and navigate to the directory where you cloned the GitHub repo to.
 4.  While in this directory (.../livypad) run: ```steroids update```
 5.  Then, to start the app run: ```steroids connect```
-6.  After starting the app, your browser should open and navigate to a page with a QR code.  To use this code, [download the iOS app]( https://itunes.apple.com/us/app/appgyver-scanner/id575076515?mt=8) or run the [iOS simulator](http://docs.appgyver.com/tooling/cli/emulators/ios-simulator/)
+6.  After starting the app, your browser should open and navigate to a page with a QR code.  To use this code, [download the iOS app]( https://itunes.apple.com/us/app/appgyver-scanner/id575076515?mt=8) or run the [iOS simulator](http://docs.appgyver.com/tooling/cli/emulators/ios-simulator/).
 7.  Scan the QR code in your browser with the app.
 
 ## Deploying to the Cloud
@@ -47,16 +47,15 @@ Cloud deployment allows you to share your work with others, without the need for
 
 ##Platform Constraints
 1. For Deployment
-  -
-  -
-  -
+  - iOS only
 2. For Development
-  -
-  -
-  -
+  - Both Windows and Mac are supported.
 
 ## Known Bugs and Limitations
-*
-*
-*
-*
+*  Calendar view may take a second to refresh at times.
+
+## Future Features
+*  Choose an icon color and symbol, and upload your own avatar.
+*  Sharing appointments directly to the app through Google Calendar
+*  Scraping of Google Calendar to find past medical visits, using natural language processing
+*  Auto-completion of medical appointment names
